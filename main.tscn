@@ -1,13 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=15 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://Camera.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://du4ok6by6akf4" path="res://CarMovement.gd" id="3_h2yge"]
-[ext_resource type="Texture2D" uid="uid://6xnoaa6qa4i4" path="res://Driver.png" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://crm6n5nhm6e54" path="res://CoolCover.gd" id="5_272bh"]
 [ext_resource type="Texture2D" uid="uid://bk5ryepp5dfvp" path="res://Logo.png" id="5_lquwl"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="6_7mycd"]
 [ext_resource type="Texture2D" uid="uid://cvdy323inwg10" path="res://Pencil.png" id="8_5vw27"]
+[ext_resource type="Texture2D" uid="uid://dbecljl6jgttw" path="res://cards/BlankCard.png" id="9_4c57u"]
 [ext_resource type="Texture2D" uid="uid://bdcnkabmvgv24" path="res://CheckMark.png" id="9_kek77"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
@@ -30,8 +30,6 @@ size = Vector2(20, 20)
 [sub_resource type="BoxShape3D" id="BoxShape3D_h2yge"]
 size = Vector3(20.0193, 0.40918, 19.9326)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_0xm2m"]
-
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -43,7 +41,7 @@ script = ExtResource("1_ig7tw")
 FocusObject = NodePath("../Car")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.399864, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.106649, -0.432144, -0.0422268)
 mesh = SubResource("PlaneMesh_0xm2m")
 skeleton = NodePath("StaticBody3D")
 
@@ -53,46 +51,109 @@ skeleton = NodePath("StaticBody3D")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
 shape = SubResource("BoxShape3D_h2yge")
 
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.9809, -0.399864, 0)
+mesh = SubResource("PlaneMesh_0xm2m")
+skeleton = NodePath("StaticBody3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.9191, -0.399864, 0)
+mesh = SubResource("PlaneMesh_0xm2m")
+skeleton = NodePath("StaticBody3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D4/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.9191, -0.399864, -20.0306)
+mesh = SubResource("PlaneMesh_0xm2m")
+skeleton = NodePath("StaticBody3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D5"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D5/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.9191, -0.399864, -39.8286)
+mesh = SubResource("PlaneMesh_0xm2m")
+skeleton = NodePath("StaticBody3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D6"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D6/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.9191, -0.399864, -39.8286)
+mesh = SubResource("PlaneMesh_0xm2m")
+skeleton = NodePath("StaticBody3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D7"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D7/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.080864, -0.399864, -39.8286)
+mesh = SubResource("PlaneMesh_0xm2m")
+skeleton = NodePath("StaticBody3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D8"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D8/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.0809, -0.399864, -39.8286)
+mesh = SubResource("PlaneMesh_0xm2m")
+skeleton = NodePath("StaticBody3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D9"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D9/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.0809, -0.399864, -19.8286)
+mesh = SubResource("PlaneMesh_0xm2m")
+skeleton = NodePath("StaticBody3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D10"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D10/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.0809, -0.399864, 0.171356)
+mesh = SubResource("PlaneMesh_0xm2m")
+skeleton = NodePath("StaticBody3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D11"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D11/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
+shape = SubResource("BoxShape3D_h2yge")
+
 [node name="Car" parent="." instance=ExtResource("2_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00826168, 2.07586, 0.00870657)
 script = ExtResource("3_h2yge")
-EnginePower = 150
-
-[node name="VehicleWheel3D" type="VehicleWheel3D" parent="Car"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.05669, -0.332823, 0.666049)
-use_as_steering = true
-suspension_stiffness = 45.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/VehicleWheel3D"]
-transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
-mesh = SubResource("CylinderMesh_0xm2m")
-
-[node name="VehicleWheel3D2" type="VehicleWheel3D" parent="Car"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.05669, -0.332823, -0.608334)
-use_as_steering = true
-suspension_stiffness = 45.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/VehicleWheel3D2"]
-transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
-mesh = SubResource("CylinderMesh_0xm2m")
-
-[node name="VehicleWheel3D3" type="VehicleWheel3D" parent="Car"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.16634, -0.332823, 0.666049)
-use_as_traction = true
-suspension_stiffness = 45.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/VehicleWheel3D3"]
-transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
-mesh = SubResource("CylinderMesh_0xm2m")
-
-[node name="VehicleWheel3D4" type="VehicleWheel3D" parent="Car"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.16634, -0.332823, -0.608334)
-use_as_traction = true
-suspension_stiffness = 45.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/VehicleWheel3D4"]
-transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
-mesh = SubResource("CylinderMesh_0xm2m")
+EnginePower = 125
 
 [node name="SpriteFront" type="Sprite3D" parent="Car"]
 transform = Transform3D(0.013071, 0, 0.499829, 0, 0.5, 0, -0.499829, 0, 0.013071, -0.072, 1.03095, 0.022)
@@ -105,7 +166,6 @@ flip_h = true
 modulate = Color(0, 0, 0, 1)
 double_sided = false
 texture_filter = 0
-texture = ExtResource("4_1bvp3")
 
 [node name="Character" type="SubViewport" parent="."]
 transparent_bg = true
@@ -182,3 +242,18 @@ texture_filter = 1
 position = Vector2(272, 176)
 scale = Vector2(0.52027, 0.52027)
 texture = ExtResource("9_kek77")
+
+[node name="Cards" type="Node2D" parent="Canvas"]
+visible = false
+
+[node name="Card2" type="Sprite2D" parent="Canvas/Cards"]
+position = Vector2(160, 112)
+texture = ExtResource("9_4c57u")
+
+[node name="Card3" type="Sprite2D" parent="Canvas/Cards"]
+position = Vector2(264, 112)
+texture = ExtResource("9_4c57u")
+
+[node name="Card1" type="Sprite2D" parent="Canvas/Cards"]
+position = Vector2(56, 112)
+texture = ExtResource("9_4c57u")

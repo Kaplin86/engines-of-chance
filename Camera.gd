@@ -38,7 +38,7 @@ func _process(delta):
 	if SkipMove:
 		global_position = DesiredPosition
 	else:
-		global_position = global_position.move_toward(DesiredPosition,delta * 5)
+		global_position = global_position.move_toward(DesiredPosition,delta * 9)
 	
 	
 	look_at(FocusObject.global_position)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bdgdj1pv1cgcp"]
+[gd_scene load_steps=14 format=3 uid="uid://bdgdj1pv1cgcp"]
 
 [ext_resource type="Shader" uid="uid://dv3rbed8q0ldy" path="res://outline.gdshader" id="1_7822p"]
 
@@ -14,8 +14,38 @@ shader_parameter/outline_width = 1.0
 next_pass = SubResource("ShaderMaterial_h2yge")
 albedo_color = Color(1, 0.32549, 0.0392157, 1)
 
+[sub_resource type="Gradient" id="Gradient_7822p"]
+offsets = PackedFloat32Array(0, 0.654545, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_uoj53"]
+gradient = SubResource("Gradient_7822p")
+
+[sub_resource type="Curve" id="Curve_uoj53"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.683824, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_k61xc"]
+curve = SubResource("Curve_uoj53")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k61xc"]
+particle_flag_align_y = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_k61xc")
+color = Color(0, 0, 0, 0.780392)
+color_ramp = SubResource("GradientTexture1D_uoj53")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_06lh1"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_06lh1"]
+material = SubResource("StandardMaterial3D_06lh1")
+size = Vector3(0.2, 0.06, 0.56)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_0xm2m"]
 size = Vector3(2.724, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7822p"]
 
 [node name="Car" type="VehicleBody3D"]
 
@@ -25,6 +55,54 @@ mesh = SubResource("BoxMesh_0xm2m")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_1bvp3")
 
+[node name="GPUParticles3D" type="GPUParticles3D" parent="MeshInstance3D"]
+transform = Transform3D(-1.6186e-08, 0, 0.370292, 0, 0.99984, 0, -0.99984, 0, -4.37044e-08, -0.441863, -0.810364, 0.611458)
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_k61xc")
+draw_pass_1 = SubResource("BoxMesh_06lh1")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="MeshInstance3D"]
+transform = Transform3D(-1.60848e-08, -0.0413467, 0.367977, -4.88002e-09, 0.993588, 0.111642, -0.99984, 0, -4.37044e-08, -0.424781, -0.782989, -0.617923)
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_k61xc")
+draw_pass_1 = SubResource("BoxMesh_06lh1")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00408936, 0, 0)
 shape = SubResource("BoxShape3D_0xm2m")
+
+[node name="FrontRight" type="VehicleWheel3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.05669, -0.332823, 0.666049)
+use_as_steering = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FrontRight"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_7822p")
+
+[node name="FrontLeft" type="VehicleWheel3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.05669, -0.332823, -0.608334)
+use_as_steering = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FrontLeft"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_7822p")
+
+[node name="BackRight" type="VehicleWheel3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.16634, -0.332823, 0.666049)
+use_as_traction = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BackRight"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_7822p")
+
+[node name="BackLeft" type="VehicleWheel3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.16634, -0.332823, -0.608334)
+use_as_traction = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BackLeft"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_7822p")
