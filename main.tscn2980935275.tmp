@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://77i4un7oqvtw"]
+
+[ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://Camera.gd" id="1_ig7tw"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.304985, 0)
+mesh = SubResource("BoxMesh_0xm2m")
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("FocusObject")]
+transform = Transform3D(0.877583, -0.229849, 0.420735, 0, 0.877583, 0.479426, -0.479426, -0.420736, 0.770151, 3.11414, 3.54854, 5.7004)
+script = ExtResource("1_ig7tw")
+FocusObject = NodePath("../MeshInstance3D")
+character_class = null

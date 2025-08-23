@@ -1,0 +1,184 @@
+[gd_scene load_steps=16 format=3 uid="uid://77i4un7oqvtw"]
+
+[ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://Camera.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://du4ok6by6akf4" path="res://CarMovement.gd" id="3_h2yge"]
+[ext_resource type="Texture2D" uid="uid://6xnoaa6qa4i4" path="res://Driver.png" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://crm6n5nhm6e54" path="res://CoolCover.gd" id="5_272bh"]
+[ext_resource type="Texture2D" uid="uid://bk5ryepp5dfvp" path="res://Logo.png" id="5_lquwl"]
+[ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="6_7mycd"]
+[ext_resource type="Texture2D" uid="uid://cvdy323inwg10" path="res://Pencil.png" id="8_5vw27"]
+[ext_resource type="Texture2D" uid="uid://bdcnkabmvgv24" path="res://CheckMark.png" id="9_kek77"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
+sky_top_color = Color(1, 1, 1, 1)
+sky_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
+ground_bottom_color = Color(0.763979, 0.701734, 0.630413, 1)
+ground_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0xm2m"]
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h2yge"]
+size = Vector3(20.0193, 0.40918, 19.9326)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0xm2m"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h2yge")
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("FocusObject")]
+transform = Transform3D(0.877583, -0.229849, 0.420735, 0, 0.877583, 0.479426, -0.479426, -0.420736, 0.770151, 0.00169611, 3.54854, 6.54258)
+script = ExtResource("1_ig7tw")
+FocusObject = NodePath("../Car")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.399864, 0)
+mesh = SubResource("PlaneMesh_0xm2m")
+skeleton = NodePath("StaticBody3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="Car" parent="." instance=ExtResource("2_0xm2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00826168, 2.07586, 0.00870657)
+script = ExtResource("3_h2yge")
+EnginePower = 150
+
+[node name="VehicleWheel3D" type="VehicleWheel3D" parent="Car"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.05669, -0.332823, 0.666049)
+use_as_steering = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/VehicleWheel3D"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_0xm2m")
+
+[node name="VehicleWheel3D2" type="VehicleWheel3D" parent="Car"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.05669, -0.332823, -0.608334)
+use_as_steering = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/VehicleWheel3D2"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_0xm2m")
+
+[node name="VehicleWheel3D3" type="VehicleWheel3D" parent="Car"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.16634, -0.332823, 0.666049)
+use_as_traction = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/VehicleWheel3D3"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_0xm2m")
+
+[node name="VehicleWheel3D4" type="VehicleWheel3D" parent="Car"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.16634, -0.332823, -0.608334)
+use_as_traction = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/VehicleWheel3D4"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_0xm2m")
+
+[node name="SpriteFront" type="Sprite3D" parent="Car"]
+transform = Transform3D(0.013071, 0, 0.499829, 0, 0.5, 0, -0.499829, 0, 0.013071, -0.072, 1.03095, 0.022)
+double_sided = false
+texture_filter = 0
+
+[node name="SpriteBack" type="Sprite3D" parent="Car"]
+transform = Transform3D(-0.0130711, 0, -0.499829, 0, 0.5, 0, 0.499829, 0, -0.0130711, -0.0789217, 1.03114, 0.021282)
+flip_h = true
+modulate = Color(0, 0, 0, 1)
+double_sided = false
+texture_filter = 0
+texture = ExtResource("4_1bvp3")
+
+[node name="Character" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(224, 224)
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+script = ExtResource("5_272bh")
+
+[node name="ColorRect" type="ColorRect" parent="Canvas"]
+z_index = -4
+offset_right = 320.0
+offset_bottom = 241.0
+color = Color(0, 0, 0, 0.425)
+
+[node name="TitleStuff" type="Node2D" parent="Canvas"]
+
+[node name="Logo" type="Sprite2D" parent="Canvas/TitleStuff"]
+position = Vector2(160, 64)
+scale = Vector2(0.424377, 0.424377)
+texture = ExtResource("5_lquwl")
+
+[node name="Label" type="Label" parent="Canvas/TitleStuff"]
+offset_left = 1.0
+offset_top = 143.0
+offset_right = 377.0
+offset_bottom = 178.0
+scale = Vector2(0.8468, 0.8468)
+theme_override_fonts/font = ExtResource("6_7mycd")
+text = "press start to begin
+ (E or 1) "
+horizontal_alignment = 1
+
+[node name="Drawer" type="Node2D" parent="Canvas"]
+modulate = Color(1, 1, 1, 0)
+
+[node name="Cursor" type="ColorRect" parent="Canvas/Drawer"]
+z_index = 1
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 22.0
+offset_bottom = 22.0
+color = Color(0, 0.909103, 0.944819, 1)
+
+[node name="ColorRect" type="ColorRect" parent="Canvas/Drawer"]
+z_index = -2
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 224.0
+offset_bottom = 224.0
+color = Color(0, 0, 0, 0.74)
+
+[node name="SwapColor" type="ColorRect" parent="Canvas/Drawer"]
+offset_left = 232.0
+offset_top = 40.0
+offset_right = 312.0
+offset_bottom = 88.0
+color = Color(0.129412, 0.152941, 0.215686, 1)
+
+[node name="Confirm" type="ColorRect" parent="Canvas/Drawer"]
+offset_left = 232.0
+offset_top = 152.0
+offset_right = 312.0
+offset_bottom = 200.0
+color = Color(0.129412, 0.152941, 0.215686, 1)
+
+[node name="Pencil" type="Sprite2D" parent="Canvas/Drawer"]
+modulate = Color(1, 0, 0, 1)
+texture_filter = 3
+position = Vector2(272, 64)
+texture = ExtResource("8_5vw27")
+
+[node name="CheckMark" type="Sprite2D" parent="Canvas/Drawer"]
+texture_filter = 1
+position = Vector2(272, 176)
+scale = Vector2(0.52027, 0.52027)
+texture = ExtResource("9_kek77")
