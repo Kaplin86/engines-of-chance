@@ -4,6 +4,8 @@ extends VehicleBody3D
 
 @export var CanDrive = false
 
+
+
 func SetWheelStatus(Mode, Tire : VehicleWheel3D):
 	if Mode == "traction":
 		Tire.use_as_steering = false
@@ -31,5 +33,15 @@ func ActivateCard(cardname):
 		mass += 10
 	if cardname == "LightCar":
 		mass += 10
-	
-	
+	if cardname == "Reaction":
+		$LiveReaction/LiveReactionChild.visible = true
+		$LiveReaction/LiveReactionChild/Chara.texture = $"../Character".get_texture() 
+	if cardname == "RainbowCar":
+		NextRainbowColor()
+
+func NextRainbowColor():
+	var NewTween = create_tween()
+	var CurrentAlbedoColor : Color = $MeshInstance3D.get_surface_override_material(0).albedo_color
+	var NewValue = Color.from_hsv(CurrentAlbedoColor.h + 0.1,CurrentAlbedoColor.s,CurrentAlbedoColor.v,CurrentAlbedoColor.a)
+	NewTween.tween_property($MeshInstance3D.get_surface_override_material(0),"albedo_color",NewValue,1)
+	NewTween.finished.connect(NextRainbowColor)

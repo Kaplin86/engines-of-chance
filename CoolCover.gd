@@ -30,15 +30,28 @@ var DeltaHold = 0
 var CanMove = true
 var SpecialDrawControl = null
 
+var DrawTimer = 46
+
+
 func _process(delta):
 	if State == "Title":
 		if Input.is_action_just_released("start"):
 			await do_tween($TitleStuff,"modulate",Color(1,1,1,0),0.3)
+			await do_tween($DrawTime,"modulate",Color(1,1,1,1),0.3)
+			State = "45"
+	
+	if State == "45":
+		if Input.is_action_just_released("start"):
+			await do_tween($DrawTime,"modulate",Color(1,1,1,0),0.3)
 			await do_tween($Drawer,"modulate",Color(1,1,1,1),0.3)
 			State = "Draw"
 	
 	if State == "Draw":
-		
+		DrawTimer -= delta
+		$Drawer/TimeLabel.text = str(int(clamp(floor(DrawTimer),0,99)))
+		$Drawer/Lock.global_position = $Drawer/Lock.global_position.move_toward(Vector2(120,128),delta * 10)
+		if DrawTimer <= 0:
+			$Drawer/Lock.visible = true
 		if !SpecialDrawControl:
 			if DeltaHold + delta >= 0.15:
 				if CanMove == false:
@@ -70,12 +83,16 @@ func _process(delta):
 			DrawCursor.global_position = Vector2(18.0,18.0) + (8 * DrawCursorPosition)
 			DrawCursor.visible = !SpecialDrawControl
 			
-			if Input.is_action_pressed("start"):
-				ColorRects[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))].color = $Drawer/Pencil.modulate
-				DrawnGuys[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))] = $Drawer/Pencil.modulate
-			if Input.is_action_pressed("rearview"):
-				ColorRects[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))].color = Color(0,0,0,0)
-				DrawnGuys[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))] = Color(0,0,0,0)
+			if DrawTimer > 0:
+				if Input.is_action_pressed("start"):
+					ColorRects[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))].color = $Drawer/Pencil.modulate
+					DrawnGuys[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))] = $Drawer/Pencil.modulate
+				if Input.is_action_pressed("rearview"):
+					ColorRects[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))].color = Color(0,0,0,0)
+					DrawnGuys[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))] = Color(0,0,0,0)
+			else:
+				if Input.is_action_pressed("start") or  Input.is_action_pressed("rearview"):
+					$Drawer/Lock.global_position += Vector2(RNG.randi_range(-5,5),RNG.randi_range(-5,5))
 			
 			$Drawer/SwapColor.color = Color("212737")
 			$Drawer/Confirm.color = Color("212737")
@@ -105,6 +122,8 @@ func _process(delta):
 					await get_tree().create_timer(0.5).timeout
 					$"../Car".CanDrive = true
 					$"../Camera3D".camera_mode = $"../Camera3D".CameraMode.FollowBehind
+					
+					
 			
 			if round(Input.get_axis("down","up")) != 0:
 				if round(Input.get_axis("down","up")) == -1:

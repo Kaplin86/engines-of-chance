@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://bdgdj1pv1cgcp"]
+[gd_scene load_steps=16 format=3 uid="uid://bdgdj1pv1cgcp"]
 
 [ext_resource type="Shader" uid="uid://dv3rbed8q0ldy" path="res://outline.gdshader" id="1_7822p"]
+[ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="3_06lh1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
 
@@ -47,6 +48,9 @@ size = Vector3(2.724, 1, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_7822p"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_k61xc"]
+viewport_path = NodePath("Car")
+
 [node name="Car" type="VehicleBody3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -66,6 +70,10 @@ transform = Transform3D(-1.60848e-08, -0.0413467, 0.367977, -4.88002e-09, 0.9935
 amount = 20
 process_material = SubResource("ParticleProcessMaterial_k61xc")
 draw_pass_1 = SubResource("BoxMesh_06lh1")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="MeshInstance3D"]
+transform = Transform3D(-1.6186e-08, 0, 0.370292, 0, 0.99984, 0, -0.99984, 0, -4.37044e-08, 0.977246, 0.814799, 0)
+remote_path = NodePath("../../Car/Camera3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00408936, 0, 0)
@@ -106,3 +114,47 @@ suspension_stiffness = 45.0
 [node name="MeshInstance3D" type="MeshInstance3D" parent="BackLeft"]
 transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
 mesh = SubResource("CylinderMesh_7822p")
+
+[node name="LiveReaction" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="LiveReactionChild" type="Node2D" parent="LiveReaction"]
+scale = Vector2(1.41792, 1.41792)
+
+[node name="ColorRect2" type="ColorRect" parent="LiveReaction/LiveReactionChild"]
+offset_right = 99.0
+offset_bottom = 74.0
+
+[node name="ColorRect" type="ColorRect" parent="LiveReaction/LiveReactionChild"]
+z_index = 1
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 97.0
+offset_bottom = 15.0
+color = Color(0.678431, 0.117647, 0.141176, 1)
+
+[node name="Label" type="Label" parent="LiveReaction/LiveReactionChild"]
+z_index = 1
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 243.0
+offset_bottom = 26.0
+scale = Vector2(0.38875, 0.736103)
+theme_override_fonts/font = ExtResource("3_06lh1")
+theme_override_font_sizes/font_size = 16
+text = "LIVE   REACTION"
+
+[node name="Chara" type="Sprite2D" parent="LiveReaction/LiveReactionChild"]
+z_index = 4
+position = Vector2(37.105, 8.505)
+scale = Vector2(0.057787, 0.057787)
+
+[node name="Sprite2D" type="Sprite2D" parent="LiveReaction/LiveReactionChild"]
+position = Vector2(49.6, 44)
+scale = Vector2(0.185, 0.11)
+texture = SubResource("ViewportTexture_k61xc")
+
+[node name="Car" type="SubViewport" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Car"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.63912, 0.814929, 0)

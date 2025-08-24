@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=16 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://Camera.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_0xm2m"]
@@ -8,6 +8,7 @@
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="6_7mycd"]
 [ext_resource type="Texture2D" uid="uid://cvdy323inwg10" path="res://Pencil.png" id="8_5vw27"]
 [ext_resource type="Texture2D" uid="uid://dbecljl6jgttw" path="res://cards/BlankCard.png" id="9_4c57u"]
+[ext_resource type="Texture2D" uid="uid://ror40l65d2st" path="res://Lock.png" id="9_efxa6"]
 [ext_resource type="Texture2D" uid="uid://bdcnkabmvgv24" path="res://CheckMark.png" id="9_kek77"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
@@ -40,113 +41,115 @@ transform = Transform3D(0.877583, -0.229849, 0.420735, 0, 0.877583, 0.479426, -0
 script = ExtResource("1_ig7tw")
 FocusObject = NodePath("../Car")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="Map" type="Node3D" parent="."]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.106649, -0.432144, -0.0422268)
 mesh = SubResource("PlaneMesh_0xm2m")
 skeleton = NodePath("StaticBody3D")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D2"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D2/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
 shape = SubResource("BoxShape3D_h2yge")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.9809, -0.399864, 0)
 mesh = SubResource("PlaneMesh_0xm2m")
 skeleton = NodePath("StaticBody3D")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D3"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D3/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
 shape = SubResource("BoxShape3D_h2yge")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.9191, -0.399864, 0)
 mesh = SubResource("PlaneMesh_0xm2m")
 skeleton = NodePath("StaticBody3D")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D4"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D4"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D4/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D4/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
 shape = SubResource("BoxShape3D_h2yge")
 
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.9191, -0.399864, -20.0306)
 mesh = SubResource("PlaneMesh_0xm2m")
 skeleton = NodePath("StaticBody3D")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D5"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D5"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D5/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D5/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
 shape = SubResource("BoxShape3D_h2yge")
 
-[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.9191, -0.399864, -39.8286)
 mesh = SubResource("PlaneMesh_0xm2m")
 skeleton = NodePath("StaticBody3D")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D6"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D6"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D6/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D6/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
 shape = SubResource("BoxShape3D_h2yge")
 
-[node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.9191, -0.399864, -39.8286)
 mesh = SubResource("PlaneMesh_0xm2m")
 skeleton = NodePath("StaticBody3D")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D7"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D7"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D7/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D7/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
 shape = SubResource("BoxShape3D_h2yge")
 
-[node name="MeshInstance3D8" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.080864, -0.399864, -39.8286)
 mesh = SubResource("PlaneMesh_0xm2m")
 skeleton = NodePath("StaticBody3D")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D8"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D8"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D8/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D8/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
 shape = SubResource("BoxShape3D_h2yge")
 
-[node name="MeshInstance3D9" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.0809, -0.399864, -39.8286)
 mesh = SubResource("PlaneMesh_0xm2m")
 skeleton = NodePath("StaticBody3D")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D9"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D9"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D9/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D9/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
 shape = SubResource("BoxShape3D_h2yge")
 
-[node name="MeshInstance3D10" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.0809, -0.399864, -19.8286)
 mesh = SubResource("PlaneMesh_0xm2m")
 skeleton = NodePath("StaticBody3D")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D10"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D10"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D10/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D10/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
 shape = SubResource("BoxShape3D_h2yge")
 
-[node name="MeshInstance3D11" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.0809, -0.399864, 0.171356)
 mesh = SubResource("PlaneMesh_0xm2m")
 skeleton = NodePath("StaticBody3D")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D11"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D11"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D11/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D11/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227966, 0)
 shape = SubResource("BoxShape3D_h2yge")
 
@@ -199,10 +202,9 @@ text = "press start to begin
 horizontal_alignment = 1
 
 [node name="Drawer" type="Node2D" parent="Canvas"]
-modulate = Color(1, 1, 1, 0)
 
 [node name="Cursor" type="ColorRect" parent="Canvas/Drawer"]
-z_index = 1
+z_index = 2
 offset_left = 18.0
 offset_top = 18.0
 offset_right = 22.0
@@ -243,6 +245,26 @@ position = Vector2(272, 176)
 scale = Vector2(0.52027, 0.52027)
 texture = ExtResource("9_kek77")
 
+[node name="TimeLabel" type="Label" parent="Canvas/Drawer"]
+offset_left = 113.42
+offset_top = 104.0
+offset_right = 489.42
+offset_bottom = 144.0
+scale = Vector2(0.8468, 0.8468)
+pivot_offset = Vector2(4.975, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 40
+text = "45"
+horizontal_alignment = 1
+
+[node name="Lock" type="Sprite2D" parent="Canvas/Drawer"]
+visible = false
+z_index = 1
+position = Vector2(120, 128)
+texture = ExtResource("9_efxa6")
+
 [node name="Cards" type="Node2D" parent="Canvas"]
 visible = false
 
@@ -257,3 +279,38 @@ texture = ExtResource("9_4c57u")
 [node name="Card1" type="Sprite2D" parent="Canvas/Cards"]
 position = Vector2(56, 112)
 texture = ExtResource("9_4c57u")
+
+[node name="DrawTime" type="Node2D" parent="Canvas"]
+modulate = Color(1, 1, 1, 0)
+rotation = -0.000366978
+
+[node name="Label" type="Label" parent="Canvas/DrawTime"]
+offset_top = 56.0
+offset_right = 376.0
+offset_bottom = 91.0
+scale = Vector2(0.8468, 0.8468)
+theme_override_fonts/font = ExtResource("6_7mycd")
+text = "You have"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Canvas/DrawTime"]
+offset_top = 168.0
+offset_right = 376.0
+offset_bottom = 203.0
+scale = Vector2(0.8468, 0.8468)
+theme_override_fonts/font = ExtResource("6_7mycd")
+text = "seconds to draw your
+driver!"
+horizontal_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="Canvas/DrawTime"]
+offset_top = 104.0
+offset_right = 376.0
+offset_bottom = 144.0
+scale = Vector2(0.8468, 0.8468)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 40
+text = "45"
+horizontal_alignment = 1
