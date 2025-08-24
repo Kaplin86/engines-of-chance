@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=19 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://Camera.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://du4ok6by6akf4" path="res://CarMovement.gd" id="3_h2yge"]
+[ext_resource type="AudioStream" uid="uid://bl7cj3x1l7j8w" path="res://sfx/NewDrive.mp3" id="4_ycdy4"]
 [ext_resource type="Script" uid="uid://crm6n5nhm6e54" path="res://CoolCover.gd" id="5_272bh"]
 [ext_resource type="Texture2D" uid="uid://bk5ryepp5dfvp" path="res://Logo.png" id="5_lquwl"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="6_7mycd"]
@@ -10,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://dbecljl6jgttw" path="res://cards/BlankCard.png" id="9_4c57u"]
 [ext_resource type="Texture2D" uid="uid://ror40l65d2st" path="res://Lock.png" id="9_efxa6"]
 [ext_resource type="Texture2D" uid="uid://bdcnkabmvgv24" path="res://CheckMark.png" id="9_kek77"]
+[ext_resource type="Script" uid="uid://ii055lm6gkdp" path="res://cardVisual.gd" id="11_dg77c"]
+[ext_resource type="AudioStream" uid="uid://bgf7e161q1n4w" path="res://sfx/CardDraw.mp3" id="11_efxa6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_top_color = Color(1, 1, 1, 1)
@@ -170,6 +173,11 @@ modulate = Color(0, 0, 0, 1)
 double_sided = false
 texture_filter = 0
 
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Car"]
+stream = ExtResource("4_ycdy4")
+volume_db = -30.269
+pitch_scale = 1.04
+
 [node name="Character" type="SubViewport" parent="."]
 transparent_bg = true
 size = Vector2i(224, 224)
@@ -184,6 +192,7 @@ offset_bottom = 241.0
 color = Color(0, 0, 0, 0.425)
 
 [node name="TitleStuff" type="Node2D" parent="Canvas"]
+visible = false
 
 [node name="Logo" type="Sprite2D" parent="Canvas/TitleStuff"]
 position = Vector2(160, 64)
@@ -202,6 +211,7 @@ text = "press start to begin
 horizontal_alignment = 1
 
 [node name="Drawer" type="Node2D" parent="Canvas"]
+modulate = Color(1, 1, 1, 0)
 
 [node name="Cursor" type="ColorRect" parent="Canvas/Drawer"]
 z_index = 2
@@ -266,19 +276,37 @@ position = Vector2(120, 128)
 texture = ExtResource("9_efxa6")
 
 [node name="Cards" type="Node2D" parent="Canvas"]
-visible = false
+modulate = Color(1, 1, 1, 0)
 
 [node name="Card2" type="Sprite2D" parent="Canvas/Cards"]
-position = Vector2(160, 112)
+position = Vector2(160, 144.5)
 texture = ExtResource("9_4c57u")
+script = ExtResource("11_dg77c")
 
 [node name="Card3" type="Sprite2D" parent="Canvas/Cards"]
-position = Vector2(264, 112)
+position = Vector2(264, 144.5)
 texture = ExtResource("9_4c57u")
+script = ExtResource("11_dg77c")
 
 [node name="Card1" type="Sprite2D" parent="Canvas/Cards"]
-position = Vector2(56, 112)
+position = Vector2(56, 144.5)
 texture = ExtResource("9_4c57u")
+script = ExtResource("11_dg77c")
+
+[node name="CardDraw" type="AudioStreamPlayer2D" parent="Canvas/Cards"]
+position = Vector2(160, 128)
+stream = ExtResource("11_efxa6")
+
+[node name="Label" type="Label" parent="Canvas/Cards"]
+offset_top = 16.0
+offset_right = 376.0
+offset_bottom = 70.0
+scale = Vector2(0.8468, 0.8468)
+theme_override_fonts/font = ExtResource("6_7mycd")
+text = "MODIFICATIONS CARDS
+OF
+ DESPAIR AND DELIGHT"
+horizontal_alignment = 1
 
 [node name="DrawTime" type="Node2D" parent="Canvas"]
 modulate = Color(1, 1, 1, 0)

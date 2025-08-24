@@ -1,7 +1,7 @@
 extends Camera3D
 @export var FocusObject : Node3D
 
-enum CameraMode { Circle, FollowBehind}
+enum CameraMode { Circle, FollowBehind, DriverView}
 
 @export var camera_mode: CameraMode
 
@@ -10,6 +10,7 @@ var CircleTime = 0
 var CircleDistance = 6.543
 
 var SkipMove = false
+
 
 func _process(delta):
 	
@@ -35,10 +36,20 @@ func _process(delta):
 				SkipMove = false
 				global_position = DesiredPosition
 	
+	if camera_mode == CameraMode.DriverView:
+		DesiredPosition.x = $"../Car/SpriteFront".global_position.x
+		DesiredPosition.z = $"../Car/SpriteFront".global_position.z
+		DesiredPosition.y = $"../Car/SpriteFront".global_position.y
+		SkipMove = true
+		
+	
 	if SkipMove:
 		global_position = DesiredPosition
 	else:
 		global_position = global_position.move_toward(DesiredPosition,delta * 9)
 	
-	
-	look_at(FocusObject.global_position)
+	if camera_mode == CameraMode.DriverView:
+		rotation = $"../Car".rotation
+		rotation.y -= deg_to_rad(90)
+	else:
+		look_at(FocusObject.global_position)

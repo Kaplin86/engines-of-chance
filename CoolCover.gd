@@ -32,19 +32,74 @@ var SpecialDrawControl = null
 
 var DrawTimer = 46
 
+var StateChanging = false
+
+var CardsFlipped = false
+
+#var CardChoices = ["DoubleSpeed","HalfSpeed","HeavyCar","LightCar","RainbowCar","Reaction"]
+var CardChoices = ["DoubleSpeed","RainbowCar","Reaction"]
+var Card1
+var Card2
+var Card3
+
+func FlipSinglecard(CardNode,CardType):
+	$Cards/CardDraw.play()
+	await do_tween(CardNode,"scale",Vector2(0,1),0.2)
+	CardNode.texture = load("res://cards/" + CardType +".png")
+	if CardType == "RainbowCar":
+		CardNode.modulate = Color.from_hsv(0,0.5,1,1)
+		CardNode.startrainbow()
+	await do_tween(CardNode,"scale",Vector2(1,1),0.2)
+	return true
+
+
+
+func FlipCards():
+	Card1 = CardChoices.pick_random()
+	CardChoices.erase(Card1)
+	Card2 = CardChoices.pick_random()
+	CardChoices.erase(Card2)
+	Card3 = CardChoices.pick_random()
+	CardChoices.erase(Card3)
+	
+	await FlipSinglecard($Cards/Card1,Card1)
+	await FlipSinglecard($Cards/Card2,Card2)
+	await FlipSinglecard($Cards/Card3,Card3)
+	
 
 func _process(delta):
 	if State == "Title":
-		if Input.is_action_just_released("start"):
+		if Input.is_action_just_released("start") and !StateChanging:
+			StateChanging = true
 			await do_tween($TitleStuff,"modulate",Color(1,1,1,0),0.3)
 			await do_tween($DrawTime,"modulate",Color(1,1,1,1),0.3)
 			State = "45"
+			StateChanging = false
 	
 	if State == "45":
-		if Input.is_action_just_released("start"):
+		if Input.is_action_just_released("start")  and !StateChanging:
+			StateChanging = true
 			await do_tween($DrawTime,"modulate",Color(1,1,1,0),0.3)
 			await do_tween($Drawer,"modulate",Color(1,1,1,1),0.3)
 			State = "Draw"
+			StateChanging = false
+	
+	if State == "GetCards":
+		if Input.is_action_just_released("start")  and !StateChanging:
+			StateChanging = true
+			State = "Drive"
+			do_tween($Cards,"modulate",Color(1,1,1,0),0.3)
+			await do_tween($ColorRect,"modulate",Color(1,1,1,0),0.3)
+			await get_tree().create_timer(0.5).timeout
+			
+			$"../Camera3D".camera_mode = $"../Camera3D".CameraMode.FollowBehind
+			
+			$"../Car".ActivateCard(Card1)
+			$"../Car".ActivateCard(Card2)
+			$"../Car".ActivateCard(Card3)
+			
+			$"../Car".CanDrive = true
+			StateChanging = false
 	
 	if State == "Draw":
 		DrawTimer -= delta
@@ -110,18 +165,19 @@ func _process(delta):
 				$Drawer/SwapColor.color = Color("212737")
 				$Drawer/Confirm.color = Color("616d8e")
 				
-				if Input.is_action_just_released("start"):
-					State = "Drive"
-					do_tween($Drawer,"modulate",Color(1,1,1,0),0.3)
-					await do_tween($ColorRect,"modulate",Color(1,1,1,0),0.3)
+				if Input.is_action_just_released("start") and !StateChanging:
+					StateChanging = true
+					State = "GetCards"
+					await do_tween($Drawer,"modulate",Color(1,1,1,0),0.3)
+					await do_tween($Cards,"modulate",Color(1,1,1,1),0.3)
 					for E in ColorRects:
 						var NewerColorRect = ColorRects[E].duplicate()
 						$"../Character".add_child(NewerColorRect)
 					$"../Car/SpriteFront".texture = $"../Character".get_texture()
 					$"../Car/SpriteBack".texture = $"../Character".get_texture()
-					await get_tree().create_timer(0.5).timeout
-					$"../Car".CanDrive = true
-					$"../Camera3D".camera_mode = $"../Camera3D".CameraMode.FollowBehind
+					FlipCards()
+
+					StateChanging = false
 					
 					
 			

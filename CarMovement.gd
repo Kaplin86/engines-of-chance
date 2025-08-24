@@ -15,13 +15,22 @@ func SetWheelStatus(Mode, Tire : VehicleWheel3D):
 		Tire.use_as_traction = false
 
 func _physics_process(delta):
+	
 	if CanDrive:
 		steering = move_toward(steering, Input.get_axis("right","left") * MaxSteer, delta * 10)
 		engine_force = Input.get_axis("down","up") * EnginePower
+		var Pitch = ((linear_velocity.distance_to(Vector3(0,0,0)) / 15) * 2) + 1
+		$AudioStreamPlayer3D.pitch_scale = Pitch
+		if !$AudioStreamPlayer3D.playing:
+			$AudioStreamPlayer3D.playing = true
+	else:
+		$AudioStreamPlayer3D.playing = false
 
 func ActivateCard(cardname):
 	if cardname == "DoubleSpeed":
-		EnginePower *= 2
+		EnginePower *= 1.5
+		mass += 2
+		#yeah uh no double speed causes car to flip so lets pretend it is double but dont tell anyone
 	if cardname == "HalfSpeed":
 		EnginePower /= 2
 	if cardname == "ReversedWheels":
@@ -38,6 +47,10 @@ func ActivateCard(cardname):
 		$LiveReaction/LiveReactionChild/Chara.texture = $"../Character".get_texture() 
 	if cardname == "RainbowCar":
 		NextRainbowColor()
+	if cardname == "DriverView":
+		$"../Camera3D".camera_mode = $"../Camera3D".CameraMode.DriverView
+		$"../Camera3D".fov = 102.1
+	
 
 func NextRainbowColor():
 	var NewTween = create_tween()
