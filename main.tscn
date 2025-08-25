@@ -1,18 +1,18 @@
 [gd_scene load_steps=18 format=3 uid="uid://77i4un7oqvtw"]
 
-[ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://Camera.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://scripts/Camera.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_0xm2m"]
-[ext_resource type="Script" uid="uid://dllgjp122y6fb" path="res://MapGenerator.gd" id="2_w48qg"]
-[ext_resource type="Script" uid="uid://du4ok6by6akf4" path="res://CarMovement.gd" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://dllgjp122y6fb" path="res://scripts/MapGenerator.gd" id="2_w48qg"]
+[ext_resource type="Script" uid="uid://du4ok6by6akf4" path="res://scripts/CarMovement.gd" id="3_h2yge"]
 [ext_resource type="AudioStream" uid="uid://bl7cj3x1l7j8w" path="res://sfx/NewDrive.mp3" id="4_ycdy4"]
-[ext_resource type="Script" uid="uid://crm6n5nhm6e54" path="res://CoolCover.gd" id="5_272bh"]
+[ext_resource type="Script" uid="uid://crm6n5nhm6e54" path="res://scripts/CoolCover.gd" id="5_272bh"]
 [ext_resource type="Texture2D" uid="uid://bk5ryepp5dfvp" path="res://Logo.png" id="5_lquwl"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="6_7mycd"]
 [ext_resource type="Texture2D" uid="uid://cvdy323inwg10" path="res://Pencil.png" id="8_5vw27"]
 [ext_resource type="Texture2D" uid="uid://dbecljl6jgttw" path="res://cards/BlankCard.png" id="9_4c57u"]
 [ext_resource type="Texture2D" uid="uid://ror40l65d2st" path="res://Lock.png" id="9_efxa6"]
 [ext_resource type="Texture2D" uid="uid://bdcnkabmvgv24" path="res://CheckMark.png" id="9_kek77"]
-[ext_resource type="Script" uid="uid://ii055lm6gkdp" path="res://cardVisual.gd" id="11_dg77c"]
+[ext_resource type="Script" uid="uid://ii055lm6gkdp" path="res://scripts/cardVisual.gd" id="11_dg77c"]
 [ext_resource type="AudioStream" uid="uid://bgf7e161q1n4w" path="res://sfx/CardDraw.mp3" id="11_efxa6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
@@ -21,12 +21,12 @@ sky_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
 ground_bottom_color = Color(0.763979, 0.701734, 0.630413, 1)
 ground_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
 
-[sub_resource type="Sky" id="Sky_0xm2m"]
+[sub_resource type="Sky" id="Sky_w48qg"]
 sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
 
 [sub_resource type="Environment" id="Environment_h2yge"]
 background_mode = 2
-sky = SubResource("Sky_0xm2m")
+sky = SubResource("Sky_w48qg")
 glow_enabled = true
 
 [node name="Node3D" type="Node3D"]
@@ -35,14 +35,14 @@ glow_enabled = true
 environment = SubResource("Environment_h2yge")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("FocusObject")]
-transform = Transform3D(0.877583, -0.229849, 0.420735, 0, 0.877583, 0.479426, -0.479426, -0.420736, 0.770151, 0.00169611, 3.54854, 6.54258)
+transform = Transform3D(0.877582, -0.229849, 0.420736, 0, 0.877582, 0.479426, -0.479426, -0.420736, 0.770151, 134.592, 3.54854, 6.54258)
 script = ExtResource("1_ig7tw")
 FocusObject = NodePath("../Car")
 
 [node name="Car" parent="." instance=ExtResource("2_0xm2m")]
 transform = Transform3D(0.878785, 0, 0.477218, 0, 1, 0, -0.477218, 0, 0.878785, 101.406, 1, 2.63634)
 script = ExtResource("3_h2yge")
-MaxSteer = 0.75
+MaxSteer = 0.5
 EnginePower = 125
 
 [node name="SpriteFront" type="Sprite3D" parent="Car"]

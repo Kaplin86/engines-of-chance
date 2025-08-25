@@ -1,22 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://2s8w1f15tt1u"]
+[gd_scene load_steps=6 format=3 uid="uid://2s8w1f15tt1u"]
 
-[ext_resource type="Script" uid="uid://dllgjp122y6fb" path="res://MapGenerator.gd" id="1_27wmn"]
+[ext_resource type="Script" uid="uid://dllgjp122y6fb" path="res://scripts/MapGenerator.gd" id="1_27wmn"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_47ek5"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_47ek5"]
+sky_top_color = Color(1, 1, 1, 1)
+sky_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
+ground_bottom_color = Color(0.763979, 0.701734, 0.630413, 1)
+ground_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_47ek5")
+
+[sub_resource type="Environment" id="Environment_r1kn3"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+glow_enabled = true
 
 [node name="mapeditortest" type="Node3D"]
 
-[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("car")]
+[node name="map" type="Node3D" parent="."]
 transform = Transform3D(1, 1.49012e-08, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.8147e-06)
 script = ExtResource("1_27wmn")
-point_count = 32
-map_radius = 110
-noise_strength = 0.32
-trackwidth = 15
-car = NodePath("../Car")
-seed = -511
+point_count = 30
+map_radius = 150
+trackwidth = 14
+seed = 65
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.837262, -0.183856, 0.514965, 0, 0.941777, 0.336239, -0.546802, -0.28152, 0.788514, 38.7796, 27.0695, 58.6897)
 
 [node name="Car" parent="." instance=ExtResource("2_47ek5")]
 transform = Transform3D(0.24343, 0, -0.969918, 0, 1, 0, 0.969918, 0, 0.24343, 110.235, 1, 6.08576)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_r1kn3")

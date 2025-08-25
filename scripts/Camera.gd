@@ -1,21 +1,24 @@
 extends Camera3D
-@export var FocusObject : Node3D
 
+#Enum
 enum CameraMode { Circle, FollowBehind, DriverView}
 
+#Exports
+@export var FocusObject : Node3D
 @export var camera_mode: CameraMode
 
-var DesiredPosition = Vector3(0,0,0)
-var CircleTime = 0
-var CircleDistance = 6.543
 
-var SkipMove = false
+
+var DesiredPosition = Vector3(0,0,0) #The position that the camera tries to go towards
+var CircleTime = 0 #delta tracker for circling
+var CircleDistance = 6.543 #Distance of circle
+var SkipMove = false #When true, immediately go to the desired position
 
 
 func _process(delta):
 	
 	if camera_mode == CameraMode.Circle:
-		CircleTime += delta
+		CircleTime += delta 
 		DesiredPosition.x = sin(CircleTime) * CircleDistance + FocusObject.global_position.x
 		DesiredPosition.z = cos(CircleTime) * CircleDistance + FocusObject.global_position.z
 		DesiredPosition.y = 3.549 - FocusObject.global_position.y

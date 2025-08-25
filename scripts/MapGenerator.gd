@@ -1,0 +1,187 @@
+@tool
+extends Node3D
+
+@export var point_count: int = 20:
+	set(value):
+		point_count = value
+		_ready()
+@export var map_radius: int = 60:
+	set(value):
+		map_radius = value
+		_ready()
+@export var noise_strength:float = 0.25:
+	set(value):
+		noise_strength = value
+		_ready()
+@export var point_spacing:int = 1:
+	set(value):
+		point_spacing = value
+		_ready()
+@export var trackwidth: int = 8:
+	set(value):
+		trackwidth = value
+		_ready()
+@export var car : VehicleBody3D
+@export var seed: int = 10:
+	set(value):
+		seed = value
+		_ready()
+		
+@export_enum("Circle", "Oval", "Square") var shape: int:
+	set(value):
+		shape = value
+		_ready()
+
+func _ready(): #the ready is basically 'track generate'
+	for e in get_children(): #remove the old track, if found
+		e.queue_free()
+	
+	if Engine.is_editor_hint(): #since this is a tool script, I have an exception so it only runs in editor if the parent is named 'mapeditortest'
+		if get_parent():
+			if !get_parent().name == "mapeditortest":
+				return
+	
+	var TheLine = generate_line(seed,point_count,map_radius,noise_strength) #Creates a line based on params
+	var EvenlySpacedPoints = sample_line(TheLine,point_spacing) #Gets points along the map
+	var EdgePoints = compute_edges(EvenlySpacedPoints,trackwidth) #Get left-side and right-side points
+	
+	var TrackMesh = MeshInstance3D.new() #Creates a empty mesh instance
+	TrackMesh.mesh = build_track_mesh(EdgePoints[0],EdgePoints[1]) #Generates a mesh from the track
+	add_child(TrackMesh) #Add the cool mesh
+	
+	var body = StaticBody3D.new() #creates an empty track collider
+	var collider = CollisionShape3D.new() #new collision shape yap yap
+	collider.shape = TrackMesh.mesh.create_trimesh_shape() #this is kinda cool. turns the mesh to a collision shape
+	body.add_child(collider) #adds collision shape to collider
+	add_child(body) #add le collider
+	
+	if car: #if theres a car attached, put it at the "25th" point
+		car.global_transform = get_track_transform_at(TheLine,25)
+		car.position += Vector3(0,1,0) #move it up a bit so no tires get stuck
+
+func get_track_transform_at(curve: Curve3D, distance: float) -> Transform3D: #This gets a point along the curve and turns it into a transform 3D
+	var pos = curve.sample_baked(distance) #get the point along the curve
+	
+	var pos_ahead = curve.sample_baked(min(distance + 1.0, curve.get_baked_length())) #get the position 1 unit away
+	var forward = (pos_ahead - pos).normalized() #gets the normalized from point and point 1 away.
+	
+	var up = Vector3.UP #guess what this does chat
+	
+	var right = up.cross(forward).normalized() #using silly cross stuff get leftright
+	var real_up = forward.cross(right).normalized() #using silly cross stuff to get real up
+	
+	var basis = Basis()
+	basis.x = right
+	basis.y = real_up
+	basis.z = forward
+	
+	return Transform3D(basis, pos)
+
+
+func generate_line(seed,points,radius,noise) -> Curve3D: #this generates the curve3D
+	var RNG = RandomNumberGenerator.new() #gambling
+	RNG.seed = seed
+	var curve = Curve3D.new()
+	
+	if shape == 0: #circle
+		for I in points:
+			var angle = TAU * I / points
+			var r = radius * (1.0 + RNG.randf_range(-noise_strength, noise_strength))
+			var p = Vector3(r * cos(angle), 0.0, r * sin(angle))
+			curve.add_point(p)
+	
+	if shape == 1: #oval
+		for I in points:
+			var angle = TAU * I / points
+			var r = radius * (1.0 + RNG.randf_range(-noise_strength, noise_strength))
+			var p = Vector3(r * cos(angle) * 0.5, 0.0, r * sin(angle))
+			curve.add_point(p)
+	
+	if shape == 2: #square
+		for I in points:
+			var Placement = float(I) / points
+			var angleplacement = Placement * 4
+			
+			var x = 0.0
+			var z = 0.0
+			
+			if angleplacement < 1: #top
+				x = lerp(-radius, radius, angleplacement)
+				z = -radius
+			elif angleplacement < 2: #right
+				x = radius
+				z = lerp(-radius, radius, angleplacement - 1.0)
+			elif angleplacement < 3: #bottom
+				x = lerp(radius, -radius, angleplacement - 2.0)
+				z = radius
+			elif angleplacement < 4: #right
+				x = -radius
+				z = lerp(radius, -radius, angleplacement - 3.0)
+			
+			x += RNG.randf_range(-noise_strength * radius, noise_strength * radius)
+			z += RNG.randf_range(-noise_strength * radius, noise_strength * radius)
+			
+			var p = Vector3(x, 0.0, z)
+			curve.add_point(p)
+
+	
+	curve.add_point(curve.get_point_position(0)) #add in the first point at the end that way it loops
+	return curve
+
+func sample_line(Line : Curve3D, spacing = 1): #This obtains points in space from the curve3D
+	var baked = []
+	var length = Line.get_baked_length()
+	var t = 0.0
+	while t < length: #keep going until all the length is covered
+		baked.append(Line.sample_baked(t))
+		t += spacing
+	return baked
+
+func compute_edges(points : Array,width = 8): #takes mid-track points and makes left and right points
+	var left = [] #points alongside the left-side of the track
+	var right = [] #points alongside the right side of hte track
+	
+	for E in points.size(): #for each of the mid point
+		var PointInQuestion = points[E] #actual point (e is a number)
+		
+		var nextPoint = points[wrap(E + 1,0,points.size())] #Get the next points
+		var distanceangle = (nextPoint - PointInQuestion).normalized() #get angle from current point to next point
+		var leftright = Vector3.UP.cross(distanceangle).normalized() #turn said angle into a vector referring to the left-right movement on the track
+		left.append(PointInQuestion - leftright * width/2.0) #add left point
+		right.append(PointInQuestion + leftright * width/2.0) #add right
+		
+	return [left, right]
+
+func build_track_mesh(left: Array, right: Array) -> ArrayMesh: #build an array mesh from the left-right points along the track 
+	var SurfaceT = SurfaceTool.new() #empty surface tools
+	SurfaceT.begin(Mesh.PRIMITIVE_TRIANGLES) #begin the process
+	
+	for i in left.size()-1: #go through all items at a offset of -1
+		var l0 = left[i] #bottom left (birds eye view, 'next track point' is north)
+		var r0 = right[i] #bottom right
+		var l1 = left[i+1] #top left
+		var r1 = right[i+1] #top right
+		
+		SurfaceT.add_vertex(l0) #make first triangle using the bottom left, bottom right, and top left points
+		SurfaceT.add_vertex(r0)
+		SurfaceT.add_vertex(l1)
+		
+		SurfaceT.add_vertex(r0) #make second triangle using bottom right, top right, and top left points
+		SurfaceT.add_vertex(r1)
+		SurfaceT.add_vertex(l1)
+	
+	var l0 = left[-1] #add track between the last point (-1) and the first (0). Missing due to offset approach in the loop
+	var r0 = right[-1]
+	var l1 = left[0]
+	var r1 = right[0]
+	
+	SurfaceT.add_vertex(l0)
+	SurfaceT.add_vertex(r0)
+	SurfaceT.add_vertex(l1)
+	
+	SurfaceT.add_vertex(r0)
+	SurfaceT.add_vertex(r1)
+	SurfaceT.add_vertex(l1)
+	
+	SurfaceT.index()
+	return SurfaceT.commit() #arraymesh
