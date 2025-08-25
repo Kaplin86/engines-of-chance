@@ -36,8 +36,9 @@ var StateChanging = false
 
 var CardsFlipped = false
 
-#var CardChoices = ["DoubleSpeed","HalfSpeed","HeavyCar","LightCar","RainbowCar","Reaction"]
-var CardChoices = ["DoubleSpeed","RainbowCar","Reaction"]
+var CardChoices = ["DoubleSpeed","HalfSpeed","HeavyCar","LightCar","RainbowCar","Reaction","DriverView"]
+#var CardChoices = ["HalfSpeed","RainbowCar","Reaction"]
+
 var Card1
 var Card2
 var Card3

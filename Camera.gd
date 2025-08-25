@@ -46,7 +46,7 @@ func _process(delta):
 	if SkipMove:
 		global_position = DesiredPosition
 	else:
-		global_position = global_position.move_toward(DesiredPosition,delta * 9)
+		global_position = global_position.move_toward(DesiredPosition,delta * 12)
 	
 	if camera_mode == CameraMode.DriverView:
 		rotation = $"../Car".rotation

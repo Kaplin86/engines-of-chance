@@ -130,9 +130,9 @@ mesh = SubResource("CylinderMesh_7822p")
 surface_material_override/0 = SubResource("StandardMaterial3D_k61xc")
 
 [node name="LiveReaction" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="LiveReactionChild" type="Node2D" parent="LiveReaction"]
+visible = false
 scale = Vector2(1.41792, 1.41792)
 
 [node name="ColorRect2" type="ColorRect" parent="LiveReaction/LiveReactionChild"]
