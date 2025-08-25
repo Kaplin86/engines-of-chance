@@ -32,6 +32,10 @@ extends Node3D
 		shape = value
 		_ready()
 
+
+
+#--------------------------------------------------------------------------------------------------------------------
+
 func _ready(): #the ready is basically 'track generate'
 	for e in get_children(): #remove the old track, if found
 		e.queue_free()
@@ -51,13 +55,44 @@ func _ready(): #the ready is basically 'track generate'
 	
 	var body = StaticBody3D.new() #creates an empty track collider
 	var collider = CollisionShape3D.new() #new collision shape yap yap
-	collider.shape = TrackMesh.mesh.create_trimesh_shape() #this is kinda cool. turns the mesh to a collision shape
+	collider.shape = TrackMesh.mesh.create_trimesh_shape() #this is kinda cool ig. turns the mesh to a collision shape
 	body.add_child(collider) #adds collision shape to collider
 	add_child(body) #add le collider
 	
 	if car: #if theres a car attached, put it at the "25th" point
 		car.global_transform = get_track_transform_at(TheLine,25)
 		car.position += Vector3(0,1,0) #move it up a bit so no tires get stuck
+	
+	body.name = "Track"
+	
+	var GrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4)
+	var GrassMesh = MeshInstance3D.new() 
+	GrassMesh.mesh = build_track_mesh(GrassPoints[0],GrassPoints[1]) 
+	add_child(GrassMesh) 
+	
+	var GrassVisualMaterial = StandardMaterial3D.new()
+	GrassVisualMaterial.albedo_color = Color(0,0,0)
+	GrassMesh.set_surface_override_material(0,GrassVisualMaterial)
+	
+	var Grassbody = StaticBody3D.new() 
+	var Grasscollider = CollisionShape3D.new() 
+	Grasscollider.shape = GrassMesh.mesh.create_trimesh_shape() 
+	Grassbody.add_child(Grasscollider)
+	add_child(Grassbody)
+	
+	var GrassPhysicalMaterial = PhysicsMaterial.new()
+	GrassPhysicalMaterial.rough = true
+	GrassPhysicalMaterial.friction = 1
+	
+	Grassbody.physics_material_override = GrassPhysicalMaterial
+	
+	Grassbody.position = Vector3(0,-0.2,0)
+	GrassMesh.position = Grassbody.position
+	
+	Grassbody.name = "Grass"
+	
+	if car:
+		car.GrassBody = Grassbody
 
 func get_track_transform_at(curve: Curve3D, distance: float) -> Transform3D: #This gets a point along the curve and turns it into a transform 3D
 	var pos = curve.sample_baked(distance) #get the point along the curve

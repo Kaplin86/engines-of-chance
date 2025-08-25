@@ -4,6 +4,10 @@ extends VehicleBody3D
 @export var MaxSteer = 0.9
 @export var EnginePower = 300
 @export var CanDrive = false
+@export var GrassBody = null
+
+var GrassMultipler = 0.1
+var GrassOn = false
 
 func SetWheelStatus(Mode, Tire : VehicleWheel3D): #A quick function to set a wheel to be 'front' or 'back'
 	if Mode == "traction":
@@ -16,8 +20,18 @@ func SetWheelStatus(Mode, Tire : VehicleWheel3D): #A quick function to set a whe
 func _physics_process(delta):
 	
 	if CanDrive:
-		steering = move_toward(steering, Input.get_axis("right","left") * MaxSteer, delta * 10) #steer
-		engine_force = Input.get_axis("down","up") * EnginePower #moves car left right
+		steering = move_toward(steering, Input.get_axis("right","left") * MaxSteer, delta * 8) #steer
+		
+		if $RayCast3D.get_collider() == GrassBody:
+			GrassOn = true
+		else:
+			GrassOn = false
+		
+		
+		if GrassOn:
+			engine_force = Input.get_axis("down","up") * EnginePower * GrassMultipler #moves car 
+		else:
+			engine_force = Input.get_axis("down","up") * EnginePower #moves car 
 		
 		var Pitch = ((linear_velocity.distance_to(Vector3(0,0,0)) / 15) * 2) + 1 #calculate the pitch based on the velocitys distance to 0,0,0. I use distance_to since thats a float
 		

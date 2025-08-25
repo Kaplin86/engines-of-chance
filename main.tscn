@@ -41,6 +41,9 @@ FocusObject = NodePath("../Car")
 
 [node name="Car" parent="." instance=ExtResource("2_0xm2m")]
 transform = Transform3D(0.878785, 0, 0.477218, 0, 1, 0, -0.477218, 0, 0.878785, 101.406, 1, 2.63634)
+mass = 60.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, -0.1, 0)
 script = ExtResource("3_h2yge")
 MaxSteer = 0.5
 EnginePower = 125

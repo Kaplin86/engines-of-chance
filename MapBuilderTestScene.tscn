@@ -22,10 +22,11 @@ glow_enabled = true
 [node name="map" type="Node3D" parent="."]
 transform = Transform3D(1, 1.49012e-08, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.8147e-06)
 script = ExtResource("1_27wmn")
-point_count = 30
+point_count = 17
 map_radius = 150
 trackwidth = 14
-seed = 65
+seed = 76
+shape = 2
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.837262, -0.183856, 0.514965, 0, 0.941777, 0.336239, -0.546802, -0.28152, 0.788514, 38.7796, 27.0695, 58.6897)
