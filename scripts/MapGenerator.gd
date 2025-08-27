@@ -33,6 +33,11 @@ extends Node3D
 		_ready()
 
 
+#--------------------------------------------------------------------------------------------------------------------
+
+var GrassColors = ["b0ff99","c2ff23","a4f8a8","37c234","e78900","e3ffe3","f1dfff","b289ff"]
+var RoadColors = ["808080","484848","999999","5d4625","e4b900","303030"]
+
 
 #--------------------------------------------------------------------------------------------------------------------
 
@@ -89,6 +94,12 @@ func createWalls(points,roadpoints):
 	body.add_child(collider) 
 	add_child(body) 
 	
+	body = StaticBody3D.new()
+	collider = CollisionShape3D.new()
+	collider.shape = OthersideLeftMesh.mesh.create_trimesh_shape() 
+	body.add_child(collider) 
+	add_child(body) 
+	
 	#right wall ----------------------------------
 	var RightWallPoints = []
 	var UsingRightPoints = RightPoints.duplicate()
@@ -102,11 +113,21 @@ func createWalls(points,roadpoints):
 	var RightMesh = MeshInstance3D.new() #Creates a empty mesh instance
 	RightMesh.mesh = build_track_mesh(RightPoints,RightWallPoints)
 	add_child(RightMesh) 
+	
+	body = StaticBody3D.new()
+	collider = CollisionShape3D.new()
+	collider.shape = RightMesh.mesh.create_trimesh_shape() 
+	body.add_child(collider) 
+	add_child(body) 
 
 func createTrackAndGrass(EdgePoints,TheLine, GrassPoints):
 	var TrackMesh = MeshInstance3D.new() #Creates a empty mesh instance
 	TrackMesh.mesh = build_track_mesh(EdgePoints[0],EdgePoints[1]) #Generates a mesh from the track
 	add_child(TrackMesh) #Add the cool mesh
+	
+	var TrackVisualMaterial = StandardMaterial3D.new()
+	TrackVisualMaterial.albedo_color = Color(RoadColors.pick_random())
+	TrackMesh.set_surface_override_material(0,TrackVisualMaterial)
 	
 	var body = StaticBody3D.new() #creates an empty track collider
 	var collider = CollisionShape3D.new() #new collision shape yap yap
@@ -122,7 +143,7 @@ func createTrackAndGrass(EdgePoints,TheLine, GrassPoints):
 	add_child(GrassMesh) 
 	
 	var GrassVisualMaterial = StandardMaterial3D.new()
-	GrassVisualMaterial.albedo_color = Color(0.69,1,0.6)
+	GrassVisualMaterial.albedo_color = Color(GrassColors.pick_random())
 	GrassMesh.set_surface_override_material(0,GrassVisualMaterial)
 	
 	var Grassbody = StaticBody3D.new() 

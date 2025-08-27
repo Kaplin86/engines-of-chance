@@ -103,7 +103,10 @@ func _process(delta):
 			StateChanging = false
 			$"../Speedomoter".visible = true
 	
+	
 	if State == "Draw":
+		$Drawer/ChangeColor.visible = true
+		$Drawer/Finish.visible = true
 		DrawTimer -= delta
 		$Drawer/TimeLabel.text = str(int(clamp(floor(DrawTimer),0,99)))
 		$Drawer/Lock.global_position = $Drawer/Lock.global_position.move_toward(Vector2(120,128),delta * 10)
@@ -160,26 +163,18 @@ func _process(delta):
 				$Drawer/SwapColor.color = Color("616d8e")
 				
 				if Input.is_action_just_released("start"):
-					$Drawer/Pencil.modulate.h += 0.1
+					_on_change_color_pressed()
 				if Input.is_action_just_released("rearview"):
 					$Drawer/Pencil.modulate.h -= 0.1
+				
+				
 			else:
 				$Drawer/SwapColor.color = Color("212737")
 				$Drawer/Confirm.color = Color("616d8e")
 				
 				if Input.is_action_just_released("start") and !StateChanging:
-					StateChanging = true
-					State = "GetCards"
-					await do_tween($Drawer,"modulate",Color(1,1,1,0),0.3)
-					await do_tween($Cards,"modulate",Color(1,1,1,1),0.3)
-					for E in ColorRects:
-						var NewerColorRect = ColorRects[E].duplicate()
-						$"../Character".add_child(NewerColorRect)
-					$"../Car/SpriteFront".texture = $"../Character".get_texture()
-					$"../Car/SpriteBack".texture = $"../Character".get_texture()
-					FlipCards()
-
-					StateChanging = false
+					_on_finish_pressed()
+					
 					
 					
 			
@@ -198,4 +193,24 @@ func _process(delta):
 				else:
 					DrawCursorPosition = Vector2(25,20)
 				SpecialDrawControl = null
-			
+
+
+func _on_change_color_pressed():
+	$Drawer/Pencil.modulate.h += 0.1
+
+
+func _on_finish_pressed():
+	if !StateChanging:
+		StateChanging = true
+		State = "GetCards"
+		$Drawer/ChangeColor.visible = false
+		$Drawer/Finish.visible = false
+		await do_tween($Drawer,"modulate",Color(1,1,1,0),0.3)
+		await do_tween($Cards,"modulate",Color(1,1,1,1),0.3)
+		for E in ColorRects:
+			var NewerColorRect = ColorRects[E].duplicate()
+			$"../Character".add_child(NewerColorRect)
+		$"../Car/SpriteFront".texture = $"../Character".get_texture()
+		$"../Car/SpriteBack".texture = $"../Character".get_texture()
+		FlipCards()
+		StateChanging = false

@@ -17,7 +17,18 @@ func SetWheelStatus(Mode, Tire : VehicleWheel3D): #A quick function to set a whe
 		Tire.use_as_steering = true
 		Tire.use_as_traction = false
 
+var FlippedTime = 0
+
 func _physics_process(delta):
+	if abs(rotation_degrees.x) >= 90 or abs(rotation_degrees.z) >= 90:
+		FlippedTime += delta
+	else:
+		FlippedTime = 0
+	
+	if FlippedTime >= 1:
+		rotation.x = 0
+		rotation.z = 0
+		position.y += 1
 	
 	if CanDrive:
 		steering = move_toward(steering, Input.get_axis("right","left") * MaxSteer, delta * 8) #steer

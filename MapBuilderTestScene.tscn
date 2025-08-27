@@ -27,7 +27,7 @@ map_radius = 110
 noise_strength = 0.115
 point_spacing = 2
 trackwidth = 15
-seed = 50
+seed = 52
 shape = 2
 
 [node name="Camera3D" type="Camera3D" parent="."]

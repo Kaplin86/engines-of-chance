@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=23 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://scripts/Camera.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_0xm2m"]
@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://bdcnkabmvgv24" path="res://CheckMark.png" id="9_kek77"]
 [ext_resource type="Script" uid="uid://ii055lm6gkdp" path="res://scripts/cardVisual.gd" id="11_dg77c"]
 [ext_resource type="AudioStream" uid="uid://bgf7e161q1n4w" path="res://sfx/CardDraw.mp3" id="11_efxa6"]
-[ext_resource type="AudioStream" uid="uid://df3mtxu6uus" path="res://music/RacingSong.mp3" id="15_vivmo"]
+[ext_resource type="AudioStream" uid="uid://dacnbk51uk0t8" path="res://music/Tier1.mp3" id="15_yaehf"]
 [ext_resource type="Texture2D" uid="uid://ddtgu3s4kwfwq" path="res://CIRCLE.png" id="16_2cqfq"]
 [ext_resource type="Script" uid="uid://2v21to0l4l0e" path="res://speedomoter.gd" id="16_yaehf"]
 
@@ -32,7 +32,11 @@ background_mode = 2
 sky = SubResource("Sky_w48qg")
 glow_enabled = true
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_2cqfq"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yaehf"]
+albedo_color = Color(0.895238, 0.727202, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_074og"]
+material = SubResource("StandardMaterial3D_yaehf")
 
 [node name="Node3D" type="Node3D"]
 
@@ -45,7 +49,7 @@ script = ExtResource("1_ig7tw")
 FocusObject = NodePath("../Car")
 
 [node name="Car" parent="." instance=ExtResource("2_0xm2m")]
-transform = Transform3D(0.878785, 0, 0.477218, 0, 1, 0, -0.477218, 0, 0.878785, 101.406, 1, 2.63634)
+transform = Transform3D(0.997989, 0.0529123, -0.0348942, -0.052328, 0.998477, 0.0174524, 0.0357645, -0.0155914, 0.999239, 101.406, 1, 2.63634)
 mass = 60.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.1, 0)
@@ -84,7 +88,6 @@ offset_bottom = 241.0
 color = Color(0, 0, 0, 0.425)
 
 [node name="TitleStuff" type="Node2D" parent="Canvas"]
-visible = false
 
 [node name="Logo" type="Sprite2D" parent="Canvas/TitleStuff"]
 position = Vector2(160, 64)
@@ -98,8 +101,18 @@ offset_right = 377.0
 offset_bottom = 178.0
 scale = Vector2(0.8468, 0.8468)
 theme_override_fonts/font = ExtResource("6_7mycd")
-text = "press start to begin
- (E or 1) "
+text = "press start to begin"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Canvas/TitleStuff"]
+offset_left = 1.0
+offset_top = 174.0
+offset_right = 377.0
+offset_bottom = 209.0
+scale = Vector2(0.8468, 0.8468)
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 11
+text = "(WASD + E/Q or ARROWS + SHIFT/1)"
 horizontal_alignment = 1
 
 [node name="Drawer" type="Node2D" parent="Canvas"]
@@ -167,6 +180,22 @@ z_index = 1
 position = Vector2(120, 128)
 texture = ExtResource("9_efxa6")
 
+[node name="ChangeColor" type="Button" parent="Canvas/Drawer"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+offset_left = 232.0
+offset_top = 40.0
+offset_right = 312.0
+offset_bottom = 88.0
+
+[node name="Finish" type="Button" parent="Canvas/Drawer"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+offset_left = 232.0
+offset_top = 152.0
+offset_right = 312.0
+offset_bottom = 200.0
+
 [node name="Cards" type="Node2D" parent="Canvas"]
 modulate = Color(1, 1, 1, 0)
 
@@ -220,7 +249,9 @@ offset_bottom = 203.0
 scale = Vector2(0.8468, 0.8468)
 theme_override_fonts/font = ExtResource("6_7mycd")
 text = "seconds to draw your
-driver!"
+driver!
+
+(no impact on gameplay)"
 horizontal_alignment = 1
 
 [node name="TimeLabel" type="Label" parent="Canvas/DrawTime"]
@@ -245,14 +276,8 @@ trackwidth = 15
 car = NodePath("../Car")
 seed = 11
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 101.184, 0, -20.4592)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_2cqfq")
-
 [node name="music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("15_vivmo")
+stream = ExtResource("15_yaehf")
 
 [node name="Speedomoter" type="CanvasLayer" parent="." node_paths=PackedStringArray("Car")]
 visible = false
@@ -260,14 +285,16 @@ script = ExtResource("16_yaehf")
 Car = NodePath("../Car")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="Speedomoter"]
-offset_left = 196.0
-offset_top = 301.0
-offset_right = 319.0
-offset_bottom = 424.0
+offset_left = 229.0
+offset_top = 283.0
+offset_right = 352.0
+offset_bottom = 406.0
 rotation = -1.5708
-max_value = 20.0
+scale = Vector2(0.701683, 0.701683)
+max_value = 25.0
 step = 0.1
 value = 20.0
+allow_greater = true
 fill_mode = 4
 radial_fill_degrees = 180.0
 texture_under = ExtResource("16_2cqfq")
@@ -277,5 +304,12 @@ tint_progress = Color(0.972658, 0.122912, 0, 1)
 
 [node name="Circle" type="Sprite2D" parent="Speedomoter"]
 modulate = Color(0.0911214, 0.0911215, 0.0911214, 1)
-position = Vector2(258, 250)
+position = Vector2(272.5, 243)
+scale = Vector2(0.691057, 0.648374)
 texture = ExtResource("16_2cqfq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_074og")
+
+[connection signal="pressed" from="Canvas/Drawer/ChangeColor" to="Canvas" method="_on_change_color_pressed"]
+[connection signal="pressed" from="Canvas/Drawer/Finish" to="Canvas" method="_on_finish_pressed"]
