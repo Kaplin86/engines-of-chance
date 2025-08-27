@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=22 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://scripts/Camera.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_0xm2m"]
@@ -14,6 +14,9 @@
 [ext_resource type="Texture2D" uid="uid://bdcnkabmvgv24" path="res://CheckMark.png" id="9_kek77"]
 [ext_resource type="Script" uid="uid://ii055lm6gkdp" path="res://scripts/cardVisual.gd" id="11_dg77c"]
 [ext_resource type="AudioStream" uid="uid://bgf7e161q1n4w" path="res://sfx/CardDraw.mp3" id="11_efxa6"]
+[ext_resource type="AudioStream" uid="uid://df3mtxu6uus" path="res://music/RacingSong.mp3" id="15_vivmo"]
+[ext_resource type="Texture2D" uid="uid://ddtgu3s4kwfwq" path="res://CIRCLE.png" id="16_2cqfq"]
+[ext_resource type="Script" uid="uid://2v21to0l4l0e" path="res://speedomoter.gd" id="16_yaehf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_top_color = Color(1, 1, 1, 1)
@@ -28,6 +31,8 @@ sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
 background_mode = 2
 sky = SubResource("Sky_w48qg")
 glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2cqfq"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -62,7 +67,7 @@ texture_filter = 0
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Car"]
 stream = ExtResource("4_ycdy4")
-volume_db = -30.269
+volume_db = -15.811
 pitch_scale = 1.04
 
 [node name="Character" type="SubViewport" parent="."]
@@ -232,8 +237,45 @@ horizontal_alignment = 1
 
 [node name="map" type="Node3D" parent="." node_paths=PackedStringArray("car")]
 script = ExtResource("2_w48qg")
-point_count = 22
+point_count = 21
 map_radius = 110
-noise_strength = 0.32
+noise_strength = 0.115
+point_spacing = 2
 trackwidth = 15
 car = NodePath("../Car")
+seed = 11
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 101.184, 0, -20.4592)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_2cqfq")
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_vivmo")
+
+[node name="Speedomoter" type="CanvasLayer" parent="." node_paths=PackedStringArray("Car")]
+visible = false
+script = ExtResource("16_yaehf")
+Car = NodePath("../Car")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Speedomoter"]
+offset_left = 196.0
+offset_top = 301.0
+offset_right = 319.0
+offset_bottom = 424.0
+rotation = -1.5708
+max_value = 20.0
+step = 0.1
+value = 20.0
+fill_mode = 4
+radial_fill_degrees = 180.0
+texture_under = ExtResource("16_2cqfq")
+texture_progress = ExtResource("16_2cqfq")
+tint_under = Color(0.116127, 0.116127, 0.116127, 1)
+tint_progress = Color(0.972658, 0.122912, 0, 1)
+
+[node name="Circle" type="Sprite2D" parent="Speedomoter"]
+modulate = Color(0.0911214, 0.0911215, 0.0911214, 1)
+position = Vector2(258, 250)
+texture = ExtResource("16_2cqfq")

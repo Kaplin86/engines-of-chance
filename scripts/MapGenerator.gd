@@ -48,7 +48,62 @@ func _ready(): #the ready is basically 'track generate'
 	var TheLine = generate_line(seed,point_count,map_radius,noise_strength) #Creates a line based on params
 	var EvenlySpacedPoints = sample_line(TheLine,point_spacing) #Gets points along the map
 	var EdgePoints = compute_edges(EvenlySpacedPoints,trackwidth) #Get left-side and right-side points
+	var GrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4) #Get left-side and right-side points
 	
+	createTrackAndGrass(EdgePoints, TheLine, GrassPoints)
+	
+	createWalls(GrassPoints,EdgePoints)
+	
+	if car: #if theres a car attached, put it at the "25th" point
+		car.global_transform = get_track_transform_at(TheLine,12)
+		car.position += Vector3(0,1,0) #move it up a bit so no tires get stuck
+		
+		
+
+func createWalls(points,roadpoints): 
+	var LeftPoints = points[0]
+	var RightPoints = points[1]
+	var LeftRoadPoints = roadpoints[0]
+	var RightRoadPoints = roadpoints[1]
+	
+	#left first --------------------------------
+	var LeftWallPoints = []
+	var UsingLeftPoints = LeftPoints.duplicate()
+	for E in LeftPoints.size():
+		if LeftPoints[E].distance_to(LeftRoadPoints[E]) <= 2:
+			UsingLeftPoints.erase(LeftPoints[E])
+		else:
+			LeftWallPoints.append(LeftPoints[E] + Vector3(0,2,0))
+	
+	
+	var LeftMesh = MeshInstance3D.new() #Creates a empty mesh instance
+	LeftMesh.mesh = build_track_mesh(LeftWallPoints,LeftPoints)
+	add_child(LeftMesh) 
+	var OthersideLeftMesh = MeshInstance3D.new() #Creates a empty mesh instance
+	OthersideLeftMesh.mesh = build_track_mesh(LeftPoints,LeftWallPoints)
+	add_child(OthersideLeftMesh) 
+	
+	var body = StaticBody3D.new()
+	var collider = CollisionShape3D.new()
+	collider.shape = LeftMesh.mesh.create_trimesh_shape() 
+	body.add_child(collider) 
+	add_child(body) 
+	
+	#right wall ----------------------------------
+	var RightWallPoints = []
+	var UsingRightPoints = RightPoints.duplicate()
+	for E in RightPoints.size():
+		if RightPoints[E].distance_to(RightRoadPoints[E]) <= 2:
+			UsingRightPoints.erase(RightPoints[E])
+		else:
+			RightWallPoints.append(RightPoints[E] + Vector3(0,2,0))
+	
+	
+	var RightMesh = MeshInstance3D.new() #Creates a empty mesh instance
+	RightMesh.mesh = build_track_mesh(RightPoints,RightWallPoints)
+	add_child(RightMesh) 
+
+func createTrackAndGrass(EdgePoints,TheLine, GrassPoints):
 	var TrackMesh = MeshInstance3D.new() #Creates a empty mesh instance
 	TrackMesh.mesh = build_track_mesh(EdgePoints[0],EdgePoints[1]) #Generates a mesh from the track
 	add_child(TrackMesh) #Add the cool mesh
@@ -59,19 +114,15 @@ func _ready(): #the ready is basically 'track generate'
 	body.add_child(collider) #adds collision shape to collider
 	add_child(body) #add le collider
 	
-	if car: #if theres a car attached, put it at the "25th" point
-		car.global_transform = get_track_transform_at(TheLine,25)
-		car.position += Vector3(0,1,0) #move it up a bit so no tires get stuck
 	
 	body.name = "Track"
 	
-	var GrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4)
 	var GrassMesh = MeshInstance3D.new() 
 	GrassMesh.mesh = build_track_mesh(GrassPoints[0],GrassPoints[1]) 
 	add_child(GrassMesh) 
 	
 	var GrassVisualMaterial = StandardMaterial3D.new()
-	GrassVisualMaterial.albedo_color = Color(0,0,0)
+	GrassVisualMaterial.albedo_color = Color(0.69,1,0.6)
 	GrassMesh.set_surface_override_material(0,GrassVisualMaterial)
 	
 	var Grassbody = StaticBody3D.new() 
@@ -90,9 +141,9 @@ func _ready(): #the ready is basically 'track generate'
 	GrassMesh.position = Grassbody.position
 	
 	Grassbody.name = "Grass"
-	
 	if car:
 		car.GrassBody = Grassbody
+	
 
 func get_track_transform_at(curve: Curve3D, distance: float) -> Transform3D: #This gets a point along the curve and turns it into a transform 3D
 	var pos = curve.sample_baked(distance) #get the point along the curve
@@ -197,12 +248,23 @@ func build_track_mesh(left: Array, right: Array) -> ArrayMesh: #build an array m
 		var l1 = left[i+1] #top left
 		var r1 = right[i+1] #top right
 		
-		SurfaceT.add_vertex(l0) #make first triangle using the bottom left, bottom right, and top left points
+		var u0 = float(i) / left.size()
+		var u1 = float(i+1) / left.size()
+		
+		
+		SurfaceT.set_uv(Vector2(u0, 0)) #make first triangle using the bottom left, bottom right, and top left points
+		SurfaceT.add_vertex(l0)
+		SurfaceT.set_uv(Vector2(u0, 1))
 		SurfaceT.add_vertex(r0)
+		SurfaceT.set_uv(Vector2(u1, 0))
 		SurfaceT.add_vertex(l1)
 		
-		SurfaceT.add_vertex(r0) #make second triangle using bottom right, top right, and top left points
+		
+		SurfaceT.set_uv(Vector2(u0, 1))  #make second triangle using bottom right, top right, and top left points
+		SurfaceT.add_vertex(r0)
+		SurfaceT.set_uv(Vector2(u1, 1))
 		SurfaceT.add_vertex(r1)
+		SurfaceT.set_uv(Vector2(u1, 0))
 		SurfaceT.add_vertex(l1)
 	
 	var l0 = left[-1] #add track between the last point (-1) and the first (0). Missing due to offset approach in the loop
@@ -210,12 +272,21 @@ func build_track_mesh(left: Array, right: Array) -> ArrayMesh: #build an array m
 	var l1 = left[0]
 	var r1 = right[0]
 	
+	var u0 = 1.0
+	var u1 = 0.0
+	
+	SurfaceT.set_uv(Vector2(u0, 0))
 	SurfaceT.add_vertex(l0)
+	SurfaceT.set_uv(Vector2(u0, 1))
 	SurfaceT.add_vertex(r0)
+	SurfaceT.set_uv(Vector2(u1, 0))
 	SurfaceT.add_vertex(l1)
 	
+	SurfaceT.set_uv(Vector2(u0, 1))
 	SurfaceT.add_vertex(r0)
+	SurfaceT.set_uv(Vector2(u1, 1))
 	SurfaceT.add_vertex(r1)
+	SurfaceT.set_uv(Vector2(u1, 0))
 	SurfaceT.add_vertex(l1)
 	
 	SurfaceT.index()

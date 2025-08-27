@@ -6,7 +6,7 @@ extends VehicleBody3D
 @export var CanDrive = false
 @export var GrassBody = null
 
-var GrassMultipler = 0.1
+var GrassMultipler = 0.5
 var GrassOn = false
 
 func SetWheelStatus(Mode, Tire : VehicleWheel3D): #A quick function to set a wheel to be 'front' or 'back'
@@ -73,6 +73,9 @@ func ActivateCard(cardname): # This will parse a card
 	if cardname == "DriverView":
 		$"../Camera3D".camera_mode = $"../Camera3D".CameraMode.DriverView
 		$"../Camera3D".fov = 102.1
+	
+	if cardname == "GrassCard":
+		GrassMultipler = 0.9
 	
 
 func NextRainbowColor(): #This gets started when the 'rainbow car' card is read

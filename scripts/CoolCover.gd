@@ -36,7 +36,7 @@ var StateChanging = false
 
 var CardsFlipped = false
 
-var CardChoices = ["DoubleSpeed","HalfSpeed","HeavyCar","LightCar","RainbowCar","Reaction","DriverView"]
+var CardChoices = ["DoubleSpeed","HalfSpeed","HeavyCar","LightCar","RainbowCar","Reaction","DriverView", "GrassCard"]
 #var CardChoices = ["HalfSpeed","RainbowCar","Reaction"]
 
 var Card1
@@ -101,6 +101,7 @@ func _process(delta):
 			
 			$"../Car".CanDrive = true
 			StateChanging = false
+			$"../Speedomoter".visible = true
 	
 	if State == "Draw":
 		DrawTimer -= delta
