@@ -15,6 +15,12 @@ func do_tween(object : Node,property,newvalue,time):
 	return NewTween.finished
 
 func _ready():
+	
+	for E in get_children():
+		if E.visible == false:
+			E.modulate = Color(1,1,1,0)
+			E.visible = true
+	
 	$TitleStuff.visible = true
 	for Xpos in range(26):
 		for Ypos in range(26):
@@ -73,6 +79,14 @@ func _process(delta):
 		if Input.is_action_just_released("start") and !StateChanging:
 			StateChanging = true
 			await do_tween($TitleStuff,"modulate",Color(1,1,1,0),0.3)
+			await do_tween($DrawTutorial,"modulate",Color(1,1,1,1),0.3)
+			State = "Tut"
+			StateChanging = false
+	
+	if State == "Tut":
+		if Input.is_action_just_released("start")  and !StateChanging:
+			StateChanging = true
+			await do_tween($DrawTutorial,"modulate",Color(1,1,1,0),0.3)
 			await do_tween($DrawTime,"modulate",Color(1,1,1,1),0.3)
 			State = "45"
 			StateChanging = false
@@ -83,6 +97,15 @@ func _process(delta):
 			await do_tween($DrawTime,"modulate",Color(1,1,1,0),0.3)
 			await do_tween($Drawer,"modulate",Color(1,1,1,1),0.3)
 			State = "Draw"
+			StateChanging = false
+	
+	if State == "Precard":
+		if Input.is_action_just_released("start")  and !StateChanging:
+			StateChanging = true
+			await do_tween($CardTutorial,"modulate",Color(1,1,1,0),0.3)
+			await do_tween($Cards,"modulate",Color(1,1,1,1),0.3)
+			State = "GetCards"
+			FlipCards()
 			StateChanging = false
 	
 	if State == "GetCards":
@@ -211,11 +234,11 @@ func _on_finish_pressed():
 		else:
 			ShibaAvailable = false
 		StateChanging = true
-		State = "GetCards"
+		State = "Precard"
 		$Drawer/ChangeColor.visible = false
 		$Drawer/Finish.visible = false
 		await do_tween($Drawer,"modulate",Color(1,1,1,0),0.3)
-		await do_tween($Cards,"modulate",Color(1,1,1,1),0.3)
+		await do_tween($CardTutorial,"modulate",Color(1,1,1,1),0.3)
 		for E in ColorRects:
 			var NewerColorRect = ColorRects[E].duplicate()
 			$"../Character".add_child(NewerColorRect)
@@ -226,6 +249,6 @@ func _on_finish_pressed():
 			$"../Car/SpriteBack".scale = Vector3(0.13,0.13,0.13)
 			$"../Car/SpriteFront".texture = load("res://SpeedyShibaSecret.png")
 			$"../Car/SpriteBack".texture =load("res://SpeedyShibaSecret.png")
-		FlipCards()
+			$"../Character/SpeedyShibaSecret".visible = true
 		StateChanging = false
 	
