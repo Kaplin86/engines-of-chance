@@ -36,12 +36,15 @@ var StateChanging = false
 
 var CardsFlipped = false
 
-var CardChoices = ["DoubleSpeed","HalfSpeed","HeavyCar","LightCar","RainbowCar","Reaction","DriverView", "GrassCard"]
-#var CardChoices = ["HalfSpeed","RainbowCar","Reaction"]
+var PositiveCards = ["DoubleSpeed","LightCar","GrassCard"]
+var NegativeCards = ["HalfSpeed","HeavyCar","SpamCard"]
+var NeutralCards = ["RainbowCar","Reaction","DriverView"]
 
 var Card1
 var Card2
 var Card3
+
+var ShibaAvailable = true
 
 func FlipSinglecard(CardNode,CardType):
 	$Cards/CardDraw.play()
@@ -56,12 +59,9 @@ func FlipSinglecard(CardNode,CardType):
 
 
 func FlipCards():
-	Card1 = CardChoices.pick_random()
-	CardChoices.erase(Card1)
-	Card2 = CardChoices.pick_random()
-	CardChoices.erase(Card2)
-	Card3 = CardChoices.pick_random()
-	CardChoices.erase(Card3)
+	Card1 = PositiveCards.pick_random()
+	Card2 = NeutralCards.pick_random()
+	Card3 = NegativeCards.pick_random()
 	
 	await FlipSinglecard($Cards/Card1,Card1)
 	await FlipSinglecard($Cards/Card2,Card2)
@@ -145,6 +145,7 @@ func _process(delta):
 			
 			if DrawTimer > 0:
 				if Input.is_action_pressed("start"):
+					ShibaAvailable = false
 					ColorRects[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))].color = $Drawer/Pencil.modulate
 					DrawnGuys[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))] = $Drawer/Pencil.modulate
 				if Input.is_action_pressed("rearview"):
@@ -201,6 +202,14 @@ func _on_change_color_pressed():
 
 func _on_finish_pressed():
 	if !StateChanging:
+		if $Drawer/TimeLabel.text == "30":
+			var SoundPlayer = AudioStreamPlayer.new()
+			SoundPlayer.stream = load("res://sfx/DogBarkShort.mp3")
+			add_child(SoundPlayer)
+			SoundPlayer.play()
+			
+		else:
+			ShibaAvailable = false
 		StateChanging = true
 		State = "GetCards"
 		$Drawer/ChangeColor.visible = false
@@ -212,5 +221,11 @@ func _on_finish_pressed():
 			$"../Character".add_child(NewerColorRect)
 		$"../Car/SpriteFront".texture = $"../Character".get_texture()
 		$"../Car/SpriteBack".texture = $"../Character".get_texture()
+		if ShibaAvailable:
+			$"../Car/SpriteFront".scale = Vector3(0.13,0.13,0.13)
+			$"../Car/SpriteBack".scale = Vector3(0.13,0.13,0.13)
+			$"../Car/SpriteFront".texture = load("res://SpeedyShibaSecret.png")
+			$"../Car/SpriteBack".texture =load("res://SpeedyShibaSecret.png")
 		FlipCards()
 		StateChanging = false
+	

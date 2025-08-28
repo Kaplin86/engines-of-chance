@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=24 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://scripts/Camera.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_0xm2m"]
@@ -32,6 +32,9 @@ background_mode = 2
 sky = SubResource("Sky_w48qg")
 glow_enabled = true
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_yaehf"]
+viewport_path = NodePath("Minimap")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yaehf"]
 albedo_color = Color(0.895238, 0.727202, 0, 1)
 
@@ -47,9 +50,10 @@ environment = SubResource("Environment_h2yge")
 transform = Transform3D(0.877582, -0.229849, 0.420736, 0, 0.877582, 0.479426, -0.479426, -0.420736, 0.770151, 134.592, 3.54854, 6.54258)
 script = ExtResource("1_ig7tw")
 FocusObject = NodePath("../Car")
+camera_mode = 1
 
 [node name="Car" parent="." instance=ExtResource("2_0xm2m")]
-transform = Transform3D(0.997989, 0.0529123, -0.0348942, -0.052328, 0.998477, 0.0174524, 0.0357645, -0.0155914, 0.999239, 101.406, 1, 2.63634)
+transform = Transform3D(0.900468, 0, -0.434922, 0, 1, 0, 0.434922, 0, 0.900468, 118.263, 1, 0)
 mass = 60.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.1, 0)
@@ -85,7 +89,7 @@ script = ExtResource("5_272bh")
 z_index = -4
 offset_right = 320.0
 offset_bottom = 241.0
-color = Color(0, 0, 0, 0.425)
+color = Color(0, 0, 0, 0.721569)
 
 [node name="TitleStuff" type="Node2D" parent="Canvas"]
 
@@ -266,7 +270,7 @@ theme_override_font_sizes/font_size = 40
 text = "45"
 horizontal_alignment = 1
 
-[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("car")]
+[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("car", "Minimap")]
 script = ExtResource("2_w48qg")
 point_count = 21
 map_radius = 110
@@ -274,7 +278,10 @@ noise_strength = 0.115
 point_spacing = 2
 trackwidth = 15
 car = NodePath("../Car")
-seed = 11
+seed = 28
+shape = 1
+Minimap = NodePath("../Minimap")
+Randomize = true
 
 [node name="music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_yaehf")
@@ -291,7 +298,7 @@ offset_right = 352.0
 offset_bottom = 406.0
 rotation = -1.5708
 scale = Vector2(0.701683, 0.701683)
-max_value = 25.0
+max_value = 30.0
 step = 0.1
 value = 20.0
 allow_greater = true
@@ -308,8 +315,42 @@ position = Vector2(272.5, 243)
 scale = Vector2(0.691057, 0.648374)
 texture = ExtResource("16_2cqfq")
 
+[node name="TextureRect" type="TextureRect" parent="Speedomoter"]
+offset_left = 3.0
+offset_top = 189.0
+offset_right = 515.0
+offset_bottom = 701.0
+scale = Vector2(0.094, 0.094)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("ViewportTexture_yaehf")
+
+[node name="Circle2" type="TextureRect" parent="Speedomoter/TextureRect"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_right = 123.0
+offset_bottom = 123.0
+scale = Vector2(0.268767, 0.268767)
+pivot_offset = Vector2(61.5, 61.5)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("16_2cqfq")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_074og")
+
+[node name="Minimap" type="SubViewport" parent="."]
+own_world_3d = true
+transparent_bg = true
+
+[node name="Node3D" type="Node3D" parent="Minimap"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Minimap"]
+
+[node name="Camera3D2" type="Camera3D" parent="Minimap"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.1, 0)
+projection = 1
+size = 300.0
 
 [connection signal="pressed" from="Canvas/Drawer/ChangeColor" to="Canvas" method="_on_change_color_pressed"]
 [connection signal="pressed" from="Canvas/Drawer/Finish" to="Canvas" method="_on_finish_pressed"]

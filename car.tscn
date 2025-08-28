@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://bdgdj1pv1cgcp"]
+[gd_scene load_steps=19 format=3 uid="uid://bdgdj1pv1cgcp"]
 
 [ext_resource type="Shader" uid="uid://dv3rbed8q0ldy" path="res://outline.gdshader" id="1_7822p"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="3_06lh1"]
+[ext_resource type="AudioStream" uid="uid://tp17h6kai6wf" path="res://sfx/DogBarkShort.mp3" id="3_k61xc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
 
@@ -175,3 +176,10 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.6378
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 target_position = Vector3(0, -56.09, 0)
+
+[node name="Spam" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="spam" type="AudioStreamPlayer" parent="Spam"]
+stream = ExtResource("3_k61xc")
+pitch_scale = 2.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://2s8w1f15tt1u"]
+[gd_scene load_steps=7 format=3 uid="uid://2s8w1f15tt1u"]
 
 [ext_resource type="Script" uid="uid://dllgjp122y6fb" path="res://scripts/MapGenerator.gd" id="1_27wmn"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_47ek5"]
@@ -9,32 +9,64 @@ sky_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
 ground_bottom_color = Color(0.763979, 0.701734, 0.630413, 1)
 ground_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
 
-[sub_resource type="Sky" id="Sky_0xm2m"]
+[sub_resource type="Sky" id="Sky_r1kn3"]
 sky_material = SubResource("ProceduralSkyMaterial_47ek5")
 
 [sub_resource type="Environment" id="Environment_r1kn3"]
 background_mode = 2
-sky = SubResource("Sky_0xm2m")
+sky = SubResource("Sky_r1kn3")
 glow_enabled = true
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_47ek5"]
+viewport_path = NodePath("Minimap")
 
 [node name="mapeditortest" type="Node3D"]
 
-[node name="map" type="Node3D" parent="."]
+[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("Minimap")]
 transform = Transform3D(1, 1.49012e-08, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.8147e-06)
 script = ExtResource("1_27wmn")
-point_count = 21
+point_count = 3
 map_radius = 110
 noise_strength = 0.115
 point_spacing = 2
 trackwidth = 15
-seed = 52
-shape = 2
+seed = 61
+Minimap = NodePath("../Minimap")
+Randomize = null
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.837262, -0.183856, 0.514965, 0, 0.941777, 0.336239, -0.546802, -0.28152, 0.788514, 38.7796, 27.0695, 58.6897)
 
 [node name="Car" parent="." instance=ExtResource("2_47ek5")]
-transform = Transform3D(0.24343, 0, -0.969918, 0, 1, 0, 0.969918, 0, 0.24343, 110.235, 1, 6.08576)
+transform = Transform3D(0.98675, 0, -0.162247, 0, 1, 0, 0.162247, 0, 0.98675, 112.744, 1, 11.841)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_r1kn3")
+
+[node name="Minimap" type="SubViewport" parent="."]
+own_world_3d = true
+transparent_bg = true
+
+[node name="Node3D" type="Node3D" parent="Minimap"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Minimap"]
+environment = SubResource("Environment_r1kn3")
+
+[node name="Camera3D2" type="Camera3D" parent="Minimap"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1, 0)
+projection = 1
+size = 300.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+texture = SubResource("ViewportTexture_47ek5")
+metadata/_edit_use_anchors_ = true
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(-86, -148)
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.2789, 0, -87.097)

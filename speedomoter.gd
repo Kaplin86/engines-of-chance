@@ -21,6 +21,10 @@ func _process(delta: float) -> void:
 		TierTimer -= delta
 	if TierTimer <= 0:
 		TierPlaying = 0
+	
+	$TextureRect/Circle2.position = Vector2(1.69 * Car.global_position.x,1.69925485378 * Car.global_position.z)
+	$TextureRect/Circle2.position += $TextureRect.size / 2
+	$TextureRect/Circle2.position -= $TextureRect/Circle2.pivot_offset
 
 func do_tween(object : Node,property,newvalue,time):
 	var NewTween = create_tween()

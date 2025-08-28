@@ -4,46 +4,66 @@ extends Node3D
 @export var point_count: int = 20:
 	set(value):
 		point_count = value
-		_ready()
+		if Engine.is_editor_hint(): 	_ready()
+		
 @export var map_radius: int = 60:
 	set(value):
 		map_radius = value
-		_ready()
+		if Engine.is_editor_hint(): 	_ready()
 @export var noise_strength:float = 0.25:
 	set(value):
 		noise_strength = value
-		_ready()
+		if Engine.is_editor_hint(): 	_ready()
 @export var point_spacing:int = 1:
 	set(value):
 		point_spacing = value
-		_ready()
+		if Engine.is_editor_hint(): 	_ready()
 @export var trackwidth: int = 8:
 	set(value):
 		trackwidth = value
-		_ready()
+		if Engine.is_editor_hint(): 	_ready()
 @export var car : VehicleBody3D
 @export var seed: int = 10:
 	set(value):
 		seed = value
-		_ready()
-		
+		if Engine.is_editor_hint(): 	_ready()
+
+
 @export_enum("Circle", "Oval", "Square") var shape: int:
 	set(value):
 		shape = value
-		_ready()
+		if Engine.is_editor_hint(): 	_ready()
 
+@export var Minimap : SubViewport
+
+@export var Randomize = false
 
 #--------------------------------------------------------------------------------------------------------------------
 
 var GrassColors = ["b0ff99","c2ff23","a4f8a8","37c234","e78900","e3ffe3","f1dfff","b289ff"]
 var RoadColors = ["808080","484848","999999","5d4625","e4b900","303030"]
 
+#--------------------------------------------------------------------------------------------------------------------
+
+signal MapDone
 
 #--------------------------------------------------------------------------------------------------------------------
 
 func _ready(): #the ready is basically 'track generate'
 	for e in get_children(): #remove the old track, if found
 		e.queue_free()
+	
+	if !Engine.is_editor_hint():
+		if Randomize:
+			var NewRng =RandomNumberGenerator.new()
+			point_count += NewRng.randi_range(-1,1) 
+			seed = NewRng.randi_range(0,100)
+			if 1 ==  NewRng.randi_range(0,1):
+				shape = NewRng.randi_range(0,1) 
+			else:
+				shape = 0
+	
+	
 	
 	if Engine.is_editor_hint(): #since this is a tool script, I have an exception so it only runs in editor if the parent is named 'mapeditortest'
 		if get_parent():
@@ -55,15 +75,20 @@ func _ready(): #the ready is basically 'track generate'
 	var EdgePoints = compute_edges(EvenlySpacedPoints,trackwidth) #Get left-side and right-side points
 	var GrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4) #Get left-side and right-side points
 	
-	createTrackAndGrass(EdgePoints, TheLine, GrassPoints)
+	var TrackAndGrass = createTrackAndGrass(EdgePoints, TheLine, GrassPoints)
 	
 	createWalls(GrassPoints,EdgePoints)
 	
 	if car: #if theres a car attached, put it at the "25th" point
-		car.global_transform = get_track_transform_at(TheLine,12)
+		car.global_transform = get_track_transform_at(TheLine,0)
 		car.position += Vector3(0,1,0) #move it up a bit so no tires get stuck
-		
-		
+		car.rotation_degrees += Vector3(0,90,0)
+	
+	if Minimap:
+		for E in Minimap.find_child("Node3D").get_children():
+			E.queue_free()
+		var CameraTrack = TrackAndGrass[0].duplicate()
+		Minimap.find_child("Node3D").add_child(CameraTrack)
 
 func createWalls(points,roadpoints): 
 	var LeftPoints = points[0]
@@ -165,6 +190,7 @@ func createTrackAndGrass(EdgePoints,TheLine, GrassPoints):
 	if car:
 		car.GrassBody = Grassbody
 	
+	return [TrackMesh, GrassMesh]
 
 func get_track_transform_at(curve: Curve3D, distance: float) -> Transform3D: #This gets a point along the curve and turns it into a transform 3D
 	var pos = curve.sample_baked(distance) #get the point along the curve

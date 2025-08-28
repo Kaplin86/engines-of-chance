@@ -20,12 +20,13 @@ func SetWheelStatus(Mode, Tire : VehicleWheel3D): #A quick function to set a whe
 var FlippedTime = 0
 
 func _physics_process(delta):
-	if abs(rotation_degrees.x) >= 90 or abs(rotation_degrees.z) >= 90:
+	if abs(rotation_degrees.x) >= 80 or abs(rotation_degrees.z) >= 80:
 		FlippedTime += delta
 	else:
 		FlippedTime = 0
 	
-	if FlippedTime >= 1:
+	
+	if FlippedTime >= 2:
 		rotation.x = 0
 		rotation.z = 0
 		position.y += 1
@@ -57,6 +58,7 @@ func ActivateCard(cardname): # This will parse a card
 	if cardname == "DoubleSpeed":
 		EnginePower *= 1.5
 		mass += 2
+		$"../Speedomoter/TextureProgressBar".max_value *= 1.5
 		#yeah uh no double speed causes car to flip so lets pretend it is double but dont tell anyone
 	
 	if cardname == "HalfSpeed":
@@ -84,10 +86,29 @@ func ActivateCard(cardname): # This will parse a card
 	if cardname == "DriverView":
 		$"../Camera3D".camera_mode = $"../Camera3D".CameraMode.DriverView
 		$"../Camera3D".fov = 102.1
+		$AudioStreamPlayer3D.volume_db = -30
 	
 	if cardname == "GrassCard":
 		GrassMultipler = 0.9
 	
+	if cardname == "SpamCard":
+		ADVERTISE()
+
+var PopupTypes = ["Gradient","Hi","New","SmilyFace2","SmilyFace"]
+
+func ADVERTISE():
+	var RNG = RandomNumberGenerator.new()
+	await get_tree().create_timer(RNG.randf_range(5.0,10.0)).timeout
+	var NewspamImage = Sprite2D.new()
+	$Spam/spam.play()
+	NewspamImage.texture = load("res://popups/"+ PopupTypes.pick_random()+".png")
+	$Spam.add_child(NewspamImage)
+	NewspamImage.position = Vector2(RNG.randf_range(65.0,255.0),RNG.randf_range(43.0,198.0))
+	NewspamImage.scale.x = RNG.randf_range(0.9,1.1)
+	NewspamImage.scale.y = NewspamImage.scale.x 
+	ADVERTISE()
+	await get_tree().create_timer(RNG.randf_range(1.0,3.0)).timeout
+	NewspamImage.queue_free()
 
 func NextRainbowColor(): #This gets started when the 'rainbow car' card is read
 	var NewTween = create_tween()
