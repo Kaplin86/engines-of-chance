@@ -40,9 +40,9 @@ func _process(delta):
 				global_position = DesiredPosition
 	
 	if camera_mode == CameraMode.DriverView:
-		DesiredPosition.x = $"../Car/SpriteFront".global_position.x
-		DesiredPosition.z = $"../Car/SpriteFront".global_position.z
-		DesiredPosition.y = $"../Car/SpriteFront".global_position.y
+		DesiredPosition.x = FocusObject.find_child("SpriteFront").global_position.x
+		DesiredPosition.z = FocusObject.find_child("SpriteFront").global_position.z
+		DesiredPosition.y = FocusObject.find_child("SpriteFront").global_position.y
 		SkipMove = true
 		
 	
@@ -52,7 +52,7 @@ func _process(delta):
 		global_position = global_position.move_toward(DesiredPosition,delta * 12)
 	
 	if camera_mode == CameraMode.DriverView:
-		rotation = $"../Car".rotation
+		rotation = FocusObject.rotation
 		rotation.y -= deg_to_rad(90)
 	else:
 		look_at(FocusObject.global_position)

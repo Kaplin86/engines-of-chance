@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://2s8w1f15tt1u"]
+[gd_scene load_steps=8 format=3 uid="uid://2s8w1f15tt1u"]
 
 [ext_resource type="Script" uid="uid://dllgjp122y6fb" path="res://scripts/MapGenerator.gd" id="1_27wmn"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_47ek5"]
@@ -20,18 +20,26 @@ glow_enabled = true
 [sub_resource type="ViewportTexture" id="ViewportTexture_47ek5"]
 viewport_path = NodePath("Minimap")
 
+[sub_resource type="Curve3D" id="Curve3D_47ek5"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 114.691, 0, 0, 0, 0, 0, 0, 0, 0, 99.1399, 0, 57.2385, 0, 0, 0, 0, 0, 0, 57.8281, 0, 100.161, 0, 0, 0, 0, 0, 0, 6.8751e-15, 0, 112.283, 0, 0, 0, 0, 0, 0, -53.2634, 0, 92.2548, 0, 0, 0, 0, 0, 0, -98.2115, 0, 56.7025, 0, 0, 0, 0, 0, 0, -99.7396, 0, 1.22142e-14, 0, 0, 0, 0, 0, 0, -91.5456, 0, -52.8539, 0, 0, 0, 0, 0, 0, -58.1977, 0, -100.801, 0, 0, 0, 0, 0, 0, -1.87776e-14, 0, -102.224, 0, 0, 0, 0, 0, 0, 55.6778, 0, -96.4369, 0, 0, 0, 0, 0, 0, 97.2359, 0, -56.1392, 0, 0, 0, 0, 0, 0, 114.691, 0, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 13
+
 [node name="mapeditortest" type="Node3D"]
 
-[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("Minimap")]
+[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("Minimap", "Path3D_Result")]
 transform = Transform3D(1, 1.49012e-08, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.8147e-06)
 script = ExtResource("1_27wmn")
-point_count = 3
+point_count = 12
 map_radius = 110
 noise_strength = 0.115
 point_spacing = 2
 trackwidth = 15
 seed = 61
 Minimap = NodePath("../Minimap")
+Path3D_Result = NodePath("../Path3D")
 Randomize = null
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -70,3 +78,10 @@ position = Vector2(-86, -148)
 
 [node name="Marker3D" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.2789, 0, -87.097)
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_47ek5")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(-0.954906, 0, -0.296907, 0, 1, 0, 0.296907, 0, -0.954906, 105.784, 0, -28.6469)
+progress = 661.668

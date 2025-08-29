@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cm6co5p26x6af"
+path="res://.godot/imported/BetterRacingSong - Track 4.wav-c2375ce56eedab6197b5806b2f512526.sample"
+
+[deps]
+
+source_file="res://music/NEW/BetterRacingSong - Track 4.wav"
+dest_files=["res://.godot/imported/BetterRacingSong - Track 4.wav-c2375ce56eedab6197b5806b2f512526.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

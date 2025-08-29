@@ -1,5 +1,5 @@
 extends VehicleBody3D
-
+class_name PlayerCar
 #Exports
 @export var MaxSteer = 0.9
 @export var EnginePower = 300

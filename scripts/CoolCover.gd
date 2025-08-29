@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+@export var PlayerCarNode : PlayerCar
+
 var State = "Title"
 
 var ColorRects = {}
@@ -118,11 +120,11 @@ func _process(delta):
 			
 			$"../Camera3D".camera_mode = $"../Camera3D".CameraMode.FollowBehind
 			
-			$"../Car".ActivateCard(Card1)
-			$"../Car".ActivateCard(Card2)
-			$"../Car".ActivateCard(Card3)
+			PlayerCarNode.ActivateCard(Card1)
+			PlayerCarNode.ActivateCard(Card2)
+			PlayerCarNode.ActivateCard(Card3)
 			
-			$"../Car".CanDrive = true
+			PlayerCarNode.CanDrive = true
 			StateChanging = false
 			$"../Speedomoter".visible = true
 	
@@ -242,13 +244,13 @@ func _on_finish_pressed():
 		for E in ColorRects:
 			var NewerColorRect = ColorRects[E].duplicate()
 			$"../Character".add_child(NewerColorRect)
-		$"../Car/SpriteFront".texture = $"../Character".get_texture()
-		$"../Car/SpriteBack".texture = $"../Character".get_texture()
+		PlayerCarNode.find_child("SpriteFront").texture = $"../Character".get_texture()
+		PlayerCarNode.find_child("SpriteBack").texture = $"../Character".get_texture()
 		if ShibaAvailable:
-			$"../Car/SpriteFront".scale = Vector3(0.13,0.13,0.13)
-			$"../Car/SpriteBack".scale = Vector3(0.13,0.13,0.13)
-			$"../Car/SpriteFront".texture = load("res://SpeedyShibaSecret.png")
-			$"../Car/SpriteBack".texture =load("res://SpeedyShibaSecret.png")
+			PlayerCarNode.find_child("SpriteFront").scale = Vector3(0.13,0.13,0.13)
+			PlayerCarNode.find_child("SpriteBack").scale = Vector3(0.13,0.13,0.13)
+			PlayerCarNode.find_child("SpriteFront").texture = load("res://SpeedyShibaSecret.png")
+			PlayerCarNode.find_child("SpriteBack").texture =load("res://SpeedyShibaSecret.png")
 			$"../Character/SpeedyShibaSecret".visible = true
 		StateChanging = false
 	

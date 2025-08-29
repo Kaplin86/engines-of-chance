@@ -1,5 +1,8 @@
 @tool
 extends Node3D
+class_name MapGenerator
+
+##Generates different racing tracks.
 
 @export var point_count: int = 20:
 	set(value):
@@ -35,6 +38,7 @@ extends Node3D
 		if Engine.is_editor_hint(): 	_ready()
 
 @export var Minimap : SubViewport
+@export var Path3D_Result : Path3D
 
 @export var Randomize = false
 
@@ -79,16 +83,17 @@ func _ready(): #the ready is basically 'track generate'
 	
 	createWalls(GrassPoints,EdgePoints)
 	
-	if car: #if theres a car attached, put it at the "25th" point
-		car.global_transform = get_track_transform_at(TheLine,0)
-		car.position += Vector3(0,1,0) #move it up a bit so no tires get stuck
-		car.rotation_degrees += Vector3(0,90,0)
 	
 	if Minimap:
 		for E in Minimap.find_child("Node3D").get_children():
 			E.queue_free()
 		var CameraTrack = TrackAndGrass[0].duplicate()
 		Minimap.find_child("Node3D").add_child(CameraTrack)
+	
+	if Path3D_Result:
+		Path3D_Result.curve = TheLine
+	
+	MapDone.emit()
 
 func createWalls(points,roadpoints): 
 	var LeftPoints = points[0]
