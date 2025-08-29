@@ -62,10 +62,7 @@ func _ready(): #the ready is basically 'track generate'
 			var NewRng =RandomNumberGenerator.new()
 			point_count += NewRng.randi_range(-1,1) 
 			seed = NewRng.randi_range(0,100)
-			if 1 ==  NewRng.randi_range(0,1):
-				shape = NewRng.randi_range(0,1) 
-			else:
-				shape = 0
+			shape = 0
 	
 	
 	

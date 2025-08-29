@@ -2,14 +2,27 @@ extends CanvasLayer
 @export var Car : VehicleBody3D
 
 
-var Layers = 7
+var Layers = 13
 
 func _process(delta: float) -> void:
 	$TextureProgressBar.value = Car.linear_velocity.distance_to(Vector3.ZERO)
 	
-	print($TextureProgressBar.value / $TextureProgressBar.max_value)
+	
+	var Percentage = $TextureProgressBar.value / $TextureProgressBar.max_value
+	var Sync :AudioStreamSynchronized = $AudioStreamPlayer.stream
 	
 	
+	for E in Sync.stream_count - 1:
+		E += 1
+		var start = float(E) / Layers
+		var end = float(E + 1) / Layers
+		
+		var vol = clamp((Percentage - start) / (end - start), 0.0, 1.0)
+		Sync.set_sync_stream_volume(E, linear_to_db(vol))
+		print("Layer ", E, " => ", vol, " (", linear_to_db(vol), " dB)")
+	
+	if !$AudioStreamPlayer.playing:
+		$AudioStreamPlayer.play()
 	
 	$TextureRect/Circle2.position = Vector2(1.69 * Car.global_position.x,1.69925485378 * Car.global_position.z)
 	$TextureRect/Circle2.position += $TextureRect.size / 2

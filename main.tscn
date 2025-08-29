@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=41 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://scripts/Camera.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://b61pnkqm75mpo" path="res://scripts/main.gd" id="1_ryguw"]
@@ -8,7 +8,6 @@
 [ext_resource type="AudioStream" uid="uid://bl7cj3x1l7j8w" path="res://sfx/NewDrive.mp3" id="4_ycdy4"]
 [ext_resource type="Texture2D" uid="uid://dwbgtjvjf2npl" path="res://SpeedyShibaSecret.png" id="5_82xsv"]
 [ext_resource type="Script" uid="uid://crm6n5nhm6e54" path="res://scripts/CoolCover.gd" id="5_272bh"]
-[ext_resource type="Script" uid="uid://cmu4pughjw3jd" path="res://scripts/EnemyCar.gd" id="5_getpj"]
 [ext_resource type="Texture2D" uid="uid://bk5ryepp5dfvp" path="res://Logo.png" id="5_lquwl"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="6_7mycd"]
 [ext_resource type="Texture2D" uid="uid://cvdy323inwg10" path="res://Pencil.png" id="8_5vw27"]
@@ -19,10 +18,12 @@
 [ext_resource type="AudioStream" uid="uid://bgf7e161q1n4w" path="res://sfx/CardDraw.mp3" id="11_efxa6"]
 [ext_resource type="Texture2D" uid="uid://dl75fs6pltux2" path="res://drawing explanation/CatA.PNG" id="14_cegan"]
 [ext_resource type="Texture2D" uid="uid://dttumoaqit7in" path="res://drawing explanation/CatB.PNG" id="15_82xsv"]
-[ext_resource type="AudioStream" uid="uid://dacnbk51uk0t8" path="res://music/OLD/Tier1.mp3" id="15_yaehf"]
 [ext_resource type="Texture2D" uid="uid://ddtgu3s4kwfwq" path="res://CIRCLE.png" id="16_2cqfq"]
 [ext_resource type="Script" uid="uid://2v21to0l4l0e" path="res://speedomoter.gd" id="16_yaehf"]
+[ext_resource type="Texture2D" uid="uid://bplqw41cba084" path="res://Happy.png" id="18_htxhm"]
 [ext_resource type="Script" uid="uid://dt3f1uvaen1xd" path="res://TrackPath.gd" id="19_d13ii"]
+[ext_resource type="Texture2D" uid="uid://dkpuo8h86pvmi" path="res://Sad.png" id="19_jq2sk"]
+[ext_resource type="Texture2D" uid="uid://b2syt01bilpif" path="res://Neutral.png" id="20_4k2k6"]
 [ext_resource type="AudioStream" uid="uid://e8nhvqmkykcp" path="res://music/NEW/BetterRacingSong - Track 1.wav" id="24_seu75"]
 [ext_resource type="AudioStream" uid="uid://rng531fgbse5" path="res://music/NEW/BetterRacingSong - Track 2.wav" id="25_htxhm"]
 [ext_resource type="AudioStream" uid="uid://oog3i0hxhat7" path="res://music/NEW/BetterRacingSong - Track 3.wav" id="26_jq2sk"]
@@ -117,32 +118,6 @@ stream = ExtResource("4_ycdy4")
 volume_db = -15.811
 pitch_scale = 1.04
 
-[node name="EnemyCar" parent="." instance=ExtResource("2_0xm2m")]
-transform = Transform3D(0.900468, 0, -0.434922, 0, 1, 0, 0.434922, 0, 0.900468, 118.263, 1, 0)
-mass = 60.0
-center_of_mass_mode = 1
-center_of_mass = Vector3(0, -0.1, 0)
-script = ExtResource("5_getpj")
-MaxSteer = 0.5
-EnginePower = 125
-
-[node name="SpriteFront" type="Sprite3D" parent="EnemyCar"]
-transform = Transform3D(0.013071, 0, 0.499829, 0, 0.5, 0, -0.499829, 0, 0.013071, -0.072, 1.03095, 0.022)
-double_sided = false
-texture_filter = 0
-
-[node name="SpriteBack" type="Sprite3D" parent="EnemyCar"]
-transform = Transform3D(-0.0130711, 0, -0.499829, 0, 0.5, 0, 0.499829, 0, -0.0130711, -0.0789217, 1.03114, 0.021282)
-flip_h = true
-modulate = Color(0, 0, 0, 1)
-double_sided = false
-texture_filter = 0
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="EnemyCar"]
-stream = ExtResource("4_ycdy4")
-volume_db = -15.811
-pitch_scale = 1.04
-
 [node name="Character" type="SubViewport" parent="."]
 transparent_bg = true
 size = Vector2i(224, 224)
@@ -193,7 +168,6 @@ horizontal_alignment = 1
 
 [node name="Drawer" type="Node2D" parent="Canvas"]
 visible = false
-modulate = Color(1, 1, 1, 0)
 
 [node name="Cursor" type="ColorRect" parent="Canvas/Drawer"]
 z_index = 2
@@ -275,7 +249,6 @@ offset_bottom = 200.0
 
 [node name="Cards" type="Node2D" parent="Canvas"]
 visible = false
-modulate = Color(1, 1, 1, 0)
 
 [node name="Card2" type="Sprite2D" parent="Canvas/Cards"]
 position = Vector2(160, 144.5)
@@ -306,6 +279,21 @@ text = "MODIFICATIONS CARDS
 OF
  DESPAIR AND DELIGHT"
 horizontal_alignment = 1
+
+[node name="Happy" type="Sprite2D" parent="Canvas/Cards"]
+position = Vector2(53, 224)
+scale = Vector2(0.290404, 0.290404)
+texture = ExtResource("18_htxhm")
+
+[node name="Happy2" type="Sprite2D" parent="Canvas/Cards"]
+position = Vector2(266, 224)
+scale = Vector2(0.290404, 0.290404)
+texture = ExtResource("19_jq2sk")
+
+[node name="Happy3" type="Sprite2D" parent="Canvas/Cards"]
+position = Vector2(161, 224)
+scale = Vector2(0.290404, 0.290404)
+texture = ExtResource("20_4k2k6")
 
 [node name="DrawTime" type="Node2D" parent="Canvas"]
 visible = false
@@ -479,9 +467,6 @@ shape = 1
 Minimap = NodePath("../Minimap")
 Path3D_Result = NodePath("../Path3D")
 Randomize = true
-
-[node name="music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("15_yaehf")
 
 [node name="Speedomoter" type="CanvasLayer" parent="." node_paths=PackedStringArray("Car")]
 visible = false
