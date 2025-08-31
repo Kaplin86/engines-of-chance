@@ -39,13 +39,14 @@ class_name MapGenerator
 
 @export var Minimap : SubViewport
 @export var Path3D_Result : Path3D
-
 @export var Randomize = false
+@export var SkyHolder : WorldEnvironment
 
 #--------------------------------------------------------------------------------------------------------------------
 
 var GrassColors = ["b0ff99","c2ff23","a4f8a8","37c234","e78900","e3ffe3","f1dfff","b289ff"]
 var RoadColors = ["808080","484848","999999","5d4625","e4b900","303030"]
+var SkyColors = [["ffffff","ffffff","ffffff"],["93c3ff","ffffff","a5a7ab"],["002546","3b475a","3b475a"]]
 
 #--------------------------------------------------------------------------------------------------------------------
 
@@ -90,6 +91,13 @@ func _ready(): #the ready is basically 'track generate'
 	if Path3D_Result:
 		Path3D_Result.curve = TheLine
 	
+	if SkyHolder:
+		var ActualSky : Sky = SkyHolder.environment.sky
+		var SkyMat : ProceduralSkyMaterial = ActualSky.sky_material
+		var ColorPallete = SkyColors.pick_random()
+		SkyMat.sky_top_color = Color(ColorPallete[0])
+		SkyMat.sky_horizon_color =  Color(ColorPallete[1])
+	
 	MapDone.emit()
 
 func createWalls(points,roadpoints): 
@@ -107,9 +115,14 @@ func createWalls(points,roadpoints):
 		else:
 			LeftWallPoints.append(LeftPoints[E] + Vector3(0,2,0))
 	
+	LeftPoints = UsingLeftPoints.duplicate()
+	UsingLeftPoints = []
+	for E in LeftPoints:
+		UsingLeftPoints.append(E - Vector3(0,2,0))
+	
 	
 	var LeftMesh = MeshInstance3D.new() #Creates a empty mesh instance
-	LeftMesh.mesh = build_track_mesh(LeftWallPoints,LeftPoints)
+	LeftMesh.mesh = build_track_mesh(LeftWallPoints,UsingLeftPoints)
 	add_child(LeftMesh) 
 	var OthersideLeftMesh = MeshInstance3D.new() #Creates a empty mesh instance
 	OthersideLeftMesh.mesh = build_track_mesh(LeftPoints,LeftWallPoints)

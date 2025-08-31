@@ -32,7 +32,7 @@ func _physics_process(delta):
 		position.y += 1
 	
 	if CanDrive:
-		steering = move_toward(steering, Input.get_axis("right","left") * MaxSteer, delta * 8) #steer
+		runsteering(delta)
 		
 		if $RayCast3D.get_collider() == GrassBody:
 			GrassOn = true
@@ -41,9 +41,9 @@ func _physics_process(delta):
 		
 		
 		if GrassOn:
-			engine_force = Input.get_axis("down","up") * EnginePower * GrassMultipler #moves car 
+			runengine(EnginePower * GrassMultipler)
 		else:
-			engine_force = Input.get_axis("down","up") * EnginePower #moves car 
+			runengine(EnginePower)
 		
 		var Pitch = ((linear_velocity.distance_to(Vector3(0,0,0)) / 15) * 2) + 1 #calculate the pitch based on the velocitys distance to 0,0,0. I use distance_to since thats a float
 		
@@ -52,6 +52,13 @@ func _physics_process(delta):
 			$AudioStreamPlayer3D.playing = true 
 	else:
 		$AudioStreamPlayer3D.playing = false #dont play engine audio when unable to drive
+
+func runengine(power):
+	engine_force = Input.get_axis("down","up") * power #moves car 
+
+func runsteering(delta):
+	steering = move_toward(steering, Input.get_axis("right","left") * MaxSteer, delta * 8) #steer
+	
 
 func ActivateCard(cardname): # This will parse a card
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=43 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://scripts/Camera.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://b61pnkqm75mpo" path="res://scripts/main.gd" id="1_ryguw"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dwbgtjvjf2npl" path="res://SpeedyShibaSecret.png" id="5_82xsv"]
 [ext_resource type="Script" uid="uid://crm6n5nhm6e54" path="res://scripts/CoolCover.gd" id="5_272bh"]
 [ext_resource type="Texture2D" uid="uid://bk5ryepp5dfvp" path="res://Logo.png" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://cmu4pughjw3jd" path="res://scripts/EnemyCar.gd" id="6_4k2k6"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="6_7mycd"]
 [ext_resource type="Texture2D" uid="uid://cvdy323inwg10" path="res://Pencil.png" id="8_5vw27"]
 [ext_resource type="Texture2D" uid="uid://dbecljl6jgttw" path="res://cards/BlankCard.png" id="9_4c57u"]
@@ -32,12 +33,12 @@
 [ext_resource type="AudioStream" uid="uid://c3nwtdgko6was" path="res://music/NEW/BetterRacingSong - Track 6.wav" id="29_ok6jj"]
 [ext_resource type="AudioStream" uid="uid://bn1a6u1k0ju1n" path="res://music/NEW/BetterRacingSong - Track 7.wav" id="30_facbu"]
 [ext_resource type="AudioStream" uid="uid://tigal7c08xbm" path="res://music/NEW/BetterRacingSong - Track 8.wav" id="31_b1qrp"]
+[ext_resource type="AudioStream" uid="uid://cae0dk1qgd0gq" path="res://music/EnginesOfChanceIntro.mp3" id="33_jq2sk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_top_color = Color(1, 1, 1, 1)
-sky_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
-ground_bottom_color = Color(0.763979, 0.701734, 0.630413, 1)
-ground_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
+sky_horizon_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(0.764706, 0.701961, 0.631373, 1)
 
 [sub_resource type="Sky" id="Sky_w48qg"]
 sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
@@ -114,6 +115,30 @@ double_sided = false
 texture_filter = 0
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="PlayerCar"]
+stream = ExtResource("4_ycdy4")
+volume_db = -15.811
+pitch_scale = 1.04
+
+[node name="PlayerCar2" parent="." instance=ExtResource("2_0xm2m")]
+transform = Transform3D(0.900468, 0, -0.434922, 0, 1, 0, 0.434922, 0, 0.900468, 118.263, 1, 0)
+mass = 60.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, -0.1, 0)
+script = ExtResource("6_4k2k6")
+
+[node name="SpriteFront" type="Sprite3D" parent="PlayerCar2"]
+transform = Transform3D(0.013071, 0, 0.499829, 0, 0.5, 0, -0.499829, 0, 0.013071, -0.072, 1.03095, 0.022)
+double_sided = false
+texture_filter = 0
+
+[node name="SpriteBack" type="Sprite3D" parent="PlayerCar2"]
+transform = Transform3D(-0.0130711, 0, -0.499829, 0, 0.5, 0, 0.499829, 0, -0.0130711, -0.0789217, 1.03114, 0.021282)
+flip_h = true
+modulate = Color(0, 0, 0, 1)
+double_sided = false
+texture_filter = 0
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="PlayerCar2"]
 stream = ExtResource("4_ycdy4")
 volume_db = -15.811
 pitch_scale = 1.04
@@ -454,7 +479,7 @@ script = ExtResource("19_d13ii")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
 
-[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("car", "Minimap", "Path3D_Result")]
+[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("car", "Minimap", "Path3D_Result", "SkyHolder")]
 script = ExtResource("2_w48qg")
 point_count = 21
 map_radius = 110
@@ -467,6 +492,7 @@ shape = 1
 Minimap = NodePath("../Minimap")
 Path3D_Result = NodePath("../Path3D")
 Randomize = true
+SkyHolder = NodePath("../WorldEnvironment")
 
 [node name="Speedomoter" type="CanvasLayer" parent="." node_paths=PackedStringArray("Car")]
 visible = false
@@ -517,6 +543,10 @@ pivot_offset = Vector2(61.5, 61.5)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("16_2cqfq")
+
+[node name="Intro" type="AudioStreamPlayer" parent="Speedomoter"]
+stream = ExtResource("33_jq2sk")
+autoplay = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Speedomoter"]
 stream = SubResource("AudioStreamSynchronized_come4")

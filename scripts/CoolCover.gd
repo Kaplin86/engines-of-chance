@@ -127,6 +127,8 @@ func _process(delta):
 			PlayerCarNode.CanDrive = true
 			StateChanging = false
 			$"../Speedomoter".visible = true
+			$"../Speedomoter".MusicPlaying = true
+			$"../Speedomoter/Intro".playing = false
 	
 	
 	if State == "Draw":
@@ -134,7 +136,7 @@ func _process(delta):
 		$Drawer/Finish.visible = true
 		DrawTimer -= delta
 		$Drawer/TimeLabel.text = str(int(clamp(floor(DrawTimer),0,99)))
-		$Drawer/Lock.global_position = $Drawer/Lock.global_position.move_toward(Vector2(120,128),delta * 10)
+		$Drawer/Lock.global_position = $Drawer/Lock.global_position.move_toward(Vector2(120,128),delta * 25)
 		if DrawTimer <= 0:
 			$Drawer/Lock.visible = true
 		if !SpecialDrawControl:
@@ -177,7 +179,7 @@ func _process(delta):
 					ColorRects[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))].color = Color(0,0,0,0)
 					DrawnGuys[str(int(DrawCursorPosition.x)) + "," + str(int(DrawCursorPosition.y))] = Color(0,0,0,0)
 			else:
-				if Input.is_action_pressed("start") or  Input.is_action_pressed("rearview"):
+				if Input.is_action_just_pressed("start") or  Input.is_action_just_pressed("rearview"):
 					$Drawer/Lock.global_position += Vector2(RNG.randi_range(-5,5),RNG.randi_range(-5,5))
 			
 			$Drawer/SwapColor.color = Color("212737")
@@ -239,8 +241,7 @@ func _on_finish_pressed():
 		State = "Precard"
 		$Drawer/ChangeColor.visible = false
 		$Drawer/Finish.visible = false
-		await do_tween($Drawer,"modulate",Color(1,1,1,0),0.3)
-		await do_tween($CardTutorial,"modulate",Color(1,1,1,1),0.3)
+		
 		for E in ColorRects:
 			var NewerColorRect = ColorRects[E].duplicate()
 			$"../Character".add_child(NewerColorRect)
@@ -252,5 +253,8 @@ func _on_finish_pressed():
 			PlayerCarNode.find_child("SpriteFront").texture = load("res://SpeedyShibaSecret.png")
 			PlayerCarNode.find_child("SpriteBack").texture =load("res://SpeedyShibaSecret.png")
 			$"../Character/SpeedyShibaSecret".visible = true
+		
+		await do_tween($Drawer,"modulate",Color(1,1,1,0),0.3)
+		await do_tween($CardTutorial,"modulate",Color(1,1,1,1),0.3)
 		StateChanging = false
 	

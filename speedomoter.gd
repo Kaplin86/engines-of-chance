@@ -3,6 +3,7 @@ extends CanvasLayer
 
 
 var Layers = 13
+var MusicPlaying = false
 
 func _process(delta: float) -> void:
 	$TextureProgressBar.value = Car.linear_velocity.distance_to(Vector3.ZERO)
@@ -19,10 +20,10 @@ func _process(delta: float) -> void:
 		
 		var vol = clamp((Percentage - start) / (end - start), 0.0, 1.0)
 		Sync.set_sync_stream_volume(E, linear_to_db(vol))
-		print("Layer ", E, " => ", vol, " (", linear_to_db(vol), " dB)")
 	
-	if !$AudioStreamPlayer.playing:
-		$AudioStreamPlayer.play()
+	if MusicPlaying:
+		if !$AudioStreamPlayer.playing:
+			$AudioStreamPlayer.play()
 	
 	$TextureRect/Circle2.position = Vector2(1.69 * Car.global_position.x,1.69925485378 * Car.global_position.z)
 	$TextureRect/Circle2.position += $TextureRect.size / 2
