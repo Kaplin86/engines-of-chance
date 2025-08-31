@@ -53,8 +53,11 @@ func _physics_process(delta):
 	else:
 		$AudioStreamPlayer3D.playing = false #dont play engine audio when unable to drive
 
-func runengine(power):
-	engine_force = Input.get_axis("down","up") * power #moves car 
+func runengine(power, bot = false):
+	if bot:
+		engine_force = power
+	else:
+		engine_force = Input.get_axis("down","up") * power #moves car 
 
 func runsteering(delta):
 	steering = move_toward(steering, Input.get_axis("right","left") * MaxSteer, delta * 8) #steer

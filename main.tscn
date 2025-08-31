@@ -39,6 +39,7 @@
 sky_top_color = Color(1, 1, 1, 1)
 sky_horizon_color = Color(1, 1, 1, 1)
 ground_bottom_color = Color(0.764706, 0.701961, 0.631373, 1)
+ground_horizon_color = Color(1, 1, 1, 1)
 
 [sub_resource type="Sky" id="Sky_w48qg"]
 sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
@@ -125,6 +126,8 @@ mass = 60.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.1, 0)
 script = ExtResource("6_4k2k6")
+MaxSteer = 0.5
+EnginePower = 125
 
 [node name="SpriteFront" type="Sprite3D" parent="PlayerCar2"]
 transform = Transform3D(0.013071, 0, 0.499829, 0, 0.5, 0, -0.499829, 0, 0.013071, -0.072, 1.03095, 0.022)
@@ -142,6 +145,11 @@ texture_filter = 0
 stream = ExtResource("4_ycdy4")
 volume_db = -15.811
 pitch_scale = 1.04
+
+[node name="Sprite3D" type="Sprite3D" parent="PlayerCar2"]
+billboard = 1
+render_priority = 3
+texture = ExtResource("18_htxhm")
 
 [node name="Character" type="SubViewport" parent="."]
 transparent_bg = true
@@ -546,6 +554,7 @@ texture = ExtResource("16_2cqfq")
 
 [node name="Intro" type="AudioStreamPlayer" parent="Speedomoter"]
 stream = ExtResource("33_jq2sk")
+volume_db = -80.0
 autoplay = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Speedomoter"]

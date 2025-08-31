@@ -97,6 +97,7 @@ func _ready(): #the ready is basically 'track generate'
 		var ColorPallete = SkyColors.pick_random()
 		SkyMat.sky_top_color = Color(ColorPallete[0])
 		SkyMat.sky_horizon_color =  Color(ColorPallete[1])
+		SkyMat.ground_horizon_color =  Color(ColorPallete[2])
 	
 	MapDone.emit()
 

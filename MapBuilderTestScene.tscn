@@ -4,17 +4,17 @@
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_47ek5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_47ek5"]
-sky_top_color = Color(1, 1, 1, 1)
-sky_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
+sky_top_color = Color(0, 0.145098, 0.27451, 1)
+sky_horizon_color = Color(0.231373, 0.278431, 0.352941, 1)
 ground_bottom_color = Color(0.763979, 0.701734, 0.630413, 1)
-ground_horizon_color = Color(1.8657, 1.85014, 1.83231, 1)
+ground_horizon_color = Color(0.231373, 0.278431, 0.352941, 1)
 
-[sub_resource type="Sky" id="Sky_r1kn3"]
+[sub_resource type="Sky" id="Sky_47ek5"]
 sky_material = SubResource("ProceduralSkyMaterial_47ek5")
 
 [sub_resource type="Environment" id="Environment_r1kn3"]
 background_mode = 2
-sky = SubResource("Sky_r1kn3")
+sky = SubResource("Sky_47ek5")
 glow_enabled = true
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_47ek5"]
@@ -22,25 +22,26 @@ viewport_path = NodePath("Minimap")
 
 [sub_resource type="Curve3D" id="Curve3D_47ek5"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 114.691, 0, 0, 0, 0, 0, 0, 0, 0, 99.1399, 0, 57.2385, 0, 0, 0, 0, 0, 0, 57.8281, 0, 100.161, 0, 0, 0, 0, 0, 0, 6.8751e-15, 0, 112.283, 0, 0, 0, 0, 0, 0, -53.2634, 0, 92.2548, 0, 0, 0, 0, 0, 0, -98.2115, 0, 56.7025, 0, 0, 0, 0, 0, 0, -99.7396, 0, 1.22142e-14, 0, 0, 0, 0, 0, 0, -91.5456, 0, -52.8539, 0, 0, 0, 0, 0, 0, -58.1977, 0, -100.801, 0, 0, 0, 0, 0, 0, -1.87776e-14, 0, -102.224, 0, 0, 0, 0, 0, 0, 55.6778, 0, -96.4369, 0, 0, 0, 0, 0, 0, 97.2359, 0, -56.1392, 0, 0, 0, 0, 0, 0, 114.691, 0, 0),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 99.9868, 0, 0, 0, 0, 0, 0, 0, 0, 98.596, 0, 47.4813, 0, 0, 0, 0, 0, 0, 63.1155, 0, 79.1443, 0, 0, 0, 0, 0, 0, 24.0314, 0, 105.288, 0, 0, 0, 0, 0, 0, -24.3768, 0, 106.802, 0, 0, 0, 0, 0, 0, -68.8999, 0, 86.3978, 0, 0, 0, 0, 0, 0, -88.2896, 0, 42.518, 0, 0, 0, 0, 0, 0, -108.283, 0, 1.32604e-14, 0, 0, 0, 0, 0, 0, -91.9177, 0, -44.2652, 0, 0, 0, 0, 0, 0, -71.4256, 0, -89.5649, 0, 0, 0, 0, 0, 0, -24.784, 0, -108.586, 0, 0, 0, 0, 0, 0, 22.9561, 0, -100.577, 0, 0, 0, 0, 0, 0, 72.0559, 0, -90.3552, 0, 0, 0, 0, 0, 0, 106.743, 0, -51.4045, 0, 0, 0, 0, 0, 0, 99.9868, 0, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
-point_count = 13
+point_count = 15
 
 [node name="mapeditortest" type="Node3D"]
 
-[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("Minimap", "Path3D_Result")]
+[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("Minimap", "Path3D_Result", "SkyHolder")]
 transform = Transform3D(1, 1.49012e-08, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.8147e-06)
 script = ExtResource("1_27wmn")
-point_count = 12
+point_count = 14
 map_radius = 110
 noise_strength = 0.115
 point_spacing = 2
 trackwidth = 15
-seed = 61
+seed = 62
 Minimap = NodePath("../Minimap")
 Path3D_Result = NodePath("../Path3D")
 Randomize = null
+SkyHolder = NodePath("../WorldEnvironment")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.837262, -0.183856, 0.514965, 0, 0.941777, 0.336239, -0.546802, -0.28152, 0.788514, 38.7796, 27.0695, 58.6897)
@@ -83,5 +84,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.2789, 0, -87.097)
 curve = SubResource("Curve3D_47ek5")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(-0.954906, 0, -0.296907, 0, 1, 0, 0.296907, 0, -0.954906, 105.784, 0, -28.6473)
+transform = Transform3D(-0.991473, 0, 0.130304, 0, 1, 0, -0.130304, 0, -0.991473, 102.934, 0, -22.4279)
 progress = 661.668
