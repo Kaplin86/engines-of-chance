@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bokv1on70fvee"]
+
+[ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="1_dnlqt"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_kb8hb"]
+viewport_path = NodePath("Car")
+
+[node name="Car" instance=ExtResource("1_dnlqt")]
+
+[node name="Sprite2D" parent="LiveReaction/LiveReactionChild" index="4"]
+texture = SubResource("ViewportTexture_kb8hb")
+
+[node name="Camera3D" parent="Car" index="0"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.63783, 0.820346, 0.00236011)

@@ -6,6 +6,7 @@ var TargetTransform : Transform3D
 var Progress = 0
 @export var TurnSpeed = 8
 @export var Lookahead = 7
+@export var LookOffset = -3
 
 func _physics_process(delta):
 	CanDrive = true
@@ -29,6 +30,7 @@ func _physics_process(delta):
 		
 		TargetTransform = $"../Path3D".sample_track(Offset - Lookahead)
 		
+		TargetTransform.origin += TargetTransform.basis.x * LookOffset
 		
 		var TargetPosition = TargetTransform.origin
 		

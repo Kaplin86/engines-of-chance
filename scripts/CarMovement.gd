@@ -64,7 +64,7 @@ func runsteering(delta):
 	
 
 func ActivateCard(cardname): # This will parse a card
-	
+	print(self, ' ', cardname)
 	if cardname == "DoubleSpeed":
 		EnginePower *= 1.5
 		mass += 2

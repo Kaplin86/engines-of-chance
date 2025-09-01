@@ -46,7 +46,8 @@ var CardsFlipped = false
 
 var PositiveCards = ["DoubleSpeed","LightCar","GrassCard"]
 var NegativeCards = ["HalfSpeed","HeavyCar","SpamCard"]
-var NeutralCards = ["RainbowCar","Reaction","DriverView"]
+#var NeutralCards = ["RainbowCar","Reaction","DriverView"]
+var NeutralCards = ["RainbowCar"]
 
 var Card1
 var Card2
