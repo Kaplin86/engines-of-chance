@@ -4,6 +4,8 @@ class_name CarCPU
 var TargetTransform : Transform3D
 
 var Progress = 0
+@export var TurnSpeed = 8
+@export var Lookahead = 7
 
 func _physics_process(delta):
 	CanDrive = true
@@ -25,15 +27,13 @@ func _physics_process(delta):
 		var PathCurve : Curve3D = $"../Path3D".curve
 		var Offset = PathCurve.get_closest_offset(global_position)
 		
-		TargetTransform = $"../Path3D".sample_track(Offset - 7)
+		TargetTransform = $"../Path3D".sample_track(Offset - Lookahead)
 		
 		
 		var TargetPosition = TargetTransform.origin
 		
-		$Sprite3D.global_position = TargetPosition
+		BotSteering(delta,to_local(TargetPosition))
 		
-		var LocalTargetPosition = $Sprite3D.position
-		BotSteering(delta,TargetPosition)
 		
 		if $RayCast3D.get_collider() == GrassBody:
 			GrassOn = true
@@ -47,14 +47,12 @@ func _physics_process(delta):
 			runengine(EnginePower, true)
 
 func BotSteering(delta, target):
-	#this doesnt work im trying to fix that
-	print(global_position.angle_to(target))
-	steering = -global_position.angle_to(target)
-	
-	#the below works but i want a better one
-	#if target.z > 3:
-	#	steering = move_toward(steering, -MaxSteer, delta * 8)
-	#if target.z < -3:
-	#	steering = move_toward(steering, MaxSteer, delta * 8)
+	var BindingNumber = 2
+	if target.z > BindingNumber:
+		steering = move_toward(steering, -MaxSteer, delta * TurnSpeed)
+	if target.z < -BindingNumber:
+		steering = move_toward(steering, MaxSteer, delta * TurnSpeed)
+	if target.z < BindingNumber and target.z > -BindingNumber:
+		steering = move_toward(steering, 0, delta * TurnSpeed)
 	
 	

@@ -72,7 +72,7 @@ func ActivateCard(cardname): # This will parse a card
 		#yeah uh no double speed causes car to flip so lets pretend it is double but dont tell anyone
 	
 	if cardname == "HalfSpeed":
-		EnginePower /= 2
+		EnginePower /= 1.5
 	
 	if cardname == "ReversedWheels":
 		SetWheelStatus("traction",$FrontRight)

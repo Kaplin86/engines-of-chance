@@ -161,6 +161,8 @@ func createWalls(points,roadpoints):
 	body.add_child(collider) 
 	add_child(body) 
 
+var Grassbody = StaticBody3D.new() 
+
 func createTrackAndGrass(EdgePoints,TheLine, GrassPoints):
 	var TrackMesh = MeshInstance3D.new() #Creates a empty mesh instance
 	TrackMesh.mesh = build_track_mesh(EdgePoints[0],EdgePoints[1]) #Generates a mesh from the track
@@ -187,7 +189,7 @@ func createTrackAndGrass(EdgePoints,TheLine, GrassPoints):
 	GrassVisualMaterial.albedo_color = Color(GrassColors.pick_random())
 	GrassMesh.set_surface_override_material(0,GrassVisualMaterial)
 	
-	var Grassbody = StaticBody3D.new() 
+	Grassbody = StaticBody3D.new() 
 	var Grasscollider = CollisionShape3D.new() 
 	Grasscollider.shape = GrassMesh.mesh.create_trimesh_shape() 
 	Grassbody.add_child(Grasscollider)
