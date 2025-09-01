@@ -508,8 +508,9 @@ scale = Vector2(0.094, 0.094)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = SubResource("ViewportTexture_yaehf")
+metadata/Target = NodePath("../../PlayerCar")
 
-[node name="Circle2" type="TextureRect" parent="Speedomoter/TextureRect"]
+[node name="Player" type="TextureRect" parent="Speedomoter/TextureRect"]
 modulate = Color(1, 0, 0, 1)
 layout_mode = 0
 offset_right = 123.0
@@ -519,6 +520,7 @@ pivot_offset = Vector2(61.5, 61.5)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("16_2cqfq")
+metadata/Target = NodePath("../../../PlayerCar")
 
 [node name="Intro" type="AudioStreamPlayer" parent="Speedomoter"]
 stream = ExtResource("33_jq2sk")

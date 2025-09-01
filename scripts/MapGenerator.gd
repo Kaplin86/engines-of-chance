@@ -150,10 +150,19 @@ func createWalls(points,roadpoints):
 		else:
 			RightWallPoints.append(RightPoints[E] + Vector3(0,2,0))
 	
+	RightPoints = UsingRightPoints.duplicate()
+	UsingRightPoints = []
+	for E in RightPoints:
+		UsingRightPoints.append(E - Vector3(0,2,0))
+	
 	
 	var RightMesh = MeshInstance3D.new() #Creates a empty mesh instance
-	RightMesh.mesh = build_track_mesh(RightPoints,RightWallPoints)
+	RightMesh.mesh = build_track_mesh(UsingRightPoints,RightWallPoints)
 	add_child(RightMesh) 
+	
+	var OtherRightmesh = MeshInstance3D.new() #Creates a empty mesh instance
+	OtherRightmesh.mesh = build_track_mesh(RightWallPoints,UsingRightPoints)
+	add_child(OtherRightmesh) 
 	
 	body = StaticBody3D.new()
 	collider = CollisionShape3D.new()
