@@ -109,6 +109,7 @@ func _ready(): #the ready is basically 'track generate'
 				Path3D_Result.get_child(0).progress = 10
 				car.transform = Path3D_Result.get_child(0).transform
 				car.rotation += Vector3(0,spawnangle,0)
+				
 	
 	MapDone.emit()
 

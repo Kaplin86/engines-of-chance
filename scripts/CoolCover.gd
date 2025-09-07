@@ -46,8 +46,8 @@ var CardsFlipped = false
 
 var PositiveCards = ["DoubleSpeed","LightCar","GrassCard"]
 var NegativeCards = ["HalfSpeed","HeavyCar","SpamCard"]
-#var NeutralCards = ["RainbowCar","Reaction","DriverView"]
-var NeutralCards = ["RainbowCar"]
+var NeutralCards = ["RainbowCar","Reaction","DriverView"]
+
 
 var Card1
 var Card2
@@ -126,6 +126,7 @@ func _process(delta):
 			PlayerCarNode.ActivateCard(Card3)
 			
 			PlayerCarNode.CanDrive = true
+			$"..".set_drive()
 			StateChanging = false
 			$"../Speedomoter".visible = true
 			$"../Speedomoter".MusicPlaying = true

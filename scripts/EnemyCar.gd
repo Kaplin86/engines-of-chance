@@ -8,19 +8,9 @@ var Progress = 0
 @export var Lookahead = 7
 @export var LookOffset = -3
 
+var StartingRotation = null
+
 func _physics_process(delta):
-	CanDrive = true
-	
-	if abs(rotation_degrees.x) >= 80 or abs(rotation_degrees.z) >= 80:
-		FlippedTime += delta
-	else:
-		FlippedTime = 0
-	
-	
-	if FlippedTime >= 2:
-		rotation.x = 0
-		rotation.z = 0
-		position.y += 1
 	
 	
 	if CanDrive:

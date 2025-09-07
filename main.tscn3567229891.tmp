@@ -485,7 +485,6 @@ Randomize = true
 SkyHolder = NodePath("../WorldEnvironment")
 
 [node name="Speedomoter" type="CanvasLayer" parent="." node_paths=PackedStringArray("Car")]
-visible = false
 script = ExtResource("16_yaehf")
 Car = NodePath("../PlayerCar")
 

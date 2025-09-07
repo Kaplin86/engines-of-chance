@@ -4,6 +4,9 @@
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="3_06lh1"]
 [ext_resource type="AudioStream" uid="uid://tp17h6kai6wf" path="res://sfx/DogBarkShort.mp3" id="3_k61xc"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_k61xc"]
+viewport_path = NodePath("Car")
+
 [sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h2yge"]
@@ -59,76 +62,8 @@ shader_parameter/outline_width = 1.0
 next_pass = SubResource("ShaderMaterial_uoj53")
 albedo_color = Color(0.0562916, 0.0562916, 0.0562916, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_k61xc"]
-viewport_path = NodePath("Car")
-
 [node name="Car" type="VehicleBody3D"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(2.70057, 0, 0, 0, 1.00016, 0, 0, 0, 1.00016, -0.00128698, 0.00541687, 0.00236011)
-mesh = SubResource("BoxMesh_0xm2m")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_1bvp3")
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="MeshInstance3D"]
-transform = Transform3D(-1.6186e-08, 0, 0.370292, 0, 0.99984, 0, -0.99984, 0, -4.37044e-08, -0.441863, -0.810364, 0.611458)
-amount = 20
-process_material = SubResource("ParticleProcessMaterial_k61xc")
-draw_pass_1 = SubResource("BoxMesh_06lh1")
-
-[node name="GPUParticles3D2" type="GPUParticles3D" parent="MeshInstance3D"]
-transform = Transform3D(-1.60848e-08, -0.0413467, 0.367977, -4.88002e-09, 0.993588, 0.111642, -0.99984, 0, -4.37044e-08, -0.424781, -0.782989, -0.617923)
-amount = 20
-process_material = SubResource("ParticleProcessMaterial_k61xc")
-draw_pass_1 = SubResource("BoxMesh_06lh1")
-
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="MeshInstance3D"]
-transform = Transform3D(-1.6186e-08, 0, 0.370292, 0, 0.99984, 0, -0.99984, 0, -4.37044e-08, 0.977246, 0.814799, 0)
-remote_path = NodePath("../../Car/Camera3D")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00408936, 0, 0)
-shape = SubResource("BoxShape3D_0xm2m")
-
-[node name="FrontRight" type="VehicleWheel3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.05669, -0.332823, 0.666049)
-use_as_steering = true
-suspension_stiffness = 45.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="FrontRight"]
-transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
-mesh = SubResource("CylinderMesh_7822p")
-surface_material_override/0 = SubResource("StandardMaterial3D_k61xc")
-
-[node name="FrontLeft" type="VehicleWheel3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.05669, -0.332823, -0.608334)
-use_as_steering = true
-suspension_stiffness = 45.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="FrontLeft"]
-transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
-mesh = SubResource("CylinderMesh_7822p")
-surface_material_override/0 = SubResource("StandardMaterial3D_k61xc")
-
-[node name="BackRight" type="VehicleWheel3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.16634, -0.332823, 0.666049)
-use_as_traction = true
-suspension_stiffness = 45.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BackRight"]
-transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
-mesh = SubResource("CylinderMesh_7822p")
-surface_material_override/0 = SubResource("StandardMaterial3D_k61xc")
-
-[node name="BackLeft" type="VehicleWheel3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.16634, -0.332823, -0.608334)
-use_as_traction = true
-suspension_stiffness = 45.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BackLeft"]
-transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
-mesh = SubResource("CylinderMesh_7822p")
-surface_material_override/0 = SubResource("StandardMaterial3D_k61xc")
+collision_layer = 3
 
 [node name="LiveReaction" type="CanvasLayer" parent="."]
 
@@ -172,10 +107,7 @@ texture = SubResource("ViewportTexture_k61xc")
 [node name="Car" type="SubViewport" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Car"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.63783, 0.820346, 0.00236011)
-
-[node name="RayCast3D" type="RayCast3D" parent="."]
-target_position = Vector3(0, -56.09, 0)
+transform = Transform3D(-2.13163e-14, 0, 1, 0, 1, 0, -1, 0, 9.9476e-14, 2.65799, 0.820346, -0.00790989)
 
 [node name="Spam" type="CanvasLayer" parent="."]
 layer = 2
@@ -183,3 +115,76 @@ layer = 2
 [node name="spam" type="AudioStreamPlayer" parent="Spam"]
 stream = ExtResource("3_k61xc")
 pitch_scale = 2.0
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.70057, 0, -4.37184e-08, 0, 1.00016, 0, 1.18046e-07, 0, 1.00016, 0.0188661, 0.00541687, -0.00791001)
+mesh = SubResource("BoxMesh_0xm2m")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_1bvp3")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="MeshInstance3D"]
+transform = Transform3D(-1.6186e-08, 0, 0.370292, 0, 0.99984, 0, -0.99984, 0, -4.37044e-08, -0.441863, -0.810364, 0.611458)
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_k61xc")
+draw_pass_1 = SubResource("BoxMesh_06lh1")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="MeshInstance3D"]
+transform = Transform3D(-1.60848e-08, -0.0413467, 0.367977, -4.88002e-09, 0.993588, 0.111642, -0.99984, 0, -4.37044e-08, -0.424781, -0.782989, -0.617923)
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_k61xc")
+draw_pass_1 = SubResource("BoxMesh_06lh1")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="MeshInstance3D"]
+transform = Transform3D(-1.6186e-08, 0, 0.370292, 0, 0.99984, 0, -0.99984, 0, -4.37044e-08, 0.977246, 0.814799, 0)
+remote_path = NodePath("../../Car/Camera3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, -4.37114e-08, 0, 1, 0, 4.37114e-08, 0, 1, 0.00408936, 0, 1.78752e-10)
+shape = SubResource("BoxShape3D_0xm2m")
+
+[node name="FrontRight" type="VehicleWheel3D" parent="."]
+transform = Transform3D(-1.06581e-14, 0, 1, 0, 1, 0, -1, 0, -1.06581e-14, 1.05669, -0.332823, 0.666049)
+use_as_steering = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FrontRight"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_7822p")
+surface_material_override/0 = SubResource("StandardMaterial3D_k61xc")
+
+[node name="FrontLeft" type="VehicleWheel3D" parent="."]
+transform = Transform3D(-1.06581e-14, 0, 1, 0, 1, 0, -1, 0, -1.06581e-14, 1.05669, -0.332823, -0.608334)
+use_as_steering = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FrontLeft"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_7822p")
+surface_material_override/0 = SubResource("StandardMaterial3D_k61xc")
+
+[node name="BackRight" type="VehicleWheel3D" parent="."]
+transform = Transform3D(-1.06581e-14, 0, 1, 0, 1, 0, -1, 0, -1.06581e-14, -1.16634, -0.332823, 0.666049)
+use_as_traction = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BackRight"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_7822p")
+surface_material_override/0 = SubResource("StandardMaterial3D_k61xc")
+
+[node name="BackLeft" type="VehicleWheel3D" parent="."]
+transform = Transform3D(-1.06581e-14, 0, 1, 0, 1, 0, -1, 0, -1.06581e-14, -1.16634, -0.332823, -0.608334)
+use_as_traction = true
+suspension_stiffness = 45.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BackLeft"]
+transform = Transform3D(-4.44937e-08, -0.136749, -4.44937e-08, 1.0179, -5.97751e-09, 4.44937e-08, -4.44937e-08, -5.97751e-09, 1.0179, 0, 0, 0)
+mesh = SubResource("CylinderMesh_7822p")
+surface_material_override/0 = SubResource("StandardMaterial3D_k61xc")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, -4.37114e-08, 0, 1, 0, 4.37114e-08, 0, 1, 0, 0, 0)
+target_position = Vector3(0, -56.09, 0)

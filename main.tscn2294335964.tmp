@@ -545,15 +545,6 @@ autoplay = true
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Speedomoter"]
 stream = SubResource("AudioStreamSynchronized_come4")
 
-[node name="Label" type="Label" parent="Speedomoter"]
-offset_left = 245.0
-offset_top = 215.0
-offset_right = 302.0
-offset_bottom = 238.0
-theme_override_fonts/font = ExtResource("6_7mycd")
-text = "3/3"
-horizontal_alignment = 1
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_074og")
 

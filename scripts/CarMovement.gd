@@ -6,6 +6,10 @@ class_name PlayerCar
 @export var CanDrive = false
 @export var GrassBody = null
 
+
+var Laps = 0
+var LapStatus = 0
+
 var GrassMultipler = 0.5
 var GrassOn = false
 
@@ -19,7 +23,7 @@ func SetWheelStatus(Mode, Tire : VehicleWheel3D): #A quick function to set a whe
 
 var FlippedTime = 0
 
-func _physics_process(delta):
+func runflip(delta):
 	if abs(rotation_degrees.x) >= 80 or abs(rotation_degrees.z) >= 80:
 		FlippedTime += delta
 	else:
@@ -30,6 +34,9 @@ func _physics_process(delta):
 		rotation.x = 0
 		rotation.z = 0
 		position.y += 1
+
+func _physics_process(delta):
+	runflip(delta)
 	
 	if CanDrive:
 		runsteering(delta)

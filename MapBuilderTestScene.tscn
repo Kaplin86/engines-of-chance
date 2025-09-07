@@ -5,10 +5,10 @@
 [ext_resource type="Script" uid="uid://du4ok6by6akf4" path="res://scripts/CarMovement.gd" id="3_ghmas"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_47ek5"]
-sky_top_color = Color(0, 0.145098, 0.27451, 1)
-sky_horizon_color = Color(0.231373, 0.278431, 0.352941, 1)
+sky_top_color = Color(0.576471, 0.764706, 1, 1)
+sky_horizon_color = Color(1, 1, 1, 1)
 ground_bottom_color = Color(0.763979, 0.701734, 0.630413, 1)
-ground_horizon_color = Color(0.231373, 0.278431, 0.352941, 1)
+ground_horizon_color = Color(0.647059, 0.654902, 0.670588, 1)
 
 [sub_resource type="Sky" id="Sky_47ek5"]
 sky_material = SubResource("ProceduralSkyMaterial_47ek5")
@@ -50,9 +50,8 @@ transform = Transform3D(0.837262, -0.183856, 0.514965, 0, 0.941777, 0.336239, -0
 
 [node name="Car" parent="." instance=ExtResource("2_47ek5")]
 transform = Transform3D(0.0361763, 0, -0.999344, 0, 1, 0, 0.999344, 0, 0.0361763, 100.506, 0, 9.98648)
+visible = false
 script = ExtResource("3_ghmas")
-GrassBody = Object(StaticBody3D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","transform":Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0),"rotation_edit_mode":0,"rotation_order":2,"top_level":false,"visible":true,"visibility_parent":NodePath(""),"disable_mode":0,"collision_layer":1,"collision_mask":1,"collision_priority":1.0,"input_ray_pickable":true,"input_capture_on_drag":false,"axis_lock_linear_x":false,"axis_lock_linear_y":false,"axis_lock_linear_z":false,"axis_lock_angular_x":false,"axis_lock_angular_y":false,"axis_lock_angular_z":false,"physics_material_override":null,"constant_linear_velocity":Vector3(0, 0, 0),"constant_angular_velocity":Vector3(0, 0, 0),"script":null)
-
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_r1kn3")
@@ -89,8 +88,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.2789, 0, -87.097)
 curve = SubResource("Curve3D_r1kn3")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(-0.998647, 0, -0.0519686, 0, 1, 0, 0.0519686, 0, -0.998647, 100.506, 0, 9.98647)
-progress = 10.0
+transform = Transform3D(0.588792, 0, -0.808282, 0, 1, 0, 0.808282, 0, 0.588792, -77.2066, 0, -71.373)
+progress = 422.12
 
-[node name="Marker3D" type="Marker3D" parent="Path3D/PathFollow3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.103508, 7.42127, 3.31066)
+[node name="Car" parent="Path3D/PathFollow3D" instance=ExtResource("2_47ek5")]
