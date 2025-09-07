@@ -13,9 +13,11 @@ var Drivers = []
 
 var RNG = RandomNumberGenerator.new()
 
+var StartingPoint = 0
+
 func _on_map_map_done():
 	
-	PlayerCarNode.transform = PathTrack.sample_track(5)
+	PlayerCarNode.transform = PathTrack.sample_track(StartingPoint)
 	PlayerCarNode.rotation_degrees -= Vector3(0,90,0)
 	
 func _ready():
@@ -37,9 +39,14 @@ func _ready():
 		Drivers.append(NewDriver)
 		add_child(NewDriver)
 		NewDriver.visible = true
-		NewDriver.transform = PathTrack.sample_track(-10 * E)
 		NewDriver.GrassBody = $map.Grassbody
+
+		NewDriver.transform = PathTrack.sample_track(10 * (E + 1) + StartingPoint)
 		NewDriver.rotation_degrees -= Vector3(0,90,0)
+		
+		
+		
+		
 		NewDriver.mass = 60
 		NewDriver.center_of_mass_mode = RigidBody3D.CENTER_OF_MASS_MODE_CUSTOM
 		NewDriver.center_of_mass = Vector3(0,-0.1,0)

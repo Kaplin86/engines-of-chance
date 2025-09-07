@@ -31,6 +31,10 @@ class_name MapGenerator
 		seed = value
 		if Engine.is_editor_hint(): 	_ready()
 
+@export var spawnangle: float = 0.0:
+	set(value):
+		spawnangle = value
+		if Engine.is_editor_hint(): 	_ready()
 
 @export_enum("Circle", "Oval", "Square") var shape: int:
 	set(value):
@@ -38,7 +42,7 @@ class_name MapGenerator
 		if Engine.is_editor_hint(): 	_ready()
 
 @export var Minimap : SubViewport
-@export var Path3D_Result : Path3D
+@export var Path3D_Result : TrackPath
 @export var Randomize = false
 @export var SkyHolder : WorldEnvironment
 
@@ -98,6 +102,13 @@ func _ready(): #the ready is basically 'track generate'
 		SkyMat.sky_top_color = Color(ColorPallete[0])
 		SkyMat.sky_horizon_color =  Color(ColorPallete[1])
 		SkyMat.ground_horizon_color =  Color(ColorPallete[2])
+	
+	if Engine.is_editor_hint():
+		if car:
+			if Path3D_Result:
+				Path3D_Result.get_child(0).progress = 10
+				car.transform = Path3D_Result.get_child(0).transform
+				car.rotation += Vector3(0,spawnangle,0)
 	
 	MapDone.emit()
 

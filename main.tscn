@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=43 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://scripts/Camera.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://b61pnkqm75mpo" path="res://scripts/main.gd" id="1_ryguw"]
@@ -50,6 +50,14 @@ glow_enabled = true
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_cegan"]
 viewport_path = NodePath("Character")
+
+[sub_resource type="Curve3D" id="Curve3D_jq2sk"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 30.4677, 120.649, 103.277, 0, 0, 0, 0, 0, 0, 108.636, 113.211, 99.3465, 0, 0, 0, 0, 0, 0, 197.807, 78.0885, 72.2657, 0, 0, 0, 0, 0, 0, 271.185, -16.5353, -5.77228, 0, 0, 0, 0, 0, 0, 207.561, -90.0856, -70.1037, 0, 0, 0, 0, 0, 0, 18.2185, -118.183, -99.7036, 0, 0, 0, 0, 0, 0, -150.572, -103.308, -92.2227, 0, 0, 0, 0, 0, 0, -236.254, -35.5425, -37.3439, 0, 0, 0, 0, 0, 0, -169.182, 72.3038, 56.1865, 0, 0, 0, 0, 0, 0, -23.4266, 110.732, 93.2228, 0, 0, 0, 0, 0, 0, 103.737, 156.184, 135.652),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 11
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_yaehf"]
 viewport_path = NodePath("Minimap")
@@ -451,9 +459,12 @@ autowrap_mode = 2
 justification_flags = 162
 
 [node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_jq2sk")
 script = ExtResource("19_d13ii")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(-0.60536, -0.672834, -0.425244, -0.27219, 0.677042, -0.683758, 0.747965, -0.298173, -0.592994, -207.466, 10.7464, 2.80044)
+progress = 990.99
 
 [node name="map" type="Node3D" parent="." node_paths=PackedStringArray("car", "Minimap", "Path3D_Result", "SkyHolder")]
 script = ExtResource("2_w48qg")
