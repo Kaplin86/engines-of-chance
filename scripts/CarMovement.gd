@@ -79,7 +79,7 @@ func ActivateCard(cardname): # This will parse a card
 		#yeah uh no double speed causes car to flip so lets pretend it is double but dont tell anyone
 	
 	if cardname == "HalfSpeed":
-		EnginePower /= 1.5
+		EnginePower /= 1.2
 	
 	if cardname == "ReversedWheels":
 		SetWheelStatus("traction",$FrontRight)
@@ -110,6 +110,15 @@ func ActivateCard(cardname): # This will parse a card
 	
 	if cardname == "SpamCard":
 		ADVERTISE()
+	
+	if cardname == "Ghost":
+		set_collision_layer_value(1,0)
+		var SurfaceMat : StandardMaterial3D = $MeshInstance3D.get_surface_override_material(0)
+		var CurrentColor = SurfaceMat.albedo_color
+		SurfaceMat.albedo_color = Color(CurrentColor.r,CurrentColor.g,CurrentColor.b,0.5)
+		var nextPass : ShaderMaterial = SurfaceMat.next_pass
+		nextPass.set_shader_parameter("outline_color",Color("8a000075"))
+		SurfaceMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 
 var PopupTypes = ["Gradient","Hi","New","SmilyFace2","SmilyFace"]
 

@@ -118,16 +118,14 @@ func _process(delta):
 			E.Laps += 1
 		var DistanceAlong = 0
 		if E.LapStatus == 0 and CorrectDistance >= Len / 4 and E.Laps == 0:
-			DistanceAlong = 0
+			DistanceAlong = CorrectDistance - Len
 		else:
 			DistanceAlong = CorrectDistance + (E.Laps * Len)
-		
 		PlacementPosition.append({E:DistanceAlong})
 	
 	PlacementPosition.sort_custom(MySort)
 	for E in PlacementPosition:
 		if E.keys()[0] == PlayerCarNode:
-			print(PlacementPosition.find(E) + 1)
 			$Speedomoter/Label.text = str(PlacementPosition.find(E) + 1)
 	
 func MySort(a, b):

@@ -472,8 +472,8 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1, 
 [node name="map" type="Node3D" parent="." node_paths=PackedStringArray("car", "Minimap", "Path3D_Result", "SkyHolder")]
 script = ExtResource("2_w48qg")
 point_count = 21
-map_radius = 110
-noise_strength = 0.115
+map_radius = 114
+noise_strength = 0.12
 point_spacing = 2
 trackwidth = 15
 car = NodePath("../PlayerCar")
@@ -539,7 +539,6 @@ metadata/Target = NodePath("../../../PlayerCar")
 
 [node name="Intro" type="AudioStreamPlayer" parent="Speedomoter"]
 stream = ExtResource("33_jq2sk")
-volume_db = -80.0
 autoplay = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Speedomoter"]
