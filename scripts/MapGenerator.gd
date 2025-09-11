@@ -52,6 +52,8 @@ var GrassColors = ["b0ff99","c2ff23","a4f8a8","37c234","e78900","e3ffe3","f1dfff
 var RoadColors = ["808080","484848","999999","5d4625","e4b900","303030"]
 var SkyColors = [["ffffff","ffffff","ffffff"],["93c3ff","ffffff","a5a7ab"],["002546","3b475a","3b475a"]]
 
+var GoalPost = preload("res://Goal.tscn")
+
 #--------------------------------------------------------------------------------------------------------------------
 
 signal MapDone
@@ -110,6 +112,13 @@ func _ready(): #the ready is basically 'track generate'
 				car.transform = Path3D_Result.get_child(0).transform
 				car.rotation += Vector3(0,spawnangle,0)
 				
+	
+	var NewGoalPost = GoalPost.instantiate()
+	if Path3D_Result:
+		Path3D_Result.get_child(0).progress = 0
+		NewGoalPost.transform = Path3D_Result.get_child(0).transform
+		NewGoalPost.rotation_degrees -= Vector3(0,90,0)
+		add_child(NewGoalPost)
 	
 	MapDone.emit()
 

@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://cce7mgr5k2lfj"]
+
+[ext_resource type="Shader" uid="uid://dv3rbed8q0ldy" path="res://outline.gdshader" id="1_awkdc"]
+[ext_resource type="Texture2D" uid="uid://chm1nl1aji1pp" path="res://Checker.png" id="2_5rm71"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8wr13"]
+top_radius = 0.18
+bottom_radius = 0.22
+height = 4.97
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8wsew"]
+render_priority = 0
+shader = ExtResource("1_awkdc")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/outline_width = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h4fhs"]
+next_pass = SubResource("ShaderMaterial_8wsew")
+albedo_color = Color(0.15, 0.196667, 0.25, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ad7r5"]
+albedo_texture = ExtResource("2_5rm71")
+uv1_triplanar = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_pkk71"]
+material = SubResource("StandardMaterial3D_ad7r5")
+shape = 0
+size = 13.871
+
+[sub_resource type="SphereMesh" id="SphereMesh_awkdc"]
+
+[node name="GoalPost" type="Node3D"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.03187, -7)
+mesh = SubResource("CylinderMesh_8wr13")
+surface_material_override/0 = SubResource("StandardMaterial3D_h4fhs")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.03187, 7)
+mesh = SubResource("CylinderMesh_8wr13")
+surface_material_override/0 = SubResource("StandardMaterial3D_h4fhs")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0.776691, 0)
+mesh = SubResource("RibbonTrailMesh_pkk71")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.568, 7)
+mesh = SubResource("SphereMesh_awkdc")
+surface_material_override/0 = SubResource("StandardMaterial3D_h4fhs")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.568, -7)
+mesh = SubResource("SphereMesh_awkdc")
+surface_material_override/0 = SubResource("StandardMaterial3D_h4fhs")

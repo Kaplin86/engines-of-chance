@@ -103,7 +103,7 @@ func ActivateCard(cardname): # This will parse a card
 	if cardname == "DriverView":
 		$"../Camera3D".camera_mode = $"../Camera3D".CameraMode.DriverView
 		$"../Camera3D".fov = 102.1
-		$AudioStreamPlayer3D.volume_db = -30
+		$AudioStreamPlayer3D.volume_db = -40
 	
 	if cardname == "GrassCard":
 		GrassMultipler = 0.9

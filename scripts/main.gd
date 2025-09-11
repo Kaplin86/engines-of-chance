@@ -10,7 +10,7 @@ var CPUScript = preload("res://scripts/EnemyCar.gd")
 #var DriverCount = 3
 var DriverCount = 15
 var Drivers = []
-
+var PlayerPlace = 0
 
 
 var RNG = RandomNumberGenerator.new()
@@ -127,7 +127,8 @@ func _process(delta):
 	for E in PlacementPosition:
 		if E.keys()[0] == PlayerCarNode:
 			$Speedomoter/Label.text = str(PlacementPosition.find(E) + 1)
-	
+			PlayerPlace = PlacementPosition.find(E) + 1
+
 func MySort(a, b):
 	if a.values()[0] > b.values()[0]:
 		return true
