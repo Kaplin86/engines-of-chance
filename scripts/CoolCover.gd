@@ -144,17 +144,9 @@ func _process(delta):
 			PlayerPlacementAtVictory = $"..".PlayerPlace
 			await get_tree().create_timer(0.5).timeout
 			$"../Speedomoter".MusicPlaying = false
-			await do_tween($ColorRect,"modulate",Color(1,1,1,1),0.3)
-			var Scene : PackedScene = load("res://result_screen.tscn")
-			var NewScene = Scene.instantiate()
+			Variablesharer.finalPlacement = PlayerPlacementAtVictory
+			Transition.scene_transition("res://result_screen.tscn")
 			
-			NewScene.PlacementValue = PlayerPlacementAtVictory
-			
-			var NewPack = PackedScene.new()
-			NewPack.pack(NewScene)
-			get_tree().change_scene_to_packed(NewPack)
-			
-
 var PlayerPlacementAtVictory = 0
 
 func runDraw(delta):
