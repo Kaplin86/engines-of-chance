@@ -28,6 +28,9 @@ func set_drive():
 	Drivers.append(PlayerCarNode)
 
 func _ready():
+	
+	IntroBg.visible = false
+	
 	var Rows = ceil(DriverCount / 3)
 	for E in Rows:
 		for B in 3:

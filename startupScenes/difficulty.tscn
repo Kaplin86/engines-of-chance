@@ -1,13 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://dryesvlarhoyo"]
+[gd_scene load_steps=8 format=3 uid="uid://dryesvlarhoyo"]
 
 [ext_resource type="Script" uid="uid://brhtura53v37b" path="res://scripts/difficultyScreen.gd" id="1_icxbx"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="1_q0kql"]
 [ext_resource type="Texture2D" uid="uid://bplqw41cba084" path="res://Happy.png" id="2_icxbx"]
 [ext_resource type="Texture2D" uid="uid://b2syt01bilpif" path="res://Neutral.png" id="3_7henw"]
 [ext_resource type="Texture2D" uid="uid://dkpuo8h86pvmi" path="res://Sad.png" id="4_u1y11"]
+[ext_resource type="AudioStream" uid="uid://bgf7e161q1n4w" path="res://sfx/CardDraw.mp3" id="6_7henw"]
+[ext_resource type="AudioStream" uid="uid://bhiy8n2xvgbux" path="res://sfx/gong_01.ogg" id="6_u1y11"]
 
 [node name="Difficulty" type="Node2D"]
 script = ExtResource("1_icxbx")
+TargetScene = "uid://c2eky7ki34ggq"
 
 [node name="B" type="ColorRect" parent="."]
 offset_left = 165.0
@@ -183,3 +186,10 @@ text = "Choose a DIFFICULTY
 
 This will effect which cards you get."
 autowrap_mode = 3
+
+[node name="Confirm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_u1y11")
+pitch_scale = 1.47
+
+[node name="Select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_7henw")

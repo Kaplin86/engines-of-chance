@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=42 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://scripts/Camera.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://b61pnkqm75mpo" path="res://scripts/main.gd" id="1_ryguw"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://dllgjp122y6fb" path="res://scripts/MapGenerator.gd" id="2_w48qg"]
 [ext_resource type="Script" uid="uid://du4ok6by6akf4" path="res://scripts/CarMovement.gd" id="3_h2yge"]
 [ext_resource type="AudioStream" uid="uid://bl7cj3x1l7j8w" path="res://sfx/NewDrive.mp3" id="4_ycdy4"]
-[ext_resource type="Texture2D" uid="uid://dwbgtjvjf2npl" path="res://SpeedyShibaSecret.png" id="5_82xsv"]
 [ext_resource type="Script" uid="uid://crm6n5nhm6e54" path="res://scripts/CoolCover.gd" id="5_272bh"]
 [ext_resource type="Texture2D" uid="uid://bk5ryepp5dfvp" path="res://Logo.png" id="5_lquwl"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="6_7mycd"]
@@ -40,16 +39,16 @@ sky_horizon_color = Color(1, 1, 1, 1)
 ground_bottom_color = Color(0.764706, 0.701961, 0.631373, 1)
 ground_horizon_color = Color(1, 1, 1, 1)
 
-[sub_resource type="Sky" id="Sky_w48qg"]
+[sub_resource type="Sky" id="Sky_htxhm"]
 sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
 
 [sub_resource type="Environment" id="Environment_h2yge"]
 background_mode = 2
-sky = SubResource("Sky_w48qg")
+sky = SubResource("Sky_htxhm")
 glow_enabled = true
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_cegan"]
-viewport_path = NodePath("Character")
+[sub_resource type="ViewportTexture" id="ViewportTexture_qhkf8"]
+viewport_path = NodePath("/root/CharacterViewport")
 
 [sub_resource type="Curve3D" id="Curve3D_jq2sk"]
 closed = true
@@ -115,6 +114,7 @@ EnginePower = 125
 transform = Transform3D(0.013071, 0, 0.499829, 0, 0.5, 0, -0.499829, 0, 0.013071, -0.072, 1.03095, 0.022)
 double_sided = false
 texture_filter = 0
+texture = SubResource("ViewportTexture_qhkf8")
 
 [node name="SpriteBack" type="Sprite3D" parent="PlayerCar"]
 transform = Transform3D(-0.0130711, 0, -0.499829, 0, 0.5, 0, 0.499829, 0, -0.0130711, -0.0789217, 1.03114, 0.021282)
@@ -122,21 +122,12 @@ flip_h = true
 modulate = Color(0, 0, 0, 1)
 double_sided = false
 texture_filter = 0
+texture = SubResource("ViewportTexture_qhkf8")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="PlayerCar"]
 stream = ExtResource("4_ycdy4")
 volume_db = -15.811
 pitch_scale = 1.04
-
-[node name="Character" type="SubViewport" parent="."]
-transparent_bg = true
-size = Vector2i(224, 224)
-
-[node name="SpeedyShibaSecret" type="Sprite2D" parent="Character"]
-visible = false
-position = Vector2(113.04, 117)
-scale = Vector2(0.282197, 0.282197)
-texture = ExtResource("5_82xsv")
 
 [node name="Canvas" type="CanvasLayer" parent="." node_paths=PackedStringArray("PlayerCarNode")]
 script = ExtResource("5_272bh")
@@ -149,6 +140,7 @@ offset_bottom = 241.0
 color = Color(0, 0, 0, 0.721569)
 
 [node name="TitleStuff" type="Node2D" parent="Canvas"]
+visible = false
 
 [node name="Logo" type="Sprite2D" parent="Canvas/TitleStuff"]
 position = Vector2(160, 64)
@@ -410,7 +402,6 @@ scale = Vector2(0.238739, 0.238739)
 texture = ExtResource("15_82xsv")
 
 [node name="CardTutorial" type="Node2D" parent="Canvas"]
-visible = false
 
 [node name="Label" type="Label" parent="Canvas/CardTutorial"]
 offset_left = 11.0
@@ -428,7 +419,7 @@ offset_top = 55.0
 offset_right = 327.0
 offset_bottom = 279.0
 scale = Vector2(0.495, 0.495)
-texture = SubResource("ViewportTexture_cegan")
+texture = SubResource("ViewportTexture_qhkf8")
 
 [node name="BlankCard" type="Sprite2D" parent="Canvas/CardTutorial"]
 position = Vector2(103, 159)

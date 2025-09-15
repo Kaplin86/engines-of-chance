@@ -1,5 +1,7 @@
 extends IntroScreen
+class_name DifficultySelector
 
+## Intro screen that chooses between option
 
 var Difficulties = ["B","E","N","P"]
 var Selected = 0
@@ -16,25 +18,27 @@ func _ready():
 func _process(delta):
 	if Input.is_action_just_pressed("start"):
 		TryTransition()
-	
-	if Wait <= 0:
-		if Input.is_action_pressed("down"):
-			Wait = WaitTime
-			Selected += 1
-			updateButtons()
-		if Input.is_action_pressed("up"):
-			Wait = WaitTime
-			Selected -= 1
-			updateButtons()
-	
-	Wait -= delta
+		Wait = 3
+		$Confirm.play()
+	else:
+		if Wait <= 0:
+			if Input.is_action_pressed("down"):
+				Wait = WaitTime
+				Selected += 1
+				updateButtons()
+			if Input.is_action_pressed("up"):
+				Wait = WaitTime
+				Selected -= 1
+				updateButtons()
+		
+		Wait -= delta
 	
 	
 	
 	
 
 func updateButtons():
-	
+	$Select.play()
 	Selected = wrap(Selected,0,Difficulties.size())
 	for E in Elements.values():
 		E.find_child("Outline").color = Color("2f2f2f")

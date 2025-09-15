@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://ma52w6cxtf36"]
+
+[ext_resource type="Texture2D" uid="uid://dwbgtjvjf2npl" path="res://SpeedyShibaSecret.png" id="1_podjc"]
+[ext_resource type="Texture2D" uid="uid://6xnoaa6qa4i4" path="res://Driver.png" id="2_vytgl"]
+
+[node name="CharacterViewport" type="SubViewport"]
+transparent_bg = true
+size = Vector2i(224, 224)
+
+[node name="SpeedyShibaSecret" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(113.04, 117)
+scale = Vector2(0.282197, 0.282197)
+texture = ExtResource("1_podjc")
+
+[node name="Driver" type="Sprite2D" parent="."]
+position = Vector2(120, 120)
+scale = Vector2(2.4, 2.4)
+texture = ExtResource("2_vytgl")

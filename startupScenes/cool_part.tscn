@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://c2eky7ki34ggq"]
+
+[ext_resource type="Script" uid="uid://b11ggnink4j6l" path="res://startupScenes/CoolPart.gd" id="1_lbbuq"]
+[ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="1_qhkf8"]
+[ext_resource type="Texture2D" uid="uid://ddtgu3s4kwfwq" path="res://CIRCLE.png" id="2_jbw8y"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_2lsqn"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qhkf8"]
+viewport_path = NodePath("/root/CharacterViewport")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qhkf8"]
+sky_top_color = Color(1, 1, 1, 1)
+sky_horizon_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(0.764706, 0.701961, 0.631373, 1)
+ground_horizon_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Sky" id="Sky_w48qg"]
+sky_material = SubResource("ProceduralSkyMaterial_qhkf8")
+
+[sub_resource type="Environment" id="Environment_jbw8y"]
+background_mode = 2
+sky = SubResource("Sky_w48qg")
+glow_enabled = true
+
+[node name="CoolPart" type="Node2D"]
+script = ExtResource("1_lbbuq")
+TargetScene = "uid://77i4un7oqvtw"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 19.0
+offset_top = 42.0
+offset_right = 531.0
+offset_bottom = 554.0
+scale = Vector2(0.304763, 0.304763)
+texture = SubResource("ViewportTexture_2lsqn")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+own_world_3d = true
+transparent_bg = true
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(0.785479, -0.0437102, 0.617343, 0, 0.997503, 0.070627, -0.618888, -0.055476, 0.783518, 2.4035, 0.865437, 2.67714)
+
+[node name="Car" parent="SubViewport" instance=ExtResource("1_qhkf8")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, 0)
+gravity_scale = 0.0
+
+[node name="SpriteFront" type="Sprite3D" parent="SubViewport/Car"]
+transform = Transform3D(0.0130711, 0, 0.499829, 0, 0.5, 0, -0.499829, 0, 0.0130711, -0.072, 1.03095, 0.022)
+double_sided = false
+texture_filter = 0
+texture = SubResource("ViewportTexture_qhkf8")
+
+[node name="SpriteBack" type="Sprite3D" parent="SubViewport/Car"]
+transform = Transform3D(-0.0130712, 0, -0.499829, 0, 0.5, 0, 0.499829, 0, -0.0130712, -0.0789217, 1.03114, 0.021282)
+flip_h = true
+modulate = Color(0, 0, 0, 1)
+double_sided = false
+texture_filter = 0
+texture = SubResource("ViewportTexture_qhkf8")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
+environment = SubResource("Environment_jbw8y")
+
+[node name="Circle" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.270588)
+z_index = -1
+position = Vector2(92, 159)
+scale = Vector2(1, 0.552846)
+texture = ExtResource("2_jbw8y")
