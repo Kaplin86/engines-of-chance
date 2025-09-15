@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="hackclub-shiba-game"
-run/main_scene="uid://77i4un7oqvtw"
+run/main_scene="uid://cnpp1wlgo8uhy"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Variablesharer="*res://scripts/global/variablesharer.gd"
 Transition="*res://scripts/global/transition.tscn"
+IntroBg="*res://startupScenes/intro_bg.tscn"
 
 [display]
 
