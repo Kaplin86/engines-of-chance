@@ -3,6 +3,8 @@ extends Node3D
 @export var PlayerCarNode : PlayerCar
 @export var PathTrack : TrackPath
 
+@export var LapCount = 3
+
 var BaseCar = preload("res://car.tscn")
 var CPUScript = preload("res://scripts/EnemyCar.gd")
 
@@ -16,6 +18,7 @@ var PlayerPlace = 0
 var RNG = RandomNumberGenerator.new()
 
 var StartingPoint = 0
+
 
 
 
@@ -126,7 +129,7 @@ func _process(delta):
 	PlacementPosition.sort_custom(MySort)
 	for E in PlacementPosition:
 		if E.keys()[0] == PlayerCarNode:
-			$Speedomoter/Label.text = str(PlacementPosition.find(E) + 1)
+			$Speedomoter/DrivingPlacement.text = str(PlacementPosition.find(E) + 1)
 			PlayerPlace = PlacementPosition.find(E) + 1
 
 func MySort(a, b):

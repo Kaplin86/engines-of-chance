@@ -138,13 +138,21 @@ func _process(delta):
 		runDraw(delta)
 	
 	if State == "Drive":
-		if PlayerCarNode.Laps == 1:
+		$"../Speedomoter/LapDisplay".text = str(PlayerCarNode.Laps)+"/"+str($"..".LapCount)
+		if PlayerCarNode.Laps == $"..".LapCount:
 			State = "Result"
 			PlayerPlacementAtVictory = $"..".PlayerPlace
 			await get_tree().create_timer(0.5).timeout
+			$"../Speedomoter".MusicPlaying = false
 			await do_tween($ColorRect,"modulate",Color(1,1,1,1),0.3)
-			$Result/Label.text = "YOUR FINAL PLACEMENT:\n " + str(PlayerPlacementAtVictory)
-			await do_tween($Result,"modulate",Color(1,1,1,1),0.3)
+			var Scene : PackedScene = load("res://result_screen.tscn")
+			var NewScene = Scene.instantiate()
+			
+			NewScene.PlacementValue = PlayerPlacementAtVictory
+			
+			var NewPack = PackedScene.new()
+			NewPack.pack(NewScene)
+			get_tree().change_scene_to_packed(NewPack)
 			
 
 var PlayerPlacementAtVictory = 0

@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwqx4ycu7knvb"]
+
+[ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="1_e2y21"]
+[ext_resource type="Script" uid="uid://bnuy2phdjudkp" path="res://result_screen.gd" id="1_u5ed4"]
+
+[node name="ResultScreen" type="Node2D" node_paths=PackedStringArray("PlacementValueNode")]
+script = ExtResource("1_u5ed4")
+PlacementValueNode = NodePath("Result/PlacementValue")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -4
+offset_right = 320.0
+offset_bottom = 241.0
+color = Color(0, 0, 0, 1)
+
+[node name="Result" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="Result"]
+offset_left = 11.0
+offset_top = 13.0
+offset_right = 364.0
+offset_bottom = 48.0
+scale = Vector2(0.8468, 0.8468)
+theme_override_fonts/font = ExtResource("1_e2y21")
+text = "YOUR FINAL PLACEMENT:"
+autowrap_mode = 1
+
+[node name="PlacementValue" type="Label" parent="Result"]
+offset_left = 12.0
+offset_top = 41.0
+offset_right = 365.0
+offset_bottom = 127.0
+scale = Vector2(0.8468, 0.8468)
+theme_override_fonts/font = ExtResource("1_e2y21")
+theme_override_font_sizes/font_size = 21
+text = "uh idk yet"
+horizontal_alignment = 1
+autowrap_mode = 1
