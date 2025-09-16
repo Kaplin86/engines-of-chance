@@ -8,9 +8,11 @@ class_name IntroScreen
 
 var Transitioning = false
 
-func TryTransition():
+func TryTransition(override = ""):
 	if !Transitioning:
 			Transitioning = true
+			if override:
+				TargetScene = override
 			if RunTransition:
 				Transition.scene_transition(TargetScene)
 			else:

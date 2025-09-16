@@ -17,3 +17,5 @@ texture = ExtResource("1_podjc")
 position = Vector2(120, 120)
 scale = Vector2(2.4, 2.4)
 texture = ExtResource("2_vytgl")
+
+[node name="CharacterStore" type="Node2D" parent="."]

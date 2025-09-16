@@ -89,3 +89,5 @@ texture = ExtResource("3_cxikl")
 
 [node name="Select" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_kjw2r")
+
+[node name="PenBits" type="Node2D" parent="."]

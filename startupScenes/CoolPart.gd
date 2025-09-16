@@ -20,7 +20,10 @@ func _ready():
 
 func _process(delta):
 	if Input.is_action_just_pressed("start"):
-		TryTransition()
+		if Selected == 0:
+			TryTransition()
+		else:
+			TryTransition("res://startupScenes/draw_driver.tscn")
 		Wait = 3
 	else:
 		if Wait <= 0:
