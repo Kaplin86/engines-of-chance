@@ -1,0 +1,91 @@
+[gd_scene load_steps=6 format=3 uid="uid://dknty26r5oxhq"]
+
+[ext_resource type="Script" uid="uid://bio4kaxfwu5dk" path="res://startupScenes/draw_driver.gd" id="1_1sjbn"]
+[ext_resource type="Texture2D" uid="uid://cvdy323inwg10" path="res://Pencil.png" id="2_kjw2r"]
+[ext_resource type="Texture2D" uid="uid://bdcnkabmvgv24" path="res://CheckMark.png" id="3_cxikl"]
+[ext_resource type="Texture2D" uid="uid://ror40l65d2st" path="res://Lock.png" id="4_r6rfv"]
+[ext_resource type="AudioStream" uid="uid://bgf7e161q1n4w" path="res://sfx/CardDraw.mp3" id="5_kjw2r"]
+
+[node name="DrawDriver" type="Node2D"]
+z_index = 4
+script = ExtResource("1_1sjbn")
+TargetScene = "uid://c2eky7ki34ggq"
+
+[node name="Cursor" type="ColorRect" parent="."]
+z_index = 2
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 22.0
+offset_bottom = 22.0
+color = Color(0, 0.909103, 0.944819, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -2
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 224.0
+offset_bottom = 224.0
+color = Color(0, 0, 0, 0.74)
+
+[node name="Lock" type="Sprite2D" parent="."]
+visible = false
+z_index = 1
+position = Vector2(120, 128)
+texture = ExtResource("4_r6rfv")
+
+[node name="D" type="ColorRect" parent="."]
+offset_left = 230.0
+offset_top = 38.0
+offset_right = 315.0
+offset_bottom = 89.0
+color = Color(0, 0.186667, 0.28, 0.533333)
+
+[node name="Outline" type="ColorRect" parent="D"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.184314, 0.184314, 0.184314, 1)
+
+[node name="Pencil" type="Sprite2D" parent="D"]
+modulate = Color(1, 0, 0, 1)
+texture_filter = 3
+position = Vector2(42, 26)
+texture = ExtResource("2_kjw2r")
+
+[node name="C" type="ColorRect" parent="."]
+offset_left = 230.0
+offset_top = 149.0
+offset_right = 315.0
+offset_bottom = 200.0
+color = Color(0, 0.186667, 0.28, 0.780392)
+
+[node name="Outline" type="ColorRect" parent="C"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.184314, 0.184314, 0.184314, 1)
+
+[node name="CheckMark" type="Sprite2D" parent="C"]
+texture_filter = 1
+position = Vector2(42, 27)
+scale = Vector2(0.52027, 0.52027)
+texture = ExtResource("3_cxikl")
+
+[node name="Select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_kjw2r")

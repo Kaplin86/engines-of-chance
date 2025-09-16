@@ -17,6 +17,8 @@ func _ready():
 
 func _process(delta):
 	if Input.is_action_just_pressed("start"):
+		Variablesharer.difficulty = Difficulties[Selected]
+		print(Difficulties[Selected])
 		TryTransition()
 		Wait = 3
 		$Confirm.play()

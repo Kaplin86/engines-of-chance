@@ -89,6 +89,7 @@ texture = ExtResource("4_u1y11")
 
 [node name="Outline" type="ColorRect" parent="E"]
 z_index = -1
+layout_mode = 0
 offset_left = -1.0
 offset_top = -1.0
 offset_right = 149.0
@@ -129,6 +130,7 @@ texture = ExtResource("4_u1y11")
 
 [node name="Outline" type="ColorRect" parent="N"]
 z_index = -1
+layout_mode = 0
 offset_left = -1.0
 offset_top = -1.0
 offset_right = 149.0
@@ -168,6 +170,7 @@ texture = ExtResource("4_u1y11")
 
 [node name="Outline" type="ColorRect" parent="P"]
 z_index = -1
+layout_mode = 0
 offset_left = -1.0
 offset_top = -1.0
 offset_right = 149.0
