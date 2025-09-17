@@ -13,6 +13,10 @@ var LapStatus = 0
 var GrassMultipler = 0.5
 var GrassOn = false
 
+func _ready():
+	for E in Variablesharer.playerCards:
+		ActivateCard(E)
+
 func SetWheelStatus(Mode, Tire : VehicleWheel3D): #A quick function to set a wheel to be 'front' or 'back'
 	if Mode == "traction":
 		Tire.use_as_steering = false

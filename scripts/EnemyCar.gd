@@ -10,6 +10,9 @@ var Progress = 0
 
 var StartingRotation = null
 
+func _ready():
+	pass
+
 func _physics_process(delta):
 	
 	

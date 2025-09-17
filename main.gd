@@ -23,13 +23,16 @@ var StartingPoint = 0
 
 
 func set_drive():
+	Drivers.append(PlayerCarNode)
 	for E in Drivers:
 		E.CanDrive = true
-	Drivers.append(PlayerCarNode)
+	
+	
 
 func _ready():
 	
 	IntroBg.visible = false
+	IntroMusic.playing = false
 	
 	var Rows = ceil(DriverCount / 3)
 	for E in Rows:
@@ -102,7 +105,8 @@ func _ready():
 				MinimapIcon.modulate = Color.from_hsv(Mat.albedo_color.h,0.25,Mat.albedo_color.v)
 				$Speedomoter/TextureRect.add_child(MinimapIcon)
 		
-		
+	await get_tree().create_timer(1).timeout
+	
 
 var PlacementPosition : Array = []
 

@@ -1,7 +1,7 @@
-[gd_scene load_steps=42 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=44 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://scripts/Camera.gd" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://b61pnkqm75mpo" path="res://scripts/main.gd" id="1_ryguw"]
+[ext_resource type="Script" uid="uid://b61pnkqm75mpo" path="res://main.gd" id="1_ryguw"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://dllgjp122y6fb" path="res://scripts/MapGenerator.gd" id="2_w48qg"]
 [ext_resource type="Script" uid="uid://du4ok6by6akf4" path="res://scripts/CarMovement.gd" id="3_h2yge"]
@@ -31,6 +31,8 @@
 [ext_resource type="AudioStream" uid="uid://c3nwtdgko6was" path="res://music/NEW/BetterRacingSong - Track 6.wav" id="29_ok6jj"]
 [ext_resource type="AudioStream" uid="uid://bn1a6u1k0ju1n" path="res://music/NEW/BetterRacingSong - Track 7.wav" id="30_facbu"]
 [ext_resource type="AudioStream" uid="uid://tigal7c08xbm" path="res://music/NEW/BetterRacingSong - Track 8.wav" id="31_b1qrp"]
+[ext_resource type="Script" uid="uid://c5w685hnljs5d" path="res://light.gd" id="32_htxhm"]
+[ext_resource type="AudioStream" uid="uid://btdxw42ymhivr" path="res://sfx/glass_04.ogg" id="33_4k2k6"]
 [ext_resource type="AudioStream" uid="uid://cae0dk1qgd0gq" path="res://music/EnginesOfChanceIntro.mp3" id="33_jq2sk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
@@ -130,6 +132,7 @@ volume_db = -15.811
 pitch_scale = 1.04
 
 [node name="Canvas" type="CanvasLayer" parent="." node_paths=PackedStringArray("PlayerCarNode")]
+visible = false
 script = ExtResource("5_272bh")
 PlayerCarNode = NodePath("../PlayerCar")
 
@@ -489,7 +492,6 @@ Randomize = true
 SkyHolder = NodePath("../WorldEnvironment")
 
 [node name="Speedomoter" type="CanvasLayer" parent="." node_paths=PackedStringArray("Car")]
-visible = false
 script = ExtResource("16_yaehf")
 Car = NodePath("../PlayerCar")
 
@@ -543,7 +545,6 @@ metadata/Target = NodePath("../../../PlayerCar")
 
 [node name="Intro" type="AudioStreamPlayer" parent="Speedomoter"]
 stream = ExtResource("33_jq2sk")
-autoplay = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Speedomoter"]
 stream = SubResource("AudioStreamSynchronized_come4")
@@ -582,6 +583,62 @@ transparent_bg = true
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.1, 0)
 projection = 1
 size = 300.0
+
+[node name="Light" type="CanvasLayer" parent="." node_paths=PackedStringArray("Red", "Yellow", "Green")]
+script = ExtResource("32_htxhm")
+Red = NodePath("Red")
+Yellow = NodePath("Yellow")
+Green = NodePath("Green")
+
+[node name="BG" type="Sprite2D" parent="Light"]
+modulate = Color(0.129558, 0.129558, 0.129558, 1)
+z_index = -1
+position = Vector2(165, 5)
+rotation = 1.57079
+scale = Vector2(1.36, 1.36)
+texture = ExtResource("9_4c57u")
+
+[node name="Red" type="Sprite2D" parent="Light"]
+modulate = Color(1, 0.25, 0.25, 1)
+position = Vector2(109, 30)
+scale = Vector2(0.341258, 0.341258)
+texture = ExtResource("16_2cqfq")
+
+[node name="Green" type="Sprite2D" parent="Light"]
+modulate = Color(0.32, 1, 0.354, 1)
+position = Vector2(221, 30)
+scale = Vector2(0.341258, 0.341258)
+texture = ExtResource("16_2cqfq")
+
+[node name="Yellow" type="Sprite2D" parent="Light"]
+modulate = Color(0.9375, 1, 0.25, 1)
+position = Vector2(164, 30)
+scale = Vector2(0.341258, 0.341258)
+texture = ExtResource("16_2cqfq")
+
+[node name="Red2" type="Sprite2D" parent="Light"]
+modulate = Color(0.0657589, 0, 0.00128727, 1)
+z_index = -1
+position = Vector2(109, 30)
+scale = Vector2(0.341258, 0.341258)
+texture = ExtResource("16_2cqfq")
+
+[node name="Green2" type="Sprite2D" parent="Light"]
+modulate = Color(0.0657589, 0, 0.00128727, 1)
+z_index = -1
+position = Vector2(221, 30)
+scale = Vector2(0.341258, 0.341258)
+texture = ExtResource("16_2cqfq")
+
+[node name="Yellow2" type="Sprite2D" parent="Light"]
+modulate = Color(0.0657589, 0, 0.00128727, 1)
+z_index = -1
+position = Vector2(164, 30)
+scale = Vector2(0.341258, 0.341258)
+texture = ExtResource("16_2cqfq")
+
+[node name="Glass04" type="AudioStreamPlayer" parent="Light"]
+stream = ExtResource("33_4k2k6")
 
 [connection signal="pressed" from="Canvas/Drawer/ChangeColor" to="Canvas" method="_on_change_color_pressed"]
 [connection signal="pressed" from="Canvas/Drawer/Finish" to="Canvas" method="_on_finish_pressed"]

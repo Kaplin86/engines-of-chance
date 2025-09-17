@@ -2,7 +2,7 @@ extends CanvasLayer
 
 @export var PlayerCarNode : PlayerCar
 
-var State = "Precard"
+var State = "Drive"
 
 var ColorRects = {}
 var RNG = RandomNumberGenerator.new()
