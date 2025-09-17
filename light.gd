@@ -21,6 +21,7 @@ func _ready():
 	Green.visible = true
 	
 	$"..".set_drive()
+	$"../Speedomoter".MusicPlaying = true
 	
 	await get_tree().create_timer(1).timeout
 	visible = false

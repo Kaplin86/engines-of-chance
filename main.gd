@@ -59,6 +59,8 @@ func _ready():
 					var ShaderResource : ShaderMaterial = Mat.next_pass
 					ShaderResource.set_shader_parameter("outline_color",Color.from_hsv(Mat.albedo_color.h - 0.05, Mat.albedo_color.s,Mat.albedo_color.v - 0.54)) 
 				
+				
+				
 				Drivers.append(NewScene)
 				
 				

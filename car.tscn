@@ -63,7 +63,7 @@ next_pass = SubResource("ShaderMaterial_uoj53")
 albedo_color = Color(0.0562916, 0.0562916, 0.0562916, 1)
 
 [node name="Car" type="VehicleBody3D"]
-collision_layer = 2
+collision_layer = 3
 
 [node name="LiveReaction" type="CanvasLayer" parent="."]
 

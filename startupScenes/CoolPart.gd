@@ -17,6 +17,8 @@ func _ready():
 	else:
 		$Difficulty.text = "DIFFICULTY: " + Variablesharer.difficultyToText[Variablesharer.difficulty]
 
+var moved = false
+
 func _process(delta):
 	if Input.is_action_just_pressed("start"):
 		if Selected == 0:
@@ -36,7 +38,14 @@ func _process(delta):
 				updateButtons()
 		
 		Wait -= delta
-	$SubViewport/Car.rotation.y += 0.02
+	
+
+	if moved:
+		$SubViewport/Car.rotation.y += 0.04 * Input.get_axis("left","right")
+	else:
+		$SubViewport/Car.rotation.y += 0.02
+		if Input.is_action_pressed("left") or Input.is_action_pressed("right"):
+			moved = true
 
 func updateButtons():
 	$Select.play()
