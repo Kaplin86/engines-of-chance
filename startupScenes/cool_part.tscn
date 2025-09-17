@@ -29,7 +29,7 @@ glow_enabled = true
 
 [node name="CoolPart" type="Node2D"]
 script = ExtResource("1_lbbuq")
-TargetScene = "uid://77i4un7oqvtw"
+TargetScene = "uid://dt4g8xdvfrufh"
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_left = 7.0

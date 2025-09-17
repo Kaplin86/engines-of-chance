@@ -21,6 +21,7 @@ Variablesharer="*res://scripts/global/variablesharer.gd"
 Transition="*res://scripts/global/transition.tscn"
 IntroBg="*res://startupScenes/intro_bg.tscn"
 CharacterViewport="*res://scripts/global/character_viewport.tscn"
+IntroMusic="*res://scripts/global/intro_music.tscn"
 
 [display]
 

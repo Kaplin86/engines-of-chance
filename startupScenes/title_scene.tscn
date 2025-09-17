@@ -21,7 +21,7 @@ offset_bottom = 178.0
 scale = Vector2(0.8468, 0.8468)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("3_mo5gh")
-text = "Press START to BEGIN"
+text = "Press E to BEGIN"
 horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="."]

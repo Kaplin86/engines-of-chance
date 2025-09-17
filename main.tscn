@@ -250,7 +250,6 @@ offset_right = 312.0
 offset_bottom = 200.0
 
 [node name="Cards" type="Node2D" parent="Canvas"]
-visible = false
 
 [node name="Card2" type="Sprite2D" parent="Canvas/Cards"]
 position = Vector2(160, 144.5)

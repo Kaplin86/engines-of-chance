@@ -6,7 +6,6 @@ var WaitTime = 0.3
 var Selected = 0
 var Elements = {}
 
-var DifficultyToText = {"B":"BABY","E":"EASY","N":"NORMAL","P":"pain"}
 
 func _ready():
 	for E in get_children():
@@ -16,7 +15,7 @@ func _ready():
 	if Variablesharer.difficulty == "P":
 		$Difficulty/Label.visible = true
 	else:
-		$Difficulty.text = "DIFFICULTY: " + DifficultyToText[Variablesharer.difficulty]
+		$Difficulty.text = "DIFFICULTY: " + Variablesharer.difficultyToText[Variablesharer.difficulty]
 
 func _process(delta):
 	if Input.is_action_just_pressed("start"):

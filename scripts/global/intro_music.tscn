@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo3cds1ef7r0p"]
+
+[ext_resource type="AudioStream" uid="uid://cae0dk1qgd0gq" path="res://music/EnginesOfChanceIntro.mp3" id="1_6bvqt"]
+
+[node name="IntroMusic" type="AudioStreamPlayer"]
+stream = ExtResource("1_6bvqt")
+autoplay = true
