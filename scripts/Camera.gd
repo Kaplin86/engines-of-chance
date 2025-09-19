@@ -26,7 +26,7 @@ func _process(delta):
 	if camera_mode == CameraMode.FollowBehind:
 		DesiredPosition.x = sin(FocusObject.rotation.y - 1.570795) * CircleDistance + FocusObject.global_position.x
 		DesiredPosition.z = cos(FocusObject.rotation.y - 1.570795) * CircleDistance + FocusObject.global_position.z
-		DesiredPosition.y = 3.549 - FocusObject.global_position.y
+		DesiredPosition.y = 3.549 + FocusObject.global_position.y - 1
 		
 		
 		if Input.is_action_pressed("rearview"):

@@ -36,6 +36,11 @@ class_name MapGenerator
 		spawnangle = value
 		if Engine.is_editor_hint(): 	_ready()
 
+@export var height: float = 0.0:
+	set(value):
+		height = value
+		if Engine.is_editor_hint(): 	_ready()
+
 @export_enum("Circle", "Oval", "Square") var shape: int:
 	set(value):
 		shape = value
@@ -69,6 +74,7 @@ func _ready(): #the ready is basically 'track generate'
 			var NewRng =RandomNumberGenerator.new()
 			point_count += NewRng.randi_range(-1,1) 
 			seed = NewRng.randi_range(0,100)
+			height = 10
 			shape = 0
 	
 	
@@ -78,7 +84,7 @@ func _ready(): #the ready is basically 'track generate'
 			if !get_parent().name == "mapeditortest":
 				return
 	
-	var TheLine = generate_line(seed,point_count,map_radius,noise_strength) #Creates a line based on params
+	var TheLine = generate_line(seed,point_count,map_radius,noise_strength,height) #Creates a line based on params
 	var EvenlySpacedPoints = sample_line(TheLine,point_spacing) #Gets points along the map
 	var EdgePoints = compute_edges(EvenlySpacedPoints,trackwidth) #Get left-side and right-side points
 	var GrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4) #Get left-side and right-side points
@@ -259,7 +265,7 @@ func get_track_transform_at(curve: Curve3D, distance: float) -> Transform3D: #Th
 	return Transform3D(basis, pos)
 
 
-func generate_line(seed,points,radius,noise) -> Curve3D: #this generates the curve3D
+func generate_line(seed,points,radius,noise,height) -> Curve3D: #this generates the curve3D
 	var RNG = RandomNumberGenerator.new() #gambling
 	RNG.seed = seed
 	var curve = Curve3D.new()
@@ -268,14 +274,14 @@ func generate_line(seed,points,radius,noise) -> Curve3D: #this generates the cur
 		for I in points:
 			var angle = TAU * I / points
 			var r = radius * (1.0 + RNG.randf_range(-noise_strength, noise_strength))
-			var p = Vector3(r * cos(angle), 0.0, r * sin(angle))
+			var p = Vector3(r * cos(angle), RNG.randf() * height, r * sin(angle))
 			curve.add_point(p)
 	
 	if shape == 1: #oval
 		for I in points:
 			var angle = TAU * I / points
 			var r = radius * (1.0 + RNG.randf_range(-noise_strength, noise_strength))
-			var p = Vector3(r * cos(angle) * 0.5, 0.0, r * sin(angle))
+			var p = Vector3(r * cos(angle) * 0.5, RNG.randf() * height, r * sin(angle))
 			curve.add_point(p)
 	
 	if shape == 2: #square
@@ -302,7 +308,7 @@ func generate_line(seed,points,radius,noise) -> Curve3D: #this generates the cur
 			x += RNG.randf_range(-noise_strength * radius, noise_strength * radius)
 			z += RNG.randf_range(-noise_strength * radius, noise_strength * radius)
 			
-			var p = Vector3(x, 0.0, z)
+			var p = Vector3(x, RNG.randf() * height, z)
 			curve.add_point(p)
 
 	

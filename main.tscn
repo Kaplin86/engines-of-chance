@@ -484,6 +484,7 @@ point_spacing = 2
 trackwidth = 15
 car = NodePath("../PlayerCar")
 seed = 28
+height = null
 shape = 1
 Minimap = NodePath("../Minimap")
 Path3D_Result = NodePath("../Path3D")
