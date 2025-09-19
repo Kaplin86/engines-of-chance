@@ -52,10 +52,10 @@ func _ready():
 				var NewCarMesh : MeshInstance3D = NewScene.get_node("MeshInstance3D")
 				var Mat : StandardMaterial3D
 				if NewCarMesh.get_surface_override_material(0):
-					Mat = NewCarMesh.get_surface_override_material(0).duplicate()
+					Mat = NewCarMesh.get_surface_override_material(0).duplicate(true)
 					NewCarMesh.set_surface_override_material(0,Mat)
 					Mat.albedo_color = Color.from_hsv(RNG.randf(),Mat.albedo_color.s,Mat.albedo_color.v)
-					Mat.next_pass = Mat.next_pass.duplicate()
+					Mat.next_pass = Mat.next_pass.duplicate(true)
 					var ShaderResource : ShaderMaterial = Mat.next_pass
 					ShaderResource.set_shader_parameter("outline_color",Color.from_hsv(Mat.albedo_color.h - 0.05, Mat.albedo_color.s,Mat.albedo_color.v - 0.54)) 
 				
@@ -146,6 +146,7 @@ func _process(delta):
 		
 		PlacementPosition.sort_custom(MySort)
 		for E in PlacementPosition:
+			E.keys()[0].Placement = PlacementPosition.find(E) 
 			if E.keys()[0] == PlayerCarNode:
 				$Speedomoter/DrivingPlacement.text = str(PlacementPosition.find(E) + 1)
 				PlayerPlace = PlacementPosition.find(E) + 1

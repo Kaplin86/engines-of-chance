@@ -9,4 +9,4 @@ var playerCards = []
 
 var PositiveCards = ["DoubleSpeed","LightCar","GrassCard", "Ghost"]
 var NegativeCards = ["HalfSpeed","HeavyCar","SpamCard"]
-var NeutralCards = ["RainbowCar","Reaction","DriverView"]
+var NeutralCards = ["RainbowCar","Reaction","DriverView","Celebration"]

@@ -1,11 +1,21 @@
-[gd_scene load_steps=19 format=3 uid="uid://bdgdj1pv1cgcp"]
+[gd_scene load_steps=22 format=3 uid="uid://bdgdj1pv1cgcp"]
 
 [ext_resource type="Shader" uid="uid://dv3rbed8q0ldy" path="res://outline.gdshader" id="1_7822p"]
+[ext_resource type="Texture2D" uid="uid://dbecljl6jgttw" path="res://cards/BlankCard.png" id="2_06lh1"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="3_06lh1"]
 [ext_resource type="AudioStream" uid="uid://tp17h6kai6wf" path="res://sfx/DogBarkShort.mp3" id="3_k61xc"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k61xc"]
 viewport_path = NodePath("Car")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_td361"]
+atlas = ExtResource("2_06lh1")
+region = Rect2(9.21954, 6.70076, 7.51315, 13.6603)
+
+[sub_resource type="Curve" id="Curve_72krn"]
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, -1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
 
@@ -63,7 +73,8 @@ next_pass = SubResource("ShaderMaterial_uoj53")
 albedo_color = Color(0.0562916, 0.0562916, 0.0562916, 1)
 
 [node name="Car" type="VehicleBody3D"]
-collision_layer = 3
+collision_layer = 2
+collision_mask = 3
 
 [node name="LiveReaction" type="CanvasLayer" parent="."]
 
@@ -108,6 +119,32 @@ texture = SubResource("ViewportTexture_k61xc")
 
 [node name="Camera3D" type="Camera3D" parent="Car"]
 transform = Transform3D(-2.13163e-14, 0, 1, 0, 1, 0, -1, 0, 9.9476e-14, 2.65799, 0.820346, -0.00790989)
+
+[node name="Celebration" type="CanvasLayer" parent="."]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Celebration"]
+position = Vector2(300, 225)
+emitting = false
+amount = 16
+texture = SubResource("AtlasTexture_td361")
+lifetime = 4.24
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector2(-0.695, -1.355)
+spread = 19.55
+gravity = Vector2(0, 291.09)
+initial_velocity_min = 161.61
+initial_velocity_max = 292.92
+angle_min = -29.1
+angle_max = 232.7
+scale_amount_min = 0.9
+scale_amount_max = 1.1
+color = Color(1, 0.75, 0.75, 1)
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+hue_variation_curve = SubResource("Curve_72krn")
 
 [node name="Spam" type="CanvasLayer" parent="."]
 layer = 2

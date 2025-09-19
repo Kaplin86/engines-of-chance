@@ -13,6 +13,10 @@ var LapStatus = 0
 var GrassMultipler = 0.5
 var GrassOn = false
 
+var CelebrationEnabled = false
+var Placement = 2
+var LastPlacement = 2
+
 func _ready():
 	for E in Variablesharer.playerCards:
 		ActivateCard(E)
@@ -39,8 +43,22 @@ func runflip(delta):
 		rotation.z = 0
 		position.y += 1
 
+var lastlap = 0
+
 func _physics_process(delta):
 	runflip(delta)
+	
+	if lastlap != Laps:
+		lastlap = Laps
+		if CelebrationEnabled:
+			$Celebration/CPUParticles2D.emitting = true
+	
+	if LastPlacement != Placement:
+		if Placement < LastPlacement:
+			if CelebrationEnabled:
+				$Celebration/CPUParticles2D.emitting = true
+		LastPlacement = Placement
+	
 	
 	if CanDrive:
 		runsteering(delta)
@@ -116,13 +134,18 @@ func ActivateCard(cardname): # This will parse a card
 		ADVERTISE()
 	
 	if cardname == "Ghost":
-		set_collision_layer_value(1,0)
-		var SurfaceMat : StandardMaterial3D = $MeshInstance3D.get_surface_override_material(0)
+		set_collision_mask_value(2,0)
+		set_collision_layer_value(2,0)
+		var SurfaceMat : StandardMaterial3D = $MeshInstance3D.get_surface_override_material(0).duplicate(true)
+		$MeshInstance3D.set_surface_override_material(0,SurfaceMat)
 		var CurrentColor = SurfaceMat.albedo_color
 		SurfaceMat.albedo_color = Color(CurrentColor.r,CurrentColor.g,CurrentColor.b,0.5)
 		var nextPass : ShaderMaterial = SurfaceMat.next_pass
 		nextPass.set_shader_parameter("outline_color",Color("8a000075"))
 		SurfaceMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	
+	if cardname == "Celebration":
+		CelebrationEnabled = true
 
 var PopupTypes = ["Gradient","Hi","New","SmilyFace2","SmilyFace"]
 

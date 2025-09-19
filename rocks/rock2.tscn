@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://c3kghik051oua"]
+
+[ext_resource type="Shader" uid="uid://dv3rbed8q0ldy" path="res://outline.gdshader" id="1_r8wfe"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m167k"]
+render_priority = 0
+shader = ExtResource("1_r8wfe")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/outline_width = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bs8w1"]
+next_pass = SubResource("ShaderMaterial_m167k")
+albedo_color = Color(0.29219, 0.29219, 0.29219, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fddnt"]
+material = SubResource("StandardMaterial3D_bs8w1")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a3m2t"]
+size = Vector3(0.543457, 0.335938, 0.626221)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.154804, 0, 0, 0, 0.32928, 0, 0, 0, 0.155334, -0.396433, 0.038048, 0.242207)
+mesh = SubResource("BoxMesh_fddnt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.310457, 0, 0, 0, 0.260042, 0, 0, 0, 0.260042, -0.225997, -0.00215833, -0.259049)
+mesh = SubResource("BoxMesh_fddnt")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.563066, 0, 0, 0, 0.278453, 0, 0, 0, 0.794802, -0.0930482, -0.0754133, 0.0809244)
+mesh = SubResource("BoxMesh_fddnt")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.126709, 0, -0.022583)
+shape = SubResource("BoxShape3D_a3m2t")
