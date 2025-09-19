@@ -99,7 +99,7 @@ func ActivateCard(cardname): # This will parse a card
 	
 	if cardname == "Reaction":
 		$LiveReaction/LiveReactionChild.visible = true
-		$LiveReaction/LiveReactionChild/Chara.texture = $"../Character".get_texture() 
+		$LiveReaction/LiveReactionChild/Chara.texture = CharacterViewport.get_texture() 
 	
 	if cardname == "RainbowCar":
 		NextRainbowColor()

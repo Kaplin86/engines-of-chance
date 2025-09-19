@@ -5,10 +5,10 @@
 [ext_resource type="Script" uid="uid://du4ok6by6akf4" path="res://scripts/CarMovement.gd" id="3_ghmas"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_47ek5"]
-sky_top_color = Color(1, 1, 1, 1)
+sky_top_color = Color(0.576471, 0.764706, 1, 1)
 sky_horizon_color = Color(1, 1, 1, 1)
 ground_bottom_color = Color(0.763979, 0.701734, 0.630413, 1)
-ground_horizon_color = Color(1, 1, 1, 1)
+ground_horizon_color = Color(0.647059, 0.654902, 0.670588, 1)
 
 [sub_resource type="Sky" id="Sky_47ek5"]
 sky_material = SubResource("ProceduralSkyMaterial_47ek5")

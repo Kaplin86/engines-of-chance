@@ -85,6 +85,7 @@ layer = 3
 script = ExtResource("1_pj2mc")
 
 [node name="LoadingIMage" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.396078)
 material = SubResource("ShaderMaterial_j7crc")
 position = Vector2(160, 120)
 texture = ExtResource("4_xhlym")
@@ -93,3 +94,10 @@ texture = ExtResource("4_xhlym")
 libraries = {
 &"": SubResource("AnimationLibrary_tyg23")
 }
+
+[node name="FallBackTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="FallBackTimer" to="." method="_on_fall_back_timer_timeout"]

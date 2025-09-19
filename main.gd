@@ -2,7 +2,7 @@ extends Node3D
 
 @export var PlayerCarNode : PlayerCar
 @export var PathTrack : TrackPath
-
+@export var resultscreen : PackedScene
 @export var LapCount = 3
 
 var BaseCar = preload("res://car.tscn")
@@ -112,44 +112,49 @@ func _ready():
 
 var PlacementPosition : Array = []
 
-func _process(delta):
-	PlacementPosition = []
-	for E in Drivers:
-		var CurveRoad : Curve3D = $Path3D.curve
-		var ClosestOffset = CurveRoad.get_closest_offset(E.global_position)
-		var Len = CurveRoad.get_baked_length()
-		var CorrectDistance = Len - ClosestOffset
-		if CorrectDistance >= Len / 4 and CorrectDistance <= Len / 4 * 2 and E.LapStatus == 0:
-			E.LapStatus = 1
-		elif CorrectDistance >= (Len / 4) * 2 and CorrectDistance <= Len / 4 * 3 and E.LapStatus == 1:
-			E.LapStatus = 2
-		elif CorrectDistance >= (Len / 4) * 3 and E.LapStatus == 2:
-			E.LapStatus = 3
-		elif CorrectDistance <= 10 and E.LapStatus == 3:
-			E.LapStatus = 0
-			E.Laps += 1
-		var DistanceAlong = 0
-		if E.LapStatus == 0 and CorrectDistance >= Len / 4 and E.Laps == 0:
-			DistanceAlong = CorrectDistance - Len
-		else:
-			DistanceAlong = CorrectDistance + (E.Laps * Len)
-		PlacementPosition.append({E:DistanceAlong})
-	
-	PlacementPosition.sort_custom(MySort)
-	for E in PlacementPosition:
-		if E.keys()[0] == PlayerCarNode:
-			$Speedomoter/DrivingPlacement.text = str(PlacementPosition.find(E) + 1)
-			PlayerPlace = PlacementPosition.find(E) + 1
-	
-	$Speedomoter/LapDisplay.text = str(PlayerCarNode.Laps)+"/"+str(LapCount)
-	if PlayerCarNode.Laps == LapCount:
-		var PlayerPlacementAtVictory = PlayerPlace
-		await get_tree().create_timer(0.5).timeout
-		$Speedomoter.MusicPlaying = false
-		Variablesharer.finalPlacement = PlayerPlacementAtVictory
-		Transition.scene_transition(resultscreen)
+var finished = false
 
-var resultscreen = preload("res://result_screen.tscn")
+func _process(delta):
+	if !finished:
+		PlacementPosition = []
+		for E in Drivers:
+			var CurveRoad : Curve3D = $Path3D.curve
+			var ClosestOffset = CurveRoad.get_closest_offset(E.global_position)
+			var Len = CurveRoad.get_baked_length()
+			var CorrectDistance = Len - ClosestOffset
+			if CorrectDistance >= Len / 4 and CorrectDistance <= Len / 4 * 2 and E.LapStatus == 0:
+				E.LapStatus = 1
+			elif CorrectDistance >= (Len / 4) * 2 and CorrectDistance <= Len / 4 * 3 and E.LapStatus == 1:
+				E.LapStatus = 2
+			elif CorrectDistance >= (Len / 4) * 3 and E.LapStatus == 2:
+				E.LapStatus = 3
+			elif CorrectDistance <= 10 and E.LapStatus == 3:
+				E.LapStatus = 0
+				E.Laps += 1
+			var DistanceAlong = 0
+			if E.LapStatus == 0 and CorrectDistance >= Len / 4 and E.Laps == 0:
+				DistanceAlong = CorrectDistance - Len
+			else:
+				DistanceAlong = CorrectDistance + (E.Laps * Len)
+			PlacementPosition.append({E:DistanceAlong})
+		
+		PlacementPosition.sort_custom(MySort)
+		for E in PlacementPosition:
+			if E.keys()[0] == PlayerCarNode:
+				$Speedomoter/DrivingPlacement.text = str(PlacementPosition.find(E) + 1)
+				PlayerPlace = PlacementPosition.find(E) + 1
+		
+		$Speedomoter/LapDisplay.text = str(PlayerCarNode.Laps)+"/"+str(LapCount)
+		if PlayerCarNode.Laps == LapCount and !finished:
+			finished = true
+			var PlayerPlacementAtVictory = PlayerPlace
+			await get_tree().create_timer(0.5).timeout
+			$Speedomoter.MusicPlaying = false
+			Variablesharer.finalPlacement = PlayerPlacementAtVictory
+			get_tree().change_scene_to_packed(resultscreen)
+		
+		
+
 
 func MySort(a, b):
 	if a.values()[0] > b.values()[0]:
