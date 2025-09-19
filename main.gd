@@ -140,6 +140,16 @@ func _process(delta):
 		if E.keys()[0] == PlayerCarNode:
 			$Speedomoter/DrivingPlacement.text = str(PlacementPosition.find(E) + 1)
 			PlayerPlace = PlacementPosition.find(E) + 1
+	
+	$Speedomoter/LapDisplay.text = str(PlayerCarNode.Laps)+"/"+str(LapCount)
+	if PlayerCarNode.Laps == LapCount:
+		var PlayerPlacementAtVictory = PlayerPlace
+		await get_tree().create_timer(0.5).timeout
+		$Speedomoter.MusicPlaying = false
+		Variablesharer.finalPlacement = PlayerPlacementAtVictory
+		Transition.scene_transition(resultscreen)
+
+var resultscreen = preload("res://result_screen.tscn")
 
 func MySort(a, b):
 	if a.values()[0] > b.values()[0]:

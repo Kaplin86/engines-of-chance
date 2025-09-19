@@ -137,16 +137,7 @@ func _process(delta):
 	if State == "Draw":
 		runDraw(delta)
 	
-	if State == "Drive":
-		$"../Speedomoter/LapDisplay".text = str(PlayerCarNode.Laps)+"/"+str($"..".LapCount)
-		if PlayerCarNode.Laps == $"..".LapCount:
-			State = "Result"
-			PlayerPlacementAtVictory = $"..".PlayerPlace
-			await get_tree().create_timer(0.5).timeout
-			$"../Speedomoter".MusicPlaying = false
-			Variablesharer.finalPlacement = PlayerPlacementAtVictory
-			Transition.scene_transition("res://result_screen.tscn")
-			
+
 var PlayerPlacementAtVictory = 0
 
 func runDraw(delta):

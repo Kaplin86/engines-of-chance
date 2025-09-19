@@ -1,12 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnpp1wlgo8uhy"]
+[gd_scene load_steps=5 format=3 uid="uid://cnpp1wlgo8uhy"]
 
 [ext_resource type="Script" uid="uid://dafdplt35hot" path="res://startupScenes/IntroScreen.gd" id="1_1bl2d"]
 [ext_resource type="Texture2D" uid="uid://bk5ryepp5dfvp" path="res://Logo.png" id="2_ebfxa"]
+[ext_resource type="PackedScene" uid="uid://dryesvlarhoyo" path="res://startupScenes/difficulty.tscn" id="2_mo5gh"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="3_mo5gh"]
 
 [node name="TitleScene" type="Node2D"]
 script = ExtResource("1_1bl2d")
-TargetScene = "uid://dryesvlarhoyo"
+TargetScene = ExtResource("2_mo5gh")
 
 [node name="Logo" type="Sprite2D" parent="."]
 position = Vector2(160, 64)

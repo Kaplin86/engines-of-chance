@@ -1,12 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://dt4g8xdvfrufh"]
+[gd_scene load_steps=5 format=3 uid="uid://dt4g8xdvfrufh"]
 
 [ext_resource type="Script" uid="uid://crd1kadxavdxk" path="res://startupScenes/card.gd" id="1_hnt58"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="1_kghdl"]
+[ext_resource type="PackedScene" uid="uid://77i4un7oqvtw" path="res://main.tscn" id="2_wpnq2"]
 [ext_resource type="AudioStream" uid="uid://bgf7e161q1n4w" path="res://sfx/CardDraw.mp3" id="3_0e2pp"]
 
 [node name="Card" type="Node2D"]
 script = ExtResource("1_hnt58")
-TargetScene = "uid://77i4un7oqvtw"
+TargetScene = ExtResource("2_wpnq2")
 
 [node name="Label" type="Label" parent="."]
 offset_top = 16.0

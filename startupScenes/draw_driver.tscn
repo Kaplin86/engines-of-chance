@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dknty26r5oxhq"]
+[gd_scene load_steps=7 format=3 uid="uid://dknty26r5oxhq"]
 
 [ext_resource type="Script" uid="uid://bio4kaxfwu5dk" path="res://startupScenes/draw_driver.gd" id="1_1sjbn"]
+[ext_resource type="PackedScene" uid="uid://c2eky7ki34ggq" path="res://startupScenes/cool_part.tscn" id="2_cxikl"]
 [ext_resource type="Texture2D" uid="uid://cvdy323inwg10" path="res://Pencil.png" id="2_kjw2r"]
 [ext_resource type="Texture2D" uid="uid://bdcnkabmvgv24" path="res://CheckMark.png" id="3_cxikl"]
 [ext_resource type="Texture2D" uid="uid://ror40l65d2st" path="res://Lock.png" id="4_r6rfv"]
@@ -9,7 +10,7 @@
 [node name="DrawDriver" type="Node2D"]
 z_index = 4
 script = ExtResource("1_1sjbn")
-TargetScene = "uid://c2eky7ki34ggq"
+TargetScene = ExtResource("2_cxikl")
 
 [node name="Cursor" type="ColorRect" parent="."]
 z_index = 2

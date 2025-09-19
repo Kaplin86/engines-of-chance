@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://c2eky7ki34ggq"]
+[gd_scene load_steps=13 format=3 uid="uid://c2eky7ki34ggq"]
 
 [ext_resource type="Script" uid="uid://b11ggnink4j6l" path="res://startupScenes/CoolPart.gd" id="1_lbbuq"]
 [ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="1_qhkf8"]
 [ext_resource type="Texture2D" uid="uid://ddtgu3s4kwfwq" path="res://CIRCLE.png" id="2_jbw8y"]
+[ext_resource type="PackedScene" uid="uid://dt4g8xdvfrufh" path="res://startupScenes/card.tscn" id="2_mr6vh"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="4_mr6vh"]
 [ext_resource type="AudioStream" uid="uid://bgf7e161q1n4w" path="res://sfx/CardDraw.mp3" id="5_r3513"]
 [ext_resource type="Texture2D" uid="uid://bk5ryepp5dfvp" path="res://Logo.png" id="6_4pe2q"]
@@ -29,7 +30,7 @@ glow_enabled = true
 
 [node name="CoolPart" type="Node2D"]
 script = ExtResource("1_lbbuq")
-TargetScene = "uid://dt4g8xdvfrufh"
+TargetScene = ExtResource("2_mr6vh")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_left = 7.0
