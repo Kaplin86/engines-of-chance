@@ -132,7 +132,8 @@ func ADVERTISE():
 	var NewspamImage = Sprite2D.new()
 	$Spam/spam.play()
 	NewspamImage.texture = load("res://popups/"+ PopupTypes.pick_random()+".png")
-	$Spam.add_child(NewspamImage)
+	if CanDrive:
+		$Spam.add_child(NewspamImage)
 	NewspamImage.position = Vector2(RNG.randf_range(65.0,255.0),RNG.randf_range(43.0,198.0))
 	NewspamImage.scale.x = RNG.randf_range(0.9,1.1)
 	NewspamImage.scale.y = NewspamImage.scale.x 

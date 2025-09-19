@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://77i4un7oqvtw"]
+[gd_scene load_steps=45 format=3 uid="uid://77i4un7oqvtw"]
 
 [ext_resource type="Script" uid="uid://d17d7qgs4m5fu" path="res://scripts/Camera.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://b61pnkqm75mpo" path="res://main.gd" id="1_ryguw"]
@@ -34,6 +34,7 @@
 [ext_resource type="Script" uid="uid://c5w685hnljs5d" path="res://light.gd" id="32_htxhm"]
 [ext_resource type="AudioStream" uid="uid://btdxw42ymhivr" path="res://sfx/glass_04.ogg" id="33_4k2k6"]
 [ext_resource type="AudioStream" uid="uid://cae0dk1qgd0gq" path="res://music/EnginesOfChanceIntro.mp3" id="33_jq2sk"]
+[ext_resource type="Script" uid="uid://dw3ur8qq8d786" path="res://tween_camera.gd" id="35_0rl1p"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_top_color = Color(1, 1, 1, 1)
@@ -93,7 +94,6 @@ script = ExtResource("1_ryguw")
 PlayerCarNode = NodePath("PlayerCar")
 PathTrack = NodePath("Path3D")
 resultscreen = ExtResource("2_0rl1p")
-LapCount = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_h2yge")
@@ -131,6 +131,34 @@ texture = SubResource("ViewportTexture_qhkf8")
 stream = ExtResource("4_ycdy4")
 volume_db = -15.811
 pitch_scale = 1.04
+
+[node name="TrackName" type="CanvasLayer" parent="."]
+
+[node name="Node2D" type="Node2D" parent="TrackName"]
+
+[node name="Name" type="Label" parent="TrackName/Node2D"]
+offset_left = 4.0
+offset_top = 174.0
+offset_right = 362.0
+offset_bottom = 216.0
+scale = Vector2(0.8468, 0.8468)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_7mycd")
+text = "Autumn Course"
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="Tagline" type="Label" parent="TrackName/Node2D"]
+modulate = Color(1, 1, 1, 0.901961)
+offset_left = 4.0
+offset_top = 209.0
+offset_right = 204.0
+offset_bottom = 225.0
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 8
+text = "In the middle of nowhere!"
+vertical_alignment = 1
 
 [node name="Canvas" type="CanvasLayer" parent="."]
 visible = false
@@ -484,7 +512,6 @@ point_spacing = 2
 trackwidth = 15
 car = NodePath("../PlayerCar")
 seed = 28
-height = null
 shape = 1
 Minimap = NodePath("../Minimap")
 Path3D_Result = NodePath("../Path3D")
@@ -492,6 +519,7 @@ Randomize = true
 SkyHolder = NodePath("../WorldEnvironment")
 
 [node name="Speedomoter" type="CanvasLayer" parent="." node_paths=PackedStringArray("Car")]
+visible = false
 script = ExtResource("16_yaehf")
 Car = NodePath("../PlayerCar")
 
@@ -555,7 +583,7 @@ offset_top = 215.0
 offset_right = 302.0
 offset_bottom = 238.0
 theme_override_fonts/font = ExtResource("6_7mycd")
-text = "3/3"
+text = "2"
 horizontal_alignment = 1
 
 [node name="LapDisplay" type="Label" parent="Speedomoter"]
@@ -580,11 +608,12 @@ transparent_bg = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Minimap"]
 
 [node name="Camera3D2" type="Camera3D" parent="Minimap"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.1, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 77.695, 0)
 projection = 1
 size = 300.0
 
 [node name="Light" type="CanvasLayer" parent="." node_paths=PackedStringArray("Red", "Yellow", "Green")]
+visible = false
 script = ExtResource("32_htxhm")
 Red = NodePath("Red")
 Yellow = NodePath("Yellow")
@@ -642,6 +671,24 @@ stream = ExtResource("33_4k2k6")
 
 [node name="NewResultScreen" parent="." instance=ExtResource("2_0rl1p")]
 visible = false
+
+[node name="TweenCamera" type="Camera3D" parent="."]
+current = true
+script = ExtResource("35_0rl1p")
+
+[node name="CameraAngles" type="Node3D" parent="TweenCamera"]
+
+[node name="1" type="Camera3D" parent="TweenCamera/CameraAngles"]
+transform = Transform3D(0.652794, 0.264729, -0.709774, 0, 0.936951, 0.349461, 0.757536, -0.228126, 0.611636, -171.667, 70.947, 136.595)
+
+[node name="2" type="Camera3D" parent="TweenCamera/CameraAngles"]
+transform = Transform3D(0.990872, 0.0387473, -0.129116, 0, 0.957801, 0.287433, 0.134804, -0.28481, 0.949058, -34.2322, 70.947, 203.659)
+
+[node name="3" type="Camera3D" parent="TweenCamera/CameraAngles"]
+transform = Transform3D(-0.562841, -0.146434, 0.813491, 0, 0.984182, 0.177159, -0.826565, 0.0997126, -0.553938, 149.218, 6.97767, -1.22783)
+
+[node name="4" type="Camera3D" parent="TweenCamera/CameraAngles"]
+transform = Transform3D(-0.203975, -0.173435, 0.963491, 6.15839e-09, 0.984182, 0.177159, -0.978976, 0.036136, -0.200748, 151.328, 6.97767, 8.92978)
 
 [connection signal="pressed" from="Canvas/Drawer/ChangeColor" to="Canvas" method="_on_change_color_pressed"]
 [connection signal="pressed" from="Canvas/Drawer/Finish" to="Canvas" method="_on_finish_pressed"]

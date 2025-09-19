@@ -57,11 +57,20 @@ var GrassColors = ["b0ff99","c2ff23","a4f8a8","37c234","e78900","e3ffe3","f1dfff
 var RoadColors = ["808080","484848","999999","5d4625","e4b900","303030"]
 var SkyColors = [["ffffff","ffffff","ffffff"],["93c3ff","ffffff","a5a7ab"],["002546","3b475a","3b475a"]]
 
+
+var GrassColorToName = ["Grassy","EastPoint","Spearmint","WestPoint","Autumn","Frosty","Flowerpatch","Strange"]
+var RoadColorToName = ["Road","Track","Course","Path","Shining Street", "Course"]
+var SkyToName = ["In the middle of somewhere!","Nice sunny day!","Night Race!"]
+
+
 var GoalPost = preload("res://Goal.tscn")
 
 #--------------------------------------------------------------------------------------------------------------------
 
 signal MapDone
+var GrassName = ""
+var RoadName = ""
+var SkyName = ""
 
 #--------------------------------------------------------------------------------------------------------------------
 
@@ -74,7 +83,7 @@ func _ready(): #the ready is basically 'track generate'
 			var NewRng =RandomNumberGenerator.new()
 			point_count += NewRng.randi_range(-1,1) 
 			seed = NewRng.randi_range(0,100)
-			height = 10
+			height = NewRng.randf_range(1,8)
 			shape = 0
 	
 	
@@ -106,7 +115,10 @@ func _ready(): #the ready is basically 'track generate'
 	if SkyHolder:
 		var ActualSky : Sky = SkyHolder.environment.sky
 		var SkyMat : ProceduralSkyMaterial = ActualSky.sky_material
-		var ColorPallete = SkyColors.pick_random()
+		var SkyChosen = SkyColors.find(SkyColors.pick_random())
+		var ColorPallete = SkyColors[SkyChosen]
+		SkyName = SkyToName[SkyChosen]
+		
 		SkyMat.sky_top_color = Color(ColorPallete[0])
 		SkyMat.sky_horizon_color =  Color(ColorPallete[1])
 		SkyMat.ground_horizon_color =  Color(ColorPallete[2])
@@ -126,6 +138,9 @@ func _ready(): #the ready is basically 'track generate'
 		NewGoalPost.rotation_degrees -= Vector3(0,90,0)
 		add_child(NewGoalPost)
 	
+	
+	print(GrassName," ",RoadName)
+	print(SkyName)
 	MapDone.emit()
 
 func createWalls(points,roadpoints): 
@@ -205,7 +220,9 @@ func createTrackAndGrass(EdgePoints,TheLine, GrassPoints):
 	add_child(TrackMesh) #Add the cool mesh
 	
 	var TrackVisualMaterial = StandardMaterial3D.new()
-	TrackVisualMaterial.albedo_color = Color(RoadColors.pick_random())
+	var chosenroadcolor = RoadColors.find(RoadColors.pick_random())
+	TrackVisualMaterial.albedo_color = Color(RoadColors[chosenroadcolor])
+	RoadName = RoadColorToName[chosenroadcolor]
 	TrackMesh.set_surface_override_material(0,TrackVisualMaterial)
 	
 	var body = StaticBody3D.new() #creates an empty track collider
@@ -222,7 +239,10 @@ func createTrackAndGrass(EdgePoints,TheLine, GrassPoints):
 	add_child(GrassMesh) 
 	
 	var GrassVisualMaterial = StandardMaterial3D.new()
-	GrassVisualMaterial.albedo_color = Color(GrassColors.pick_random())
+	
+	var chosengrasscolor = GrassColors.find(GrassColors.pick_random())
+	GrassVisualMaterial.albedo_color =  Color(GrassColors[chosengrasscolor])
+	GrassName = GrassColorToName[chosengrasscolor]
 	GrassMesh.set_surface_override_material(0,GrassVisualMaterial)
 	
 	Grassbody = StaticBody3D.new() 
@@ -274,7 +294,12 @@ func generate_line(seed,points,radius,noise,height) -> Curve3D: #this generates 
 		for I in points:
 			var angle = TAU * I / points
 			var r = radius * (1.0 + RNG.randf_range(-noise_strength, noise_strength))
-			var p = Vector3(r * cos(angle), RNG.randf() * height, r * sin(angle))
+			
+			var heightusing = 0
+			if I > 2 and I != points:
+				heightusing = RNG.randf() * height
+			
+			var p = Vector3(r * cos(angle), heightusing , r * sin(angle))
 			curve.add_point(p)
 	
 	if shape == 1: #oval

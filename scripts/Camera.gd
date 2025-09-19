@@ -16,43 +16,43 @@ var SkipMove = false #When true, immediately go to the desired position
 
 
 func _process(delta):
-	
-	if camera_mode == CameraMode.Circle:
-		CircleTime += delta 
-		DesiredPosition.x = sin(CircleTime) * CircleDistance + FocusObject.global_position.x
-		DesiredPosition.z = cos(CircleTime) * CircleDistance + FocusObject.global_position.z
-		DesiredPosition.y = 3.549 - FocusObject.global_position.y
-	
-	if camera_mode == CameraMode.FollowBehind:
-		DesiredPosition.x = sin(FocusObject.rotation.y - 1.570795) * CircleDistance + FocusObject.global_position.x
-		DesiredPosition.z = cos(FocusObject.rotation.y - 1.570795) * CircleDistance + FocusObject.global_position.z
-		DesiredPosition.y = 3.549 + FocusObject.global_position.y - 1
+	if FocusObject:
+		if camera_mode == CameraMode.Circle:
+			CircleTime += delta 
+			DesiredPosition.x = sin(CircleTime) * CircleDistance + FocusObject.global_position.x
+			DesiredPosition.z = cos(CircleTime) * CircleDistance + FocusObject.global_position.z
+			DesiredPosition.y = 3.549 - FocusObject.global_position.y
 		
+		if camera_mode == CameraMode.FollowBehind:
+			DesiredPosition.x = sin(FocusObject.rotation.y - 1.570795) * CircleDistance + FocusObject.global_position.x
+			DesiredPosition.z = cos(FocusObject.rotation.y - 1.570795) * CircleDistance + FocusObject.global_position.z
+			DesiredPosition.y = 3.549 + FocusObject.global_position.y - 1
+			
+			
+			if Input.is_action_pressed("rearview"):
+				DesiredPosition.x = sin(FocusObject.rotation.y + 1.570795) * CircleDistance * 0.5 + FocusObject.global_position.x
+				DesiredPosition.z = cos(FocusObject.rotation.y + 1.570795) * CircleDistance * 0.5 + FocusObject.global_position.z
+				SkipMove = true
+				
+			else:
+				if SkipMove:
+					SkipMove = false
+					global_position = DesiredPosition
 		
-		if Input.is_action_pressed("rearview"):
-			DesiredPosition.x = sin(FocusObject.rotation.y + 1.570795) * CircleDistance * 0.5 + FocusObject.global_position.x
-			DesiredPosition.z = cos(FocusObject.rotation.y + 1.570795) * CircleDistance * 0.5 + FocusObject.global_position.z
+		if camera_mode == CameraMode.DriverView:
+			DesiredPosition.x = FocusObject.find_child("SpriteFront").global_position.x
+			DesiredPosition.z = FocusObject.find_child("SpriteFront").global_position.z
+			DesiredPosition.y = FocusObject.find_child("SpriteFront").global_position.y
 			SkipMove = true
 			
-		else:
-			if SkipMove:
-				SkipMove = false
-				global_position = DesiredPosition
-	
-	if camera_mode == CameraMode.DriverView:
-		DesiredPosition.x = FocusObject.find_child("SpriteFront").global_position.x
-		DesiredPosition.z = FocusObject.find_child("SpriteFront").global_position.z
-		DesiredPosition.y = FocusObject.find_child("SpriteFront").global_position.y
-		SkipMove = true
 		
-	
-	if SkipMove:
-		global_position = DesiredPosition
-	else:
-		global_position = global_position.move_toward(DesiredPosition,delta * 27)
-	
-	if camera_mode == CameraMode.DriverView:
-		rotation = FocusObject.rotation
-		rotation.y -= deg_to_rad(90)
-	else:
-		look_at(FocusObject.global_position)
+		if SkipMove:
+			global_position = DesiredPosition
+		else:
+			global_position = global_position.move_toward(DesiredPosition,delta * 27)
+		
+		if camera_mode == CameraMode.DriverView:
+			rotation = FocusObject.rotation
+			rotation.y -= deg_to_rad(90)
+		else:
+			look_at(FocusObject.global_position)

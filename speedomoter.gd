@@ -9,7 +9,8 @@ func _ready():
 	$TextureRect/Player.set_meta("Target",Car.get_path())
 
 func _process(delta: float) -> void:
-	$TextureProgressBar.value = Car.linear_velocity.distance_to(Vector3.ZERO)
+	if Car:
+		$TextureProgressBar.value = Car.linear_velocity.distance_to(Vector3.ZERO)
 	
 	
 	var Percentage = $TextureProgressBar.value / $TextureProgressBar.max_value
@@ -30,10 +31,10 @@ func _process(delta: float) -> void:
 	
 	for E in $TextureRect.get_children():
 		var Target = get_node( E.get_meta("Target"))
-		
-		E.position = Vector2(1.69 * Target.global_position.x,1.69925485378 * Target.global_position.z)
-		E.position += $TextureRect.size / 2
-		E.position -= E.pivot_offset
+		if Target:
+			E.position = Vector2(1.69 * Target.global_position.x,1.69925485378 * Target.global_position.z)
+			E.position += $TextureRect.size / 2
+			E.position -= E.pivot_offset
 	
 	
 

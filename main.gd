@@ -107,7 +107,10 @@ func _ready():
 				MinimapIcon.modulate = Color.from_hsv(Mat.albedo_color.h,0.25,Mat.albedo_color.v)
 				$Speedomoter/TextureRect.add_child(MinimapIcon)
 		
+	
 	await get_tree().create_timer(1).timeout
+	
+	
 	
 
 var PlacementPosition : Array = []
@@ -137,6 +140,9 @@ func _process(delta):
 			else:
 				DistanceAlong = CorrectDistance + (E.Laps * Len)
 			PlacementPosition.append({E:DistanceAlong})
+			
+			if E.position.y <= -10:
+				E.position = PathTrack.sample_track(ClosestOffset).origin
 		
 		PlacementPosition.sort_custom(MySort)
 		for E in PlacementPosition:
@@ -167,3 +173,8 @@ func MySort(a, b):
 	if a.values()[0] > b.values()[0]:
 		return true
 	return false
+
+
+func _on_map_map_done():
+	$TrackName/Node2D/Name.text = $map.GrassName + " " + $map.RoadName
+	$TrackName/Node2D/Tagline.text = $map.SkyName

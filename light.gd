@@ -3,7 +3,8 @@ extends CanvasLayer
 @export var Yellow : Node
 @export var Green : Node
 
-func _ready():
+func runlights():
+	visible = true
 	Red.visible = false
 	Yellow.visible = false
 	Green.visible = false
@@ -22,6 +23,8 @@ func _ready():
 	
 	$"..".set_drive()
 	$"../Speedomoter".MusicPlaying = true
+	$"../Speedomoter".visible = true
 	
 	await get_tree().create_timer(1).timeout
 	visible = false
+	
