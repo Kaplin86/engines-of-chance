@@ -639,6 +639,9 @@ texture = ExtResource("16_2cqfq")
 [node name="Glass04" type="AudioStreamPlayer" parent="Light"]
 stream = ExtResource("33_4k2k6")
 
+[node name="NewResultScreen" parent="." instance=ExtResource("2_0rl1p")]
+visible = false
+
 [connection signal="pressed" from="Canvas/Drawer/ChangeColor" to="Canvas" method="_on_change_color_pressed"]
 [connection signal="pressed" from="Canvas/Drawer/Finish" to="Canvas" method="_on_finish_pressed"]
 [connection signal="MapDone" from="map" to="." method="_on_map_map_done"]

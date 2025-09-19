@@ -148,14 +148,21 @@ func _process(delta):
 		if PlayerCarNode.Laps == LapCount and !finished:
 			finished = true
 			var PlayerPlacementAtVictory = PlayerPlace
-			await get_tree().create_timer(0.5).timeout
 			$Speedomoter.MusicPlaying = false
 			Variablesharer.finalPlacement = PlayerPlacementAtVictory
-			get_tree().change_scene_to_packed(resultscreen)
+			
+			await get_tree().create_timer(1)
+			for E in Drivers:
+				E.queue_free()
+			Drivers = []
+			$NewResultScreen.visible = true
+			$NewResultScreen._ready()
+			$Speedomoter.visible = false
 		
-		
-
-
+func _do_transition():
+	print("calling transition from Node3D")
+	Transition.scene_transition(resultscreen)
+	
 func MySort(a, b):
 	if a.values()[0] > b.values()[0]:
 		return true
