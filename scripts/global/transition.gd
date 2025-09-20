@@ -4,7 +4,6 @@ var AnimDone = false
 var Tar
 func scene_transition(target, a3Dto2D = false) -> void:
 	Tar = target
-	print("waiting for transition finish!!")
 	$AnimationPlayer.play("start")
 	
 	
@@ -18,6 +17,7 @@ func animdone():
 	
 	
 	print("it finished.")
+	
 	if Tar is PackedScene:
 		get_tree().call_deferred("change_scene_to_packed",Tar)
 	elif Tar is String:

@@ -158,13 +158,13 @@ func _process(delta):
 			$Speedomoter.MusicPlaying = false
 			Variablesharer.finalPlacement = PlayerPlacementAtVictory
 			
-			await get_tree().create_timer(1)
-			for E in Drivers:
-				E.queue_free()
-			Drivers = []
-			$NewResultScreen.visible = true
-			$NewResultScreen._ready()
-			$Speedomoter.visible = false
+			await get_tree().create_timer(1).timeout
+			
+			
+			
+			Transition.scene_transition(resultscreen)
+			await get_tree().create_timer(0.25).timeout
+			$WorldEnvironment.queue_free()
 		
 func _do_transition():
 	print("calling transition from Node3D")

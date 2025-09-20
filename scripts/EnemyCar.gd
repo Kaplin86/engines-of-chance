@@ -11,7 +11,9 @@ var Progress = 0
 var StartingRotation = null
 
 func _ready():
-	pass
+	var ChosenDriverSprite = load(Variablesharer.driversprites.pick_random())
+	find_child("SpriteFront").texture = ChosenDriverSprite
+	find_child("SpriteBack").texture = ChosenDriverSprite
 
 func _physics_process(delta):
 	

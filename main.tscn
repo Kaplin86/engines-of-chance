@@ -94,6 +94,7 @@ script = ExtResource("1_ryguw")
 PlayerCarNode = NodePath("PlayerCar")
 PathTrack = NodePath("Path3D")
 resultscreen = ExtResource("2_0rl1p")
+LapCount = 0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_h2yge")
@@ -113,13 +114,13 @@ script = ExtResource("3_h2yge")
 MaxSteer = 0.5
 EnginePower = 125
 
-[node name="SpriteFront" type="Sprite3D" parent="PlayerCar"]
+[node name="SpriteFront2" type="Sprite3D" parent="PlayerCar"]
 transform = Transform3D(0.013071, 0, 0.499829, 0, 0.5, 0, -0.499829, 0, 0.013071, -0.072, 1.03095, 0.022)
 double_sided = false
 texture_filter = 0
 texture = SubResource("ViewportTexture_qhkf8")
 
-[node name="SpriteBack" type="Sprite3D" parent="PlayerCar"]
+[node name="SpriteBack2" type="Sprite3D" parent="PlayerCar"]
 transform = Transform3D(-0.0130711, 0, -0.499829, 0, 0.5, 0, 0.499829, 0, -0.0130711, -0.0789217, 1.03114, 0.021282)
 flip_h = true
 modulate = Color(0, 0, 0, 1)
@@ -668,9 +669,6 @@ texture = ExtResource("16_2cqfq")
 
 [node name="Glass04" type="AudioStreamPlayer" parent="Light"]
 stream = ExtResource("33_4k2k6")
-
-[node name="NewResultScreen" parent="." instance=ExtResource("2_0rl1p")]
-visible = false
 
 [node name="TweenCamera" type="Camera3D" parent="."]
 current = true

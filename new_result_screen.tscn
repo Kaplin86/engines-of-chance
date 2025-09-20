@@ -12,6 +12,7 @@ offset_top = 6.0
 offset_right = 370.0
 offset_bottom = 33.0
 scale = Vector2(0.8468, 0.8468)
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("2_hct7n")
 text = "RESULTS"
@@ -20,30 +21,41 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="Label2" type="Label" parent="."]
-offset_left = 7.0
-offset_top = 150.0
-offset_right = 371.0
-offset_bottom = 177.0
+offset_left = 6.0
+offset_top = 194.0
+offset_right = 370.0
+offset_bottom = 242.0
 scale = Vector2(0.8468, 0.8468)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("2_hct7n")
-text = "for some reason when
-i try to change scenes
-from 3d to 2d it
-crashes. So just hit the restart button plz"
+text = "
+Press E to play again"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="placement" type="Label" parent="."]
 offset_left = 6.0
-offset_top = 31.0
+offset_top = 42.0
 offset_right = 370.0
-offset_bottom = 58.0
+offset_bottom = 69.0
 scale = Vector2(0.8468, 0.8468)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("2_hct7n")
 text = "PLACEMENT: "
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="placement2" type="Label" parent="."]
+offset_left = 6.0
+offset_top = 65.0
+offset_right = 370.0
+offset_bottom = 92.0
+scale = Vector2(0.8468, 0.8468)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_hct7n")
+text = "DIFFICULTY:"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3

@@ -29,7 +29,7 @@ point_count = 22
 
 [node name="mapeditortest" type="Node3D"]
 
-[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("car", "Minimap", "Path3D_Result", "SkyHolder")]
+[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("Minimap", "Path3D_Result", "SkyHolder")]
 transform = Transform3D(1, 1.49012e-08, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.8147e-06)
 script = ExtResource("1_27wmn")
 point_count = 21
@@ -37,7 +37,6 @@ map_radius = 114
 noise_strength = 0.12
 point_spacing = 2
 trackwidth = 15
-car = NodePath("")
 seed = 80
 spawnangle = 1.555
 height = 8.0

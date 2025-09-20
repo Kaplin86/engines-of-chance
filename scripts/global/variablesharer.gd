@@ -10,3 +10,10 @@ var playerCards = []
 var PositiveCards = ["DoubleSpeed","LightCar","GrassCard", "Ghost"]
 var NegativeCards = ["HalfSpeed","HeavyCar","SpamCard"]
 var NeutralCards = ["RainbowCar","Reaction","DriverView","Celebration"]
+
+var driversprites = ["res://enemydrivers/blueguy.png", "res://enemydrivers/kaplin.png", "res://enemydrivers/oneturret.png", "res://enemydrivers/ooze.png", "res://enemydrivers/redguy.png", "res://enemydrivers/terrance.png"]
+# Driver credits/references: 
+# oneturret : game of same name
+# ooze : gnarpball
+# terrance : misc character used by my good friend brushleaf68
+# kaplin : take a wild guess

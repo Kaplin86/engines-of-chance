@@ -14,6 +14,7 @@ func TryTransition(override = ""):
 			var TheTarget = TargetScene
 			if override:
 				TheTarget = override
+			
 			if RunTransition:
 				Transition.scene_transition(TheTarget)
 			else:
