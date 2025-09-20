@@ -93,6 +93,10 @@ func _ready(): #the ready is basically 'track generate'
 	
 	var TheLine = generate_line(seed,point_count,map_radius,noise_strength,height) #Creates a line based on params
 	var EvenlySpacedPoints = sample_line(TheLine,point_spacing) #Gets points along the map
+	
+	var EdgeBuffer = generate_road_polygon(EvenlySpacedPoints,trackwidth * 2)
+	$"../Area2D".shape = EdgeBuffer
+	
 	var EdgePoints = compute_edges(EvenlySpacedPoints,trackwidth) #Get left-side and right-side points
 	var GrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4) #Get left-side and right-side points
 	
@@ -337,13 +341,14 @@ func generate_line(seed,points,radius,noise,height) -> Curve3D: #this generates 
 		var CurveWeAreUsing : Curve3D = load("res://mapcurves/1.tres")
 		
 		for I in points:
-			var BaseVector3 = CurveWeAreUsing.sample_baked((curve.get_baked_length() / points) * I)
+			var BaseVector3 = CurveWeAreUsing.sample_baked((CurveWeAreUsing.get_baked_length() / points) * I)
 			
 			BaseVector3.x *= map_radius
 			BaseVector3.z *= map_radius
 			
-			BaseVector3.x += RNG.randf_range(-noise_strength, noise_strength)
-			BaseVector3.z += RNG.randf_range(-noise_strength, noise_strength)
+			BaseVector3.x += RNG.randf_range(-noise_strength * map_radius, noise_strength * map_radius)
+			BaseVector3.z += RNG.randf_range(-noise_strength * map_radius, noise_strength * map_radius)
+			BaseVector3.y += RNG.randf() * height
 			
 			print("X IS", BaseVector3.x)
 			curve.add_point(BaseVector3)
@@ -360,6 +365,33 @@ func sample_line(Line : Curve3D, spacing = 1): #This obtains points in space fro
 		baked.append(Line.sample_baked(t))
 		t += spacing
 	return baked
+
+
+func generate_road_polygon(points : Array, width = 8) -> ConvexPolygonShape2D:
+	var left = []
+	var right = []
+	var polygon = []
+	for E in points.size(): #for each of the mid point
+		var PointInQuestion = points[E] #actual point (e is a number)
+
+		
+		var nextPoint = points[wrap(E + 1,0,points.size())] #Get the next points
+
+		var distanceangle = (nextPoint - PointInQuestion).normalized() #get angle from current point to next point
+		var perp = Vector2(-distanceangle.z, distanceangle.x) 
+		
+		PointInQuestion = Vector2(PointInQuestion.x,PointInQuestion.z)
+		nextPoint = Vector2(nextPoint.x,nextPoint.z)
+		
+		left.append(PointInQuestion - perp * width/2.0) #add left point
+		right.append(PointInQuestion + perp * width/2.0) #add right
+	
+	right.reverse() 
+	polygon = left + right
+	var NewPolygon = ConvexPolygonShape2D.new()
+	NewPolygon.points = polygon
+	
+	return NewPolygon
 
 func compute_edges(points : Array,width = 8): #takes mid-track points and makes left and right points
 	var left = [] #points alongside the left-side of the track

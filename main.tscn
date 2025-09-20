@@ -510,7 +510,6 @@ map_radius = 114
 noise_strength = 0.12
 point_spacing = 2.0
 trackwidth = 15
-shape = 1
 Randomize = true
 seed = 28
 Minimap = NodePath("../Minimap")
