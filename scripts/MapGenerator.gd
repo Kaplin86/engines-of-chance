@@ -31,6 +31,11 @@ class_name MapGenerator
 		height = value
 		if Engine.is_editor_hint(): 	_ready()
 
+@export_range(0.0,1.0) var edge_grace: float = 0.0: ## The track-size percentage that will stop edges from spawning near tracks
+	set(value):
+		edge_grace = value
+		if Engine.is_editor_hint(): 	_ready()
+
 @export_enum("Circle", "Oval", "Square", "WeirdCurve") var shape: int: ## Determines the shape of the map that the points are sampled on
 	set(value):
 		shape = value
@@ -38,6 +43,7 @@ class_name MapGenerator
 
 @export_category("Inputs")
 @export var Randomize = false
+@export var RandomizeColors = false
 @export var seed: int = 10:
 	set(value):
 		seed = value
@@ -65,12 +71,14 @@ var GoalPost = preload("res://Goal.tscn")
 
 #--------------------------------------------------------------------------------------------------------------------
 
-signal MapDone
+signal MapDone ## This is fired when the map is finished generating
 var GrassName = ""
 var RoadName = ""
 var SkyName = ""
 
 #--------------------------------------------------------------------------------------------------------------------
+
+
 
 func _ready(): #the ready is basically 'track generate'
 	for e in get_children(): #remove the old track, if found
@@ -93,18 +101,15 @@ func _ready(): #the ready is basically 'track generate'
 	
 	var TheLine = generate_line(seed,point_count,map_radius,noise_strength,height) #Creates a line based on params
 	var EvenlySpacedPoints = sample_line(TheLine,point_spacing) #Gets points along the map
-	
-	var EdgeBuffer = generate_road_polygon(EvenlySpacedPoints,trackwidth * 2)
-	$"../Area2D".shape = EdgeBuffer
-	
 	var EdgePoints = compute_edges(EvenlySpacedPoints,trackwidth) #Get left-side and right-side points
 	var GrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4) #Get left-side and right-side points
+	var ACTUALGrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4.2)
 	
-	var TrackAndGrass = createTrackAndGrass(EdgePoints, TheLine, GrassPoints)
+	var TrackAndGrass = createTrackAndGrass(EdgePoints, TheLine, ACTUALGrassPoints)
 	
-	createWalls(GrassPoints,EdgePoints)
+	createWalls(GrassPoints,EdgePoints,TheLine,edge_grace * trackwidth * 4)
 	
-	
+	TrackAndGrass[1].position.y -= 0.01
 	if Minimap:
 		for E in Minimap.find_child("Node3D").get_children():
 			E.queue_free()
@@ -114,7 +119,7 @@ func _ready(): #the ready is basically 'track generate'
 	if Path3D_Result:
 		Path3D_Result.curve = TheLine
 	
-	if SkyHolder:
+	if SkyHolder and RandomizeColors:
 		var ActualSky : Sky = SkyHolder.environment.sky
 		var SkyMat : ProceduralSkyMaterial = ActualSky.sky_material
 		var SkyChosen = SkyColors.find(SkyColors.pick_random())
@@ -144,7 +149,9 @@ func _ready(): #the ready is basically 'track generate'
 	print(SkyName)
 	MapDone.emit()
 
-func createWalls(points,roadpoints): 
+
+
+func createWalls(points,roadpoints, theline : Curve3D, cutoffdistance): 
 	var LeftPoints = points[0]
 	var RightPoints = points[1]
 	var LeftRoadPoints = roadpoints[0]
@@ -157,7 +164,13 @@ func createWalls(points,roadpoints):
 		if LeftPoints[E].distance_to(LeftRoadPoints[E]) <= 2:
 			UsingLeftPoints.erase(LeftPoints[E])
 		else:
-			LeftWallPoints.append(LeftPoints[E] + Vector3(0,2,0))
+			var closestoffset = theline.get_closest_offset(LeftPoints[E])
+			var closestposition := theline.sample_baked(closestoffset)
+			var distance = closestposition.distance_to(LeftPoints[E])
+			if distance >= cutoffdistance: 
+				LeftWallPoints.append(LeftPoints[E] + Vector3(0,2,0))
+			else:
+				UsingLeftPoints.erase(LeftPoints[E])
 	
 	LeftPoints = UsingLeftPoints.duplicate()
 	UsingLeftPoints = []
@@ -191,7 +204,13 @@ func createWalls(points,roadpoints):
 		if RightPoints[E].distance_to(RightRoadPoints[E]) <= 2:
 			UsingRightPoints.erase(RightPoints[E])
 		else:
-			RightWallPoints.append(RightPoints[E] + Vector3(0,2,0))
+			var closestoffset = theline.get_closest_offset(RightPoints[E])
+			var closestposition := theline.sample_baked(closestoffset)
+			var distance = closestposition.distance_to(RightPoints[E])
+			if distance >= cutoffdistance: 
+				RightWallPoints.append(RightPoints[E] + Vector3(0,2,0))
+			else:
+				UsingRightPoints.erase(RightPoints[E])
 	
 	RightPoints = UsingRightPoints.duplicate()
 	UsingRightPoints = []
@@ -222,7 +241,10 @@ func createTrackAndGrass(EdgePoints,TheLine, GrassPoints):
 	
 	var TrackVisualMaterial = StandardMaterial3D.new()
 	var chosenroadcolor = RoadColors.find(RoadColors.pick_random())
-	TrackVisualMaterial.albedo_color = Color(RoadColors[chosenroadcolor])
+	if RandomizeColors:
+		TrackVisualMaterial.albedo_color = Color(RoadColors[chosenroadcolor])
+	else:
+		TrackVisualMaterial.albedo_color = Color(RoadColors[0])
 	RoadName = RoadColorToName[chosenroadcolor]
 	TrackMesh.set_surface_override_material(0,TrackVisualMaterial)
 	
@@ -242,7 +264,10 @@ func createTrackAndGrass(EdgePoints,TheLine, GrassPoints):
 	var GrassVisualMaterial = StandardMaterial3D.new()
 	
 	var chosengrasscolor = GrassColors.find(GrassColors.pick_random())
-	GrassVisualMaterial.albedo_color =  Color(GrassColors[chosengrasscolor])
+	if RandomizeColors:
+		GrassVisualMaterial.albedo_color =  Color(GrassColors[chosengrasscolor])
+	else:
+		GrassVisualMaterial.albedo_color =  Color(GrassColors[0])
 	GrassName = GrassColorToName[chosengrasscolor]
 	GrassMesh.set_surface_override_material(0,GrassVisualMaterial)
 	
@@ -367,31 +392,7 @@ func sample_line(Line : Curve3D, spacing = 1): #This obtains points in space fro
 	return baked
 
 
-func generate_road_polygon(points : Array, width = 8) -> ConvexPolygonShape2D:
-	var left = []
-	var right = []
-	var polygon = []
-	for E in points.size(): #for each of the mid point
-		var PointInQuestion = points[E] #actual point (e is a number)
 
-		
-		var nextPoint = points[wrap(E + 1,0,points.size())] #Get the next points
-
-		var distanceangle = (nextPoint - PointInQuestion).normalized() #get angle from current point to next point
-		var perp = Vector2(-distanceangle.z, distanceangle.x) 
-		
-		PointInQuestion = Vector2(PointInQuestion.x,PointInQuestion.z)
-		nextPoint = Vector2(nextPoint.x,nextPoint.z)
-		
-		left.append(PointInQuestion - perp * width/2.0) #add left point
-		right.append(PointInQuestion + perp * width/2.0) #add right
-	
-	right.reverse() 
-	polygon = left + right
-	var NewPolygon = ConvexPolygonShape2D.new()
-	NewPolygon.points = polygon
-	
-	return NewPolygon
 
 func compute_edges(points : Array,width = 8): #takes mid-track points and makes left and right points
 	var left = [] #points alongside the left-side of the track
