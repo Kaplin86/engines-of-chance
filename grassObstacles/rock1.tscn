@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://c6temijrc4ld8"]
 
-[ext_resource type="Shader" uid="uid://dv3rbed8q0ldy" path="res://outline.gdshader" id="1_a3m2t"]
+[ext_resource type="Shader" uid="uid://dv3rbed8q0ldy" path="res://outline.gdshader" id="1_vl8d3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m167k"]
 render_priority = 0
-shader = ExtResource("1_a3m2t")
+shader = ExtResource("1_vl8d3")
 shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/outline_width = 1.0
 

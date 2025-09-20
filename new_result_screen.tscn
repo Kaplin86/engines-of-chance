@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://tj5w76p0ua7f"]
+[gd_scene load_steps=4 format=3 uid="uid://tj5w76p0ua7f"]
 
 [ext_resource type="Script" uid="uid://b0ec742adtknw" path="res://new_result_screen.gd" id="1_dibjo"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="2_hct7n"]
+[ext_resource type="AudioStream" uid="uid://gov6kud4vf71" path="res://music/ResultScreen.mp3" id="3_hct7n"]
 
 [node name="NewResultScreen" type="Node2D"]
 script = ExtResource("1_dibjo")
@@ -59,3 +60,8 @@ text = "DIFFICULTY:"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_hct7n")
+pitch_scale = 0.9
+autoplay = true

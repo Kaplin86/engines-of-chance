@@ -4,52 +4,50 @@ class_name MapGenerator
 
 ##Generates different racing tracks.
 
-@export var point_count: int = 20:
+@export var point_count: int = 20: ## The number of turning-points. Eg, a value of 4 would make a square. The higher the number, the more circular the map.
 	set(value):
 		point_count = value
 		if Engine.is_editor_hint(): 	_ready()
 		
-@export var map_radius: int = 60:
+@export var map_radius: int = 60: ## The base distance for each turning-point from the center of the map.
 	set(value):
 		map_radius = value
 		if Engine.is_editor_hint(): 	_ready()
-@export var noise_strength:float = 0.25:
+@export var noise_strength:float = 0.25: ## The strength of the randomized influence of positions along the map radius (aka deformity strength)
 	set(value):
 		noise_strength = value
 		if Engine.is_editor_hint(): 	_ready()
-@export var point_spacing:int = 1:
+@export var point_spacing: float = 1: ## The spacing between points when sampling the line for mesh generation. DO NOT LET IT HIT 0
 	set(value):
 		point_spacing = value
 		if Engine.is_editor_hint(): 	_ready()
-@export var trackwidth: int = 8:
+@export var trackwidth: int = 8: ## The width of the track
 	set(value):
 		trackwidth = value
 		if Engine.is_editor_hint(): 	_ready()
-@export var car : VehicleBody3D
+
+@export var height: float = 0.0: ## The max height of the track.
+	set(value):
+		height = value
+		if Engine.is_editor_hint(): 	_ready()
+
+@export_enum("Circle", "Oval", "Square", "WeirdCurve") var shape: int: ## Determines the shape of the map that the points are sampled on
+	set(value):
+		shape = value
+		if Engine.is_editor_hint(): 	_ready()
+
+@export_category("Inputs")
+@export var Randomize = false
 @export var seed: int = 10:
 	set(value):
 		seed = value
 		if Engine.is_editor_hint(): 	_ready()
 
-@export var spawnangle: float = 0.0:
-	set(value):
-		spawnangle = value
-		if Engine.is_editor_hint(): 	_ready()
-
-@export var height: float = 0.0:
-	set(value):
-		height = value
-		if Engine.is_editor_hint(): 	_ready()
-
-@export_enum("Circle", "Oval", "Square") var shape: int:
-	set(value):
-		shape = value
-		if Engine.is_editor_hint(): 	_ready()
-
+@export_category("Output Nodes")
 @export var Minimap : SubViewport
 @export var Path3D_Result : TrackPath
-@export var Randomize = false
 @export var SkyHolder : WorldEnvironment
+@export var car : VehicleBody3D
 
 #--------------------------------------------------------------------------------------------------------------------
 
@@ -83,7 +81,7 @@ func _ready(): #the ready is basically 'track generate'
 			var NewRng =RandomNumberGenerator.new()
 			point_count += NewRng.randi_range(-1,1) 
 			seed = NewRng.randi_range(0,100)
-			height = NewRng.randf_range(1,8)
+			height = NewRng.randf_range(1,7)
 			shape = 0
 	
 	
@@ -128,7 +126,6 @@ func _ready(): #the ready is basically 'track generate'
 			if Path3D_Result:
 				Path3D_Result.get_child(0).progress = 10
 				car.transform = Path3D_Result.get_child(0).transform
-				car.rotation += Vector3(0,spawnangle,0)
 				
 	
 	var NewGoalPost = GoalPost.instantiate()
@@ -336,6 +333,21 @@ func generate_line(seed,points,radius,noise,height) -> Curve3D: #this generates 
 			var p = Vector3(x, RNG.randf() * height, z)
 			curve.add_point(p)
 
+	if shape == 3:
+		var CurveWeAreUsing : Curve3D = load("res://mapcurves/1.tres")
+		
+		for I in points:
+			var BaseVector3 = CurveWeAreUsing.sample_baked((curve.get_baked_length() / points) * I)
+			
+			BaseVector3.x *= map_radius
+			BaseVector3.z *= map_radius
+			
+			BaseVector3.x += RNG.randf_range(-noise_strength, noise_strength)
+			BaseVector3.z += RNG.randf_range(-noise_strength, noise_strength)
+			
+			print("X IS", BaseVector3.x)
+			curve.add_point(BaseVector3)
+			
 	
 	curve.add_point(curve.get_point_position(0)) #add in the first point at the end that way it loops
 	return curve

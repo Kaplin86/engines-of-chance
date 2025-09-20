@@ -11,7 +11,7 @@ var Progress = 0
 var StartingRotation = null
 
 func _ready():
-	var ChosenDriverSprite = load(Variablesharer.driversprites.pick_random())
+	var ChosenDriverSprite = load("res://enemydrivers/"+Variablesharer.driversprites.pick_random())
 	find_child("SpriteFront").texture = ChosenDriverSprite
 	find_child("SpriteBack").texture = ChosenDriverSprite
 

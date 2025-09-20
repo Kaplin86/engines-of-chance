@@ -58,13 +58,13 @@ transform = Transform3D(0.785479, -0.0437102, 0.617343, 0, 0.997503, 0.070627, -
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, 0)
 gravity_scale = 0.0
 
-[node name="SpriteFront" type="Sprite3D" parent="SubViewport/Car"]
+[node name="SpriteFront2" type="Sprite3D" parent="SubViewport/Car"]
 transform = Transform3D(0.0130711, 0, 0.499829, 0, 0.5, 0, -0.499829, 0, 0.0130711, -0.072, 1.03095, 0.022)
 double_sided = false
 texture_filter = 0
 texture = SubResource("ViewportTexture_qhkf8")
 
-[node name="SpriteBack" type="Sprite3D" parent="SubViewport/Car"]
+[node name="SpriteBack2" type="Sprite3D" parent="SubViewport/Car"]
 transform = Transform3D(-0.0130712, 0, -0.499829, 0, 0.5, 0, 0.499829, 0, -0.0130712, -0.0789217, 1.03114, 0.021282)
 flip_h = true
 modulate = Color(0, 0, 0, 1)

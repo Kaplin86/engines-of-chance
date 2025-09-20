@@ -14,6 +14,9 @@ func _ready():
 	for E in get_children():
 		if E.name in Difficulties:
 			Elements[E.name] = E
+	
+	if !IntroMusic.playing:
+		IntroMusic.play()
 
 func _process(delta):
 	if Input.is_action_just_pressed("start"):

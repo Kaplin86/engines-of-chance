@@ -94,7 +94,6 @@ script = ExtResource("1_ryguw")
 PlayerCarNode = NodePath("PlayerCar")
 PathTrack = NodePath("Path3D")
 resultscreen = ExtResource("2_0rl1p")
-LapCount = 0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_h2yge")
@@ -114,13 +113,13 @@ script = ExtResource("3_h2yge")
 MaxSteer = 0.5
 EnginePower = 125
 
-[node name="SpriteFront2" type="Sprite3D" parent="PlayerCar"]
+[node name="SpriteFront2Wow" type="Sprite3D" parent="PlayerCar"]
 transform = Transform3D(0.013071, 0, 0.499829, 0, 0.5, 0, -0.499829, 0, 0.013071, -0.072, 1.03095, 0.022)
 double_sided = false
 texture_filter = 0
 texture = SubResource("ViewportTexture_qhkf8")
 
-[node name="SpriteBack2" type="Sprite3D" parent="PlayerCar"]
+[node name="SpriteBack2Wow" type="Sprite3D" parent="PlayerCar"]
 transform = Transform3D(-0.0130711, 0, -0.499829, 0, 0.5, 0, 0.499829, 0, -0.0130711, -0.0789217, 1.03114, 0.021282)
 flip_h = true
 modulate = Color(0, 0, 0, 1)
@@ -504,20 +503,20 @@ progress = 990.99
 [node name="Node3D" type="Node3D" parent="Path3D/PathFollow3D"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1, 0)
 
-[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("car", "Minimap", "Path3D_Result", "SkyHolder")]
+[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("Minimap", "Path3D_Result", "SkyHolder", "car")]
 script = ExtResource("2_w48qg")
 point_count = 21
 map_radius = 114
 noise_strength = 0.12
-point_spacing = 2
+point_spacing = 2.0
 trackwidth = 15
-car = NodePath("../PlayerCar")
-seed = 28
 shape = 1
+Randomize = true
+seed = 28
 Minimap = NodePath("../Minimap")
 Path3D_Result = NodePath("../Path3D")
-Randomize = true
 SkyHolder = NodePath("../WorldEnvironment")
+car = NodePath("../PlayerCar")
 
 [node name="Speedomoter" type="CanvasLayer" parent="." node_paths=PackedStringArray("Car")]
 visible = false
