@@ -94,6 +94,7 @@ script = ExtResource("1_ryguw")
 PlayerCarNode = NodePath("PlayerCar")
 PathTrack = NodePath("Path3D")
 resultscreen = ExtResource("2_0rl1p")
+LapCount = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_h2yge")
@@ -510,7 +511,9 @@ map_radius = 114
 noise_strength = 0.12
 point_spacing = 2.0
 trackwidth = 15
+height_change_speed = null
 edge_grace = 0.4
+shape = 3
 Randomize = true
 RandomizeColors = true
 seed = 28

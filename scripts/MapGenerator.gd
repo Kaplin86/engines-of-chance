@@ -31,6 +31,11 @@ class_name MapGenerator
 		height = value
 		if Engine.is_editor_hint(): 	_ready()
 
+@export var height_change_speed: float = 1.0: ## A multiplier applied to the height reading / more common height changes
+	set(value):
+		height_change_speed = value
+		if Engine.is_editor_hint(): 	_ready()
+
 @export_range(0.0,1.0) var edge_grace: float = 0.0: ## The track-size percentage that will stop edges from spawning near tracks
 	set(value):
 		edge_grace = value
@@ -86,11 +91,11 @@ func _ready(): #the ready is basically 'track generate'
 	
 	if !Engine.is_editor_hint():
 		if Randomize:
-			var NewRng =RandomNumberGenerator.new()
+			var NewRng = RandomNumberGenerator.new()
 			point_count += NewRng.randi_range(-1,1) 
 			seed = NewRng.randi_range(0,100)
 			height = NewRng.randf_range(1,7)
-			shape = 0
+			shape = 3
 	
 	
 	
@@ -99,13 +104,26 @@ func _ready(): #the ready is basically 'track generate'
 			if !get_parent().name == "mapeditortest":
 				return
 	
-	var TheLine = generate_line(seed,point_count,map_radius,noise_strength,height) #Creates a line based on params
-	var EvenlySpacedPoints = sample_line(TheLine,point_spacing) #Gets points along the map
+	var TheLine = generate_line(seed,point_count,map_radius,noise_strength) #Creates a line based on params
+	
+	var heightmap = FastNoiseLite.new()
+	heightmap.seed = seed
+	heightmap.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	heightmap.frequency = 0.05
+	
+	var EvenlySpacedPoints = sample_line(TheLine,point_spacing,heightmap) #Gets points along the map
+	
+
 	var EdgePoints = compute_edges(EvenlySpacedPoints,trackwidth) #Get left-side and right-side points
 	var GrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4) #Get left-side and right-side points
 	var ACTUALGrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4.2)
 	
+	
+	
+	
 	var TrackAndGrass = createTrackAndGrass(EdgePoints, TheLine, ACTUALGrassPoints)
+	
+	
 	
 	createWalls(GrassPoints,EdgePoints,TheLine,edge_grace * trackwidth * 4)
 	
@@ -145,8 +163,6 @@ func _ready(): #the ready is basically 'track generate'
 		add_child(NewGoalPost)
 	
 	
-	print(GrassName," ",RoadName)
-	print(SkyName)
 	MapDone.emit()
 
 
@@ -311,21 +327,21 @@ func get_track_transform_at(curve: Curve3D, distance: float) -> Transform3D: #Th
 	return Transform3D(basis, pos)
 
 
-func generate_line(seed,points,radius,noise,height) -> Curve3D: #this generates the curve3D
+func generate_line(seed,points,radius,noise) -> Curve3D: #this generates the curve3D
 	var RNG = RandomNumberGenerator.new() #gambling
 	RNG.seed = seed
 	var curve = Curve3D.new()
+	
+	var heightmap = FastNoiseLite.new()
+	
 	
 	if shape == 0: #circle
 		for I in points:
 			var angle = TAU * I / points
 			var r = radius * (1.0 + RNG.randf_range(-noise_strength, noise_strength))
 			
-			var heightusing = 0
-			if I > 2 and I != points:
-				heightusing = RNG.randf() * height
 			
-			var p = Vector3(r * cos(angle), heightusing , r * sin(angle))
+			var p = Vector3(r * cos(angle), 0 , r * sin(angle))
 			curve.add_point(p)
 	
 	if shape == 1: #oval
@@ -363,7 +379,7 @@ func generate_line(seed,points,radius,noise,height) -> Curve3D: #this generates 
 			curve.add_point(p)
 
 	if shape == 3:
-		var CurveWeAreUsing : Curve3D = load("res://mapcurves/1.tres")
+		var CurveWeAreUsing : Curve3D = load("res://mapcurves/" + str(RNG.randi_range(1,2)) + ".tres")
 		
 		for I in points:
 			var BaseVector3 = CurveWeAreUsing.sample_baked((CurveWeAreUsing.get_baked_length() / points) * I)
@@ -373,21 +389,26 @@ func generate_line(seed,points,radius,noise,height) -> Curve3D: #this generates 
 			
 			BaseVector3.x += RNG.randf_range(-noise_strength * map_radius, noise_strength * map_radius)
 			BaseVector3.z += RNG.randf_range(-noise_strength * map_radius, noise_strength * map_radius)
-			BaseVector3.y += RNG.randf() * height
 			
 			print("X IS", BaseVector3.x)
 			curve.add_point(BaseVector3)
-			
+	
 	
 	curve.add_point(curve.get_point_position(0)) #add in the first point at the end that way it loops
+	
 	return curve
 
-func sample_line(Line : Curve3D, spacing = 1): #This obtains points in space from the curve3D
+
+
+func sample_line(Line : Curve3D, spacing = 1, heightmap : FastNoiseLite = null, height = 0): #This obtains points in space from the curve3D
 	var baked = []
 	var length = Line.get_baked_length()
 	var t = 0.0
 	while t < length: #keep going until all the length is covered
-		baked.append(Line.sample_baked(t))
+		var sample = Line.sample_baked(t)
+		sample.y = heightmap.get_noise_2d(t * height_change_speed,0) * height
+		print("the height is ", heightmap.get_noise_1d(t) * height, " at ", t * height_change_speed)
+		baked.append(sample)
 		t += spacing
 	return baked
 

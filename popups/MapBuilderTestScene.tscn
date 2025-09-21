@@ -1,0 +1,108 @@
+[gd_scene load_steps=10 format=3 uid="uid://2s8w1f15tt1u"]
+
+[ext_resource type="Script" uid="uid://dllgjp122y6fb" path="res://scripts/MapGenerator.gd" id="1_y2wgh"]
+[ext_resource type="Script" uid="uid://dt3f1uvaen1xd" path="res://TrackPath.gd" id="2_c3gnc"]
+[ext_resource type="PackedScene" uid="uid://bdgdj1pv1cgcp" path="res://car.tscn" id="3_f1au6"]
+[ext_resource type="Curve3D" uid="uid://dxf7ynhk5b0h2" path="res://mapcurves/2.tres" id="4_n8arr"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_47ek5"]
+sky_top_color = Color(1, 1, 1, 1)
+sky_horizon_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(0.763979, 0.701734, 0.630413, 1)
+ground_horizon_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Sky" id="Sky_47ek5"]
+sky_material = SubResource("ProceduralSkyMaterial_47ek5")
+
+[sub_resource type="Environment" id="Environment_r1kn3"]
+background_mode = 2
+sky = SubResource("Sky_47ek5")
+glow_enabled = true
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_47ek5"]
+viewport_path = NodePath("Minimap")
+
+[sub_resource type="Curve3D" id="Curve3D_y2wgh"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 117.723, 0, 0, 0, 0, 0, 0, 0, 0, 107.951, 0, 33.2985, 0, 0, 0, 0, 0, 0, 92.2616, 0, 62.9029, 0, 0, 0, 0, 0, 0, 67.6706, 0, 84.8563, 0, 0, 0, 0, 0, 0, 39.959, 0, 101.814, 0, 0, 0, 0, 0, 0, 8.50004, 0, 113.425, 0, 0, 0, 0, 0, 0, -26.209, 0, 114.829, 0, 0, 0, 0, 0, 0, -57.9055, 0, 100.295, 0, 0, 0, 0, 0, 0, -85.9271, 0, 79.7287, 0, 0, 0, 0, 0, 0, -103.181, 0, 49.6894, 0, 0, 0, 0, 0, 0, -110.571, 0, 16.6658, 0, 0, 0, 0, 0, 0, -110.464, 0, -16.6498, 0, 0, 0, 0, 0, 0, -106.498, 0, -51.2868, 0, 0, 0, 0, 0, 0, -85.6809, 0, -79.5002, 0, 0, 0, 0, 0, 0, -58.4987, 0, -101.323, 0, 0, 0, 0, 0, 0, -24.5505, 0, -107.563, 0, 0, 0, 0, 0, 0, 8.54167, 0, -113.981, 0, 0, 0, 0, 0, 0, 40.1806, 0, -102.378, 0, 0, 0, 0, 0, 0, 68.4708, 0, -85.8597, 0, 0, 0, 0, 0, 0, 98.4362, 0, -67.1127, 0, 0, 0, 0, 0, 0, 113.475, 0, -35.0025, 0, 0, 0, 0, 0, 0, 117.723, 0, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 22
+
+[node name="mapeditortest" type="Node3D"]
+
+[node name="map" type="Node3D" parent="." node_paths=PackedStringArray("Minimap", "Path3D_Result", "SkyHolder")]
+transform = Transform3D(1, 1.49012e-08, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.8147e-06)
+script = ExtResource("1_y2wgh")
+point_count = 21
+map_radius = 114
+noise_strength = 0.05
+point_spacing = 2.0
+trackwidth = 15
+height = 5.0
+edge_grace = 0.445
+Randomize = null
+seed = 11
+Minimap = NodePath("../Minimap")
+Path3D_Result = NodePath("../Path3D")
+SkyHolder = NodePath("../WorldEnvironment")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.837262, -0.183856, 0.514965, 0, 0.941777, 0.336239, -0.546802, -0.28152, 0.788514, 38.7796, 27.0695, 58.6897)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_r1kn3")
+
+[node name="Minimap" type="SubViewport" parent="."]
+own_world_3d = true
+transparent_bg = true
+
+[node name="Node3D" type="Node3D" parent="Minimap"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Minimap"]
+environment = SubResource("Environment_r1kn3")
+
+[node name="Camera3D2" type="Camera3D" parent="Minimap"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 129.194, 0)
+projection = 1
+size = 300.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+mouse_filter = 2
+texture = SubResource("ViewportTexture_47ek5")
+metadata/_edit_use_anchors_ = true
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(-86, -148)
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.2789, 0, -87.097)
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_y2wgh")
+script = ExtResource("2_c3gnc")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(-0.959511, 0, 0.281595, 0, 0.999986, 0, -0.281595, 0, -0.959511, 117.723, 0, 0)
+
+[node name="1" type="Camera3D" parent="."]
+transform = Transform3D(0.652794, 0.264729, -0.709774, 0, 0.936951, 0.349461, 0.757536, -0.228126, 0.611636, -171.667, 70.947, 136.595)
+
+[node name="2" type="Camera3D" parent="."]
+transform = Transform3D(0.990872, 0.0387473, -0.129116, 0, 0.957801, 0.287433, 0.134804, -0.28481, 0.949058, -34.2322, 70.947, 203.659)
+
+[node name="3" type="Camera3D" parent="."]
+transform = Transform3D(-0.562841, -0.146434, 0.813491, 0, 0.984182, 0.177159, -0.826565, 0.0997126, -0.553938, 149.218, 6.97767, -1.22783)
+
+[node name="4" type="Camera3D" parent="."]
+transform = Transform3D(-0.203975, -0.173435, 0.963491, 6.15839e-09, 0.984182, 0.177159, -0.978976, 0.036136, -0.200748, 151.328, 6.97767, 8.92978)
+
+[node name="Car" parent="." instance=ExtResource("3_f1au6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 129.875, 0.641773, 10.0689)
+
+[node name="Path3D2" type="Path3D" parent="."]
+curve = ExtResource("4_n8arr")

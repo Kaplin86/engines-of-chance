@@ -163,7 +163,7 @@ func _process(delta):
 			
 			
 			Transition.scene_transition(resultscreen)
-			await get_tree().create_timer(0.25).timeout
+			await get_tree().create_timer(0.1).timeout
 			$WorldEnvironment.queue_free()
 		
 func _do_transition():
