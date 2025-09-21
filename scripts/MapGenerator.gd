@@ -31,7 +31,7 @@ class_name MapGenerator
 		height = value
 		if Engine.is_editor_hint(): 	_ready()
 
-@export var height_change_speed: float = 1.0: ## A multiplier applied to the height reading / more common height changes
+@export_range(0.0,0.005) var height_change_speed: float = 0.005: ## A multiplier applied to the height reading / more common height changes
 	set(value):
 		height_change_speed = value
 		if Engine.is_editor_hint(): 	_ready()
@@ -109,14 +109,15 @@ func _ready(): #the ready is basically 'track generate'
 	var heightmap = FastNoiseLite.new()
 	heightmap.seed = seed
 	heightmap.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	heightmap.frequency = 0.05
+	heightmap.frequency = 1
 	
-	var EvenlySpacedPoints = sample_line(TheLine,point_spacing,heightmap) #Gets points along the map
+	
+	var EvenlySpacedPoints = sample_line(TheLine,point_spacing,heightmap,height) #Gets points along the map
 	
 
-	var EdgePoints = compute_edges(EvenlySpacedPoints,trackwidth) #Get left-side and right-side points
-	var GrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4) #Get left-side and right-side points
-	var ACTUALGrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4.2)
+	var EdgePoints = compute_edges(EvenlySpacedPoints,trackwidth,TheLine,heightmap) #Get left-side and right-side points
+	var GrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4,TheLine,heightmap) #Get left-side and right-side points
+	var ACTUALGrassPoints = compute_edges(EvenlySpacedPoints,trackwidth * 4.2,TheLine,heightmap)
 	
 	
 	
@@ -390,7 +391,6 @@ func generate_line(seed,points,radius,noise) -> Curve3D: #this generates the cur
 			BaseVector3.x += RNG.randf_range(-noise_strength * map_radius, noise_strength * map_radius)
 			BaseVector3.z += RNG.randf_range(-noise_strength * map_radius, noise_strength * map_radius)
 			
-			print("X IS", BaseVector3.x)
 			curve.add_point(BaseVector3)
 	
 	
@@ -406,8 +406,8 @@ func sample_line(Line : Curve3D, spacing = 1, heightmap : FastNoiseLite = null, 
 	var t = 0.0
 	while t < length: #keep going until all the length is covered
 		var sample = Line.sample_baked(t)
-		sample.y = heightmap.get_noise_2d(t * height_change_speed,0) * height
-		print("the height is ", heightmap.get_noise_1d(t) * height, " at ", t * height_change_speed)
+		if heightmap:
+			sample.y = heightmap.get_noise_1d(t * height_change_speed) * height
 		baked.append(sample)
 		t += spacing
 	return baked
@@ -415,7 +415,7 @@ func sample_line(Line : Curve3D, spacing = 1, heightmap : FastNoiseLite = null, 
 
 
 
-func compute_edges(points : Array,width = 8): #takes mid-track points and makes left and right points
+func compute_edges(points : Array,width = 8, line : Curve3D =null, heightmap : FastNoiseLite = null): #takes mid-track points and makes left and right points
 	var left = [] #points alongside the left-side of the track
 	var right = [] #points alongside the right side of hte track
 	
@@ -425,8 +425,22 @@ func compute_edges(points : Array,width = 8): #takes mid-track points and makes 
 		var nextPoint = points[wrap(E + 1,0,points.size())] #Get the next points
 		var distanceangle = (nextPoint - PointInQuestion).normalized() #get angle from current point to next point
 		var leftright = Vector3.UP.cross(distanceangle).normalized() #turn said angle into a vector referring to the left-right movement on the track
-		left.append(PointInQuestion - leftright * width/2.0) #add left point
-		right.append(PointInQuestion + leftright * width/2.0) #add right
+		
+		
+		if line and heightmap:
+			var leftpoint = (PointInQuestion - leftright * width/2.0)
+			var closestoffset = line.get_closest_offset(leftpoint)
+			leftpoint.y = heightmap.get_noise_1d(closestoffset * height_change_speed) * height
+			
+			var rightpoint = (PointInQuestion + leftright * width/2.0)
+			closestoffset = line.get_closest_offset(rightpoint)
+			rightpoint.y = heightmap.get_noise_1d(closestoffset * height_change_speed) * height
+			print(heightmap.get_noise_1d(closestoffset * height_change_speed) * height)
+			left.append(leftpoint)
+			right.append(rightpoint)
+		else:
+			left.append(PointInQuestion - leftright * width/2.0) #add left point
+			right.append(PointInQuestion + leftright * width/2.0) #add right
 		
 	return [left, right]
 
