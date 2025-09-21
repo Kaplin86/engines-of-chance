@@ -37,6 +37,7 @@ script = ExtResource("1_y2wgh")
 point_count = 27
 map_radius = 114
 noise_strength = 0.05
+point_spacing = 3.0
 trackwidth = 15
 height = 5.0
 edge_grace = 0.445

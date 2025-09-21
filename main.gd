@@ -26,6 +26,7 @@ func set_drive():
 	Drivers.append(PlayerCarNode)
 	for E in Drivers:
 		E.CanDrive = true
+		E.freeze = false
 	
 	
 
@@ -96,7 +97,7 @@ func _ready():
 				NewDriver.LookOffset = RNG.randi_range(-3,3)
 				NewDriver.CanDrive = false
 				
-				NewDriver.freeze = false
+				NewDriver.freeze = true
 				
 				var MinimapIcon = TextureRect.new()
 				MinimapIcon.texture = load("res://CIRCLE.png")
@@ -152,7 +153,7 @@ func _process(delta):
 				PlayerPlace = PlacementPosition.find(E) + 1
 		
 		$Speedomoter/LapDisplay.text = str(PlayerCarNode.Laps)+"/"+str(LapCount)
-		if PlayerCarNode.Laps == LapCount and !finished:
+		if PlayerCarNode.Laps == LapCount and !finished and PlayerCarNode.CanDrive:
 			finished = true
 			var PlayerPlacementAtVictory = PlayerPlace
 			$Speedomoter.MusicPlaying = false
@@ -160,11 +161,12 @@ func _process(delta):
 			
 			await get_tree().create_timer(1).timeout
 			
+			for E in Drivers:
+				E.CanDrive = false
+				E.freeze = true
 			
+			call_deferred("_do_transition")
 			
-			Transition.scene_transition(resultscreen)
-			await get_tree().create_timer(0.1).timeout
-			$WorldEnvironment.queue_free()
 		
 func _do_transition():
 	print("calling transition from Node3D")
