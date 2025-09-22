@@ -111,3 +111,6 @@ libraries = {
 [node name="FallBackTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+ignore_time_scale = true
+
+[connection signal="timeout" from="FallBackTimer" to="." method="_on_fall_back_timer_timeout"]

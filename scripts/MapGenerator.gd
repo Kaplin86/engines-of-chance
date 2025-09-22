@@ -87,10 +87,35 @@ func _ready(): #the ready is basically 'track generate'
 	if !Engine.is_editor_hint():
 		if Randomize:
 			var NewRng =RandomNumberGenerator.new()
-			point_count += NewRng.randi_range(-1,1) 
-			seed = NewRng.randi_range(0,100)
-			height = NewRng.randf_range(1,7)
-			shape = 0
+			
+			
+			var mapstyle = NewRng.randi_range(0,3)
+			if mapstyle == 0:
+				point_count += NewRng.randi_range(-1,1) 
+				seed = NewRng.randi_range(0,100)
+				height = NewRng.randf_range(0,7)
+				noise_strength = 0.12
+				shape = 0
+			elif mapstyle == 1:
+				point_count += NewRng.randi_range(-1,1) 
+				seed = NewRng.randi_range(0,100)
+				height = NewRng.randf_range(0,2)
+				noise_strength = 0.265
+				shape = 0
+			elif mapstyle == 2:
+				point_count += NewRng.randi_range(-1,1) 
+				seed = NewRng.randi_range(0,100)
+				height = NewRng.randf_range(0,2)
+				noise_strength = 0.12
+				shape = 2
+			elif mapstyle == 3:
+				point_count += NewRng.randi_range(-1,1) 
+				seed = NewRng.randi_range(0,100)
+				height = NewRng.randf_range(10,20)
+				noise_strength = 0.02
+				map_radius = 150
+				shape = 1
+			
 	
 	
 	

@@ -170,7 +170,8 @@ func _process(delta):
 		
 func _do_transition():
 	print("calling transition from Node3D")
-	Transition.scene_transition(resultscreen)
+	Transition.scene_transition(resultscreen,true)
+	propagate_call("set_process", [false])
 	
 func MySort(a, b):
 	if a.values()[0] > b.values()[0]:
