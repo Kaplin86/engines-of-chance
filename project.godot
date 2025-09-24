@@ -13,6 +13,9 @@ config_version=5
 config/name="hackclub-shiba-game"
 run/main_scene="uid://cnpp1wlgo8uhy"
 config/features=PackedStringArray("4.4", "Forward Plus")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/fullsize=false
+boot_splash/image="uid://bk5ryepp5dfvp"
 config/icon="res://icon.svg"
 
 [autoload]

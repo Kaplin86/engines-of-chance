@@ -66,6 +66,7 @@ var GrassColorToName = ["Grassy","EastPoint","Spearmint","WestPoint","Autumn","F
 var RoadColorToName = ["Road","Track","Course","Path","Shining Street", "Course"]
 var SkyToName = ["In the middle of somewhere!","Nice sunny day!","Night Race!"]
 
+var validweirdshapes = ["1","2","3"]
 
 var GoalPost = preload("res://Goal.tscn")
 
@@ -89,7 +90,7 @@ func _ready(): #the ready is basically 'track generate'
 			var NewRng =RandomNumberGenerator.new()
 			
 			
-			var mapstyle = NewRng.randi_range(0,3)
+			var mapstyle = NewRng.randi_range(0,4)
 			if mapstyle == 0:
 				point_count += NewRng.randi_range(-1,1) 
 				seed = NewRng.randi_range(0,100)
@@ -115,7 +116,13 @@ func _ready(): #the ready is basically 'track generate'
 				noise_strength = 0.02
 				map_radius = 150
 				shape = 1
-			
+			elif mapstyle == 4:
+				point_count += NewRng.randi_range(-1,1) 
+				seed = NewRng.randi_range(0,100)
+				height = NewRng.randf_range(0,2)
+				noise_strength = 0.02
+				map_radius = 158
+				shape = 3
 	
 	
 	
@@ -388,13 +395,15 @@ func generate_line(seed,points,radius,noise,height) -> Curve3D: #this generates 
 			curve.add_point(p)
 
 	if shape == 3:
-		var CurveWeAreUsing : Curve3D = load("res://mapcurves/1.tres")
+		var pickedshape =validweirdshapes[RNG.randi_range(0,validweirdshapes.size() - 1)]
+		var CurveWeAreUsing : Curve3D = load("res://mapcurves/"+ pickedshape +".tres")
 		
 		for I in points:
 			var BaseVector3 = CurveWeAreUsing.sample_baked((CurveWeAreUsing.get_baked_length() / points) * I)
 			
 			BaseVector3.x *= map_radius
 			BaseVector3.z *= map_radius
+			BaseVector3.y *= map_radius
 			
 			BaseVector3.x += RNG.randf_range(-noise_strength * map_radius, noise_strength * map_radius)
 			BaseVector3.z += RNG.randf_range(-noise_strength * map_radius, noise_strength * map_radius)

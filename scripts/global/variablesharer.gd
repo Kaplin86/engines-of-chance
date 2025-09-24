@@ -20,3 +20,5 @@ var driversprites = ["blueguy.png", "kaplin.png", "oneturret.png", "spore.png", 
 # kaplin : take a wild guess
 # dino : its      its dino
 # shiba : is it a reference if its a real life thing? 
+
+var validWeirdShapes = ["1","2"]

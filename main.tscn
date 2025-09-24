@@ -94,7 +94,6 @@ script = ExtResource("1_ryguw")
 PlayerCarNode = NodePath("PlayerCar")
 PathTrack = NodePath("Path3D")
 resultscreen = ExtResource("2_0rl1p")
-LapCount = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_h2yge")
