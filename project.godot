@@ -78,6 +78,10 @@ start={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://translation.en.translation", "res://translation.ja.translation")
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

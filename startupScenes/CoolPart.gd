@@ -15,7 +15,7 @@ func _ready():
 	if Variablesharer.difficulty == "P":
 		$Difficulty/Label.visible = true
 	else:
-		$Difficulty.text = "DIFFICULTY: " + Variablesharer.difficultyToText[Variablesharer.difficulty]
+		$Difficulty.text = tr("DIFFICULTY") + tr( Variablesharer.difficultyToText[Variablesharer.difficulty])
 
 var moved = false
 

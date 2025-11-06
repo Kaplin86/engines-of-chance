@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnpp1wlgo8uhy"]
+[gd_scene load_steps=6 format=3 uid="uid://cnpp1wlgo8uhy"]
 
 [ext_resource type="Script" uid="uid://dafdplt35hot" path="res://startupScenes/IntroScreen.gd" id="1_1bl2d"]
 [ext_resource type="Texture2D" uid="uid://bk5ryepp5dfvp" path="res://Logo.png" id="2_ebfxa"]
 [ext_resource type="PackedScene" uid="uid://dryesvlarhoyo" path="res://startupScenes/difficulty.tscn" id="2_mo5gh"]
 [ext_resource type="FontFile" uid="uid://b4tvthqo137y7" path="res://PressStart2P-Regular.ttf" id="3_mo5gh"]
+[ext_resource type="Script" uid="uid://s0thuve33nhd" path="res://transitionLabel.gd" id="5_mo5gh"]
 
 [node name="TitleScene" type="Node2D"]
 script = ExtResource("1_1bl2d")
@@ -24,8 +25,10 @@ theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("3_mo5gh")
 text = "Press E to BEGIN"
 horizontal_alignment = 1
+script = ExtResource("5_mo5gh")
 
 [node name="Label2" type="Label" parent="."]
+visible = false
 offset_left = 1.0
 offset_top = 178.0
 offset_right = 377.0

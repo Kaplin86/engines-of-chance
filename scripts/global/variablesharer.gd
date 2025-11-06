@@ -11,12 +11,13 @@ var PositiveCards = ["DoubleSpeed","LightCar","GrassCard", "Ghost"]
 var NegativeCards = ["HalfSpeed","HeavyCar","SpamCard"]
 var NeutralCards = ["RainbowCar","Reaction","DriverView","Celebration"]
 
-var driversprites = ["blueguy.png", "kaplin.png", "oneturret.png", "spore.png", "redguy.png", "terrance.png","dino.png","shiba.png","bob.png"]
+var driversprites = ["blueguy.png", "kaplin.png", "oneturret.png", "spore.png", "redguy.png", "terrance.png","dino.png","shiba.png","bob.png","frog"]
 # Driver credits/references: 
 # oneturret : game of same name
 # spore : gnArp bAll
 # terrance : misc character made by my good friend brushleaf68 that he uses a lot its like his main guy
 # bob : misc character by my good friend regonold520 that he uses a lot its like his main guy
+# frog : misc character by my good friend niemerald that he uses a lot its like his main guy
 # kaplin : take a wild guess
 # dino : its      its dino
 # shiba : is it a reference if its a real life thing? 

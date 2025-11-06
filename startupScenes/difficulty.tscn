@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://bhiy8n2xvgbux" path="res://sfx/gong_01.ogg" id="6_u1y11"]
 
 [node name="Difficulty" type="Node2D"]
+auto_translate_mode = 1
 script = ExtResource("1_icxbx")
 TargetScene = ExtResource("2_ibpil")
 
@@ -21,6 +22,7 @@ offset_bottom = 93.0
 color = Color(0, 0.203922, 0.168627, 0.780392)
 
 [node name="Label" type="Label" parent="B"]
+auto_translate_mode = 1
 layout_mode = 0
 offset_left = 1.0
 offset_top = 3.0
@@ -179,6 +181,7 @@ offset_bottom = 41.0
 color = Color(0.18359, 0.18359, 0.18359, 1)
 
 [node name="Label" type="Label" parent="."]
+auto_translate_mode = 1
 offset_left = 8.0
 offset_top = 25.0
 offset_right = 192.0
@@ -186,9 +189,7 @@ offset_bottom = 174.0
 scale = Vector2(0.8468, 0.8468)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("1_q0kql")
-text = "Choose a DIFFICULTY
-
-This will effect which cards you get."
+text = "difficultyChoice"
 autowrap_mode = 3
 
 [node name="Confirm" type="AudioStreamPlayer" parent="."]

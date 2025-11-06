@@ -1,0 +1,16 @@
+key,en,ja
+ACCEPT_CONTROL,E,E
+pressToBegin,Press {ACCEPT_CONTROL} to BEGIN!,{ACCEPT_CONTROL}を押して開始
+difficultyChoice,"Choose a DIFFICULTY\n\nThis will effect which cards you get.","難易度を選択してください\n\nこれにより、獲得できるカードが変わります。"
+BABY,BABY,最も簡単な
+EASY,EASY,簡単
+NORMAL,NORMAL,普通
+Pain.,Pain.,痛み
+DRAWDRIVER,DRAW DRIVER,ドローレーサー
+BEGIN,BEGIN,始める
+DIFFICULTY,DIFFICULTY: ,難易度 : 
+MODCARDS,"MODIFICATIONS CARDS \n OF \n DESPAIR AND DELIGHT","絶望と歓喜の \n \n 修正カード"
+RESUL,RESULTS,結果
+PLCMNT,PLACEMENT: ,着順: 
+PLACEMENTNUMBER,{number}
+pressToBegin,Press {ACCEPT_CONTROL} to PLAY AGAIN!,{ACCEPT_CONTROL}を押して開始

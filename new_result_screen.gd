@@ -1,8 +1,8 @@
 extends IntroScreen
 func _ready():
-	$placement.text = "PLACEMENT: " + str(Variablesharer.finalPlacement)
+	$placement.text = tr("PLCMNT") + str(Variablesharer.finalPlacement)
 	IntroBg.visible = true
-	$placement2.text = "DIFFICULTY: " + Variablesharer.difficultyToText[Variablesharer.difficulty]
+	$placement2.text = tr("DIFFICULTY") + Variablesharer.difficultyToText[Variablesharer.difficulty]
 	
 
 func _process(delta):

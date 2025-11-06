@@ -16,9 +16,7 @@ offset_bottom = 70.0
 scale = Vector2(0.8468, 0.8468)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("1_kghdl")
-text = "MODIFICATIONS CARDS
-OF
- DESPAIR AND DELIGHT"
+text = "MODCARDS"
 horizontal_alignment = 1
 
 [node name="Lpoint" type="Marker2D" parent="."]
